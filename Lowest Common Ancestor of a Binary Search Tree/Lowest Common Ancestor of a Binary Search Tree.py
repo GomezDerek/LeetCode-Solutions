@@ -38,6 +38,8 @@ class Solution:
         LCA = root.val
         for i in range( min(len(p_path), len(q_path)) ):
             if( p_path[i] == q_path[i] ):
-                LCA = min(LCA, q_path[i])
+                LCA = (q_path[i])
+            else:
+                break
         
         return TreeNode(LCA)
