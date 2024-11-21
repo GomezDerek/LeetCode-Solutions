@@ -5,8 +5,8 @@ class Solution:
         # recursive binary search
         def BSA(l, r):
             m = (l + r) // 2
-            print(str(nums[l:r]))
-            print(str(m), "->" ,str(nums[m]))
+            # print(str(nums[l:r]))
+            # print(str(m), "->" ,str(nums[m]))
 
             # base case
             if l >= r:
@@ -14,17 +14,17 @@ class Solution:
 
             # compare middle to target
             elif nums[m] < target:
-                print("<")
+                # print("<")
                 BSA(m+1, r)
             elif nums[m] > target:
-                print(">")
+                # print(">")
                 BSA(l, m)
             elif nums[m] == target:
-                print("=")
+                # print("=")
                 nonlocal ans
                 ans = m
-            else:
-                print("uh oh")
+            # else:
+            #     print("uh oh")
         
         BSA(0, len(nums))
 
