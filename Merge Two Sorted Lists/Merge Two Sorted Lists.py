@@ -6,7 +6,7 @@
 class Solution:
     def mergeTwoLists(self, list1: Optional[ListNode], list2: Optional[ListNode]) -> Optional[ListNode]:
         
-        ans = ListNode(None)
+        ans = ListNode()
         traveler = ans
 
         while list1 and list2:
