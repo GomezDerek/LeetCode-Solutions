@@ -8,7 +8,7 @@ submissions are automatically uploaded by AlgoArchive
 
 "Wow, sliding window *still* kicks my ass"
 
-#### 31. Binary Tree Level Order Traversal
+### 31. Binary Tree Level Order Traversal
 [ Time taken: 17 m 40 s ]
 
 "HOT DAMN, I'M GOOD AT BINARY TREES"
