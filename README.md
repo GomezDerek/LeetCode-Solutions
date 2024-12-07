@@ -21,4 +21,4 @@ submissions are automatically uploaded by AlgoArchive
 ### 33. Evaluate Reverse Polish Notation
 [ Time taken: 1 hr 23 m 43 s ]
 
-"Ugh, I was slowed down by shaky fundamentals - I was stumped because integer division was rounding down negative numbers when I needed truncation."
+"Ugh, I was slowed down by shaky fundamentals - integer division rounds down negative numbers when I needed truncation."
