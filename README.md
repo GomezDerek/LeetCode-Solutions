@@ -27,3 +27,8 @@ submissions are automatically uploaded by AlgoArchive
 [ Time taken: 1 hr 22 m 4 s ] *looked up solution*
 
 "Wtf is a `DFS Topological Sort` and why is the tutorial a 51 page PDF from Princeton? 😭"
+
+### 35. Implement Trie (Prefix Tree)
+[ Conceded after 1 hr 18 m]
+
+"Wow, new data structure. Also 3 subproblems, wth"
