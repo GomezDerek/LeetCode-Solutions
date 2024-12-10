@@ -14,7 +14,7 @@ submissions are automatically uploaded by AlgoArchive
 "HOT DAMN, I'M GOOD AT BINARY TREES"
 
 ### 32. Clone Graph
-[ Time taken: 1 hr 29 m 40 s ] *looked up solution*
+[ Conceded after 1 hr 0 m ]
 
 "Ouch, first graph problem. But now I know how graphs work in Python! :D"
 
@@ -24,11 +24,11 @@ submissions are automatically uploaded by AlgoArchive
 "Ugh, I was slowed down by shaky fundamentals - integer division rounds down negative numbers when I needed truncation."
 
 ### 34. Course Schedule
-[ Time taken: 1 hr 22 m 4 s ] *looked up solution*
+[ Conceded after 40m ]
 
 "Wtf is a `DFS Topological Sort` and why is the tutorial a 51 page PDF from Princeton? 😭"
 
 ### 35. Implement Trie (Prefix Tree)
-[ Conceded after 1 hr 18 m]
+[ Conceded after 1 hr 18 m ]
 
 "Wow, new data structure. Also 3 subproblems, wth"
