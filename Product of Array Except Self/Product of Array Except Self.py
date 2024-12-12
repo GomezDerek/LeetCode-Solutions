@@ -22,25 +22,15 @@ class Solution:
             elif n is not 0 and nonzero_total is not None:
                 nonzero_total = nonzero_total * n
 
-            elif n is not 0 and nonzero_total is None:
-                pass
-    
-            else:
-                print("!")
-
             total_product *= n
 
         # print(total_product)
         
         for n in nums:
             # add in zero handler later
-            exclusive_product = None
             if n is 0:
-                exclusive_product = nonzero_total
+                answer.append(nonzero_total)
             else:
-                print(f"{n} {n**-1}")
-                exclusive_product = int(total_product * n**-1)
+                answer.append(int(total_product * n**-1))
             
-            answer.append(exclusive_product)
-
         return answer
