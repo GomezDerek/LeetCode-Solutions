@@ -32,3 +32,8 @@ submissions are automatically uploaded by AlgoArchive
 [ Conceded after 1 hr 18 m ]
 
 "Wow, new data structure. Also 3 subproblems, wth"
+
+### 36. Coin Change
+[ Time taken: 48 m 37 s ]
+
+"I remembered how to do this dynamic programming problem! Still took me too long to figure out..."
