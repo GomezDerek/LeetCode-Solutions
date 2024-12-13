@@ -30,13 +30,13 @@ class Solution:
         left_children = dfs(root.left)
         if left_children[1] == False: return False
         for child in left_children[0]:
-            if child.val > root.val:
+            if child.val >= root.val:
                 return False
 
         right_children = dfs(root.right)
         if right_children[1] == False: return False
         for child in right_children[0]:
-            if child.val < root.val:
+            if child.val <= root.val:
                 return False
 
         # all tests passed
