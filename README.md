@@ -37,3 +37,9 @@ submissions are automatically uploaded by AlgoArchive
 [ Time taken: 48 m 37 s ]
 
 "I remembered how to do this dynamic programming problem! Still took me too long to figure out..."
+
+### 37. Min Stack
+[ Time taken: 13 m 8 s ]
+
+"This was obviously mislabeled as 
+'medium' difficulty"
