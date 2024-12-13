@@ -27,7 +27,7 @@ class Solution:
                 return {"min_val": None, "max_val": None, "valid": False}
 
             # return
-            print(node.val, "\nleft: ", left, "\nright", right)
+            # print(node.val, "\nleft: ", left, "\nright", right)
             return {
                 "min_val": node.val if left["min_val"] is None else left["min_val"],
                 "max_val": node.val if right["max_val"] is None else right["max_val"],
