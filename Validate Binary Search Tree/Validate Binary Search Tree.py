@@ -16,12 +16,12 @@ class Solution:
             # recursive call(s)
             left_children = dfs(node.left)
             for child in left_children[0]:
-                if child.val > node.val:
+                if child.val >= node.val:
                     return ([], False)
 
             right_children = dfs(node.right)
             for child in right_children[0]:
-                if child.val < node.val:
+                if child.val <= node.val:
                     return ([], False)
 
             # return
