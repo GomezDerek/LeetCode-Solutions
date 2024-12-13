@@ -38,6 +38,12 @@ submissions are automatically uploaded by AlgoArchive
 
 "I remembered how to do this dynamic programming problem! Still took me too long to figure out..."
 
+
+### 37. Product of An Array Except Self
+[ Time taken: 31 m 1 s ]
+
+"Idk which is more clever, the official solution or the loophole I used"
+
 ### 38. Min Stack
 [ Time taken: 13 m 8 s ]
 
