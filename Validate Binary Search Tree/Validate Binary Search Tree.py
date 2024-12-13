@@ -11,35 +11,24 @@ class Solution:
         def dfs(node):
             # base case(s)
             if not node:
-                return ([], True)
+                return {"min_val": None, "max_val": None, "valid": True}
 
             # recursive call(s)
-            left_children = dfs(node.left)
-            if left_children[1] is False: return ([], False)
-            for child in left_children[0]:
-                if child.val >= node.val:
-                    return ([], False)
+            left = dfs(node.left)
+            if left["valid"] is False: return left
+            if left["max_val"] is not None and left["max_val"] >= node.val:
+                return {"min_val": None, "max_val": None, "valid": False}
 
-            right_children = dfs(node.right)
-            if right_children[1] is False: return ([], False)
-            for child in right_children[0]:
-                if child.val <= node.val:
-                    return ([], False)
+            right = dfs(node.right)
+            if right["valid"] is False: return right
+            if right["min_val"] is not None and right["min_val"] <= node.val:
+                return {"min_val": None, "max_val": None, "valid": False}
 
             # return
-            return [left_children[0] + right_children[0] + [node], True]
+            return {
+                "min_val": node.val if left["min_val"] is None else left["min_val"],
+                "max_val": node.val if left["max_val"] is None else right["max_val"],
+                "valid": True
+            }
 
-        left_children = dfs(root.left)
-        if left_children[1] == False: return False
-        for child in left_children[0]:
-            if child.val >= root.val:
-                return False
-
-        right_children = dfs(root.right)
-        if right_children[1] == False: return False
-        for child in right_children[0]:
-            if child.val <= root.val:
-                return False
-
-        # all tests passed
-        return True
+        return dfs(root)["valid"]
