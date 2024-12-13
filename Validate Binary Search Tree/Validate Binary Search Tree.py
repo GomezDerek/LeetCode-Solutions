@@ -8,30 +8,13 @@ class Solution:
     def isValidBST(self, root: Optional[TreeNode]) -> bool:
         # recursive DFS
 
-        def dfs(node):
-            # base case(s)
+        def dfs(node, left, right):
             if not node:
-                return {"min_val": None, "max_val": None, "valid": True}
+                return True
 
-            # recursive call(s)
-            left = dfs(node.left)
-            # print(node.val, "lef", left)
-            if left["valid"] is False: return left
-            if left["max_val"] is not None and left["max_val"] >= node.val:
-                return {"min_val": None, "max_val": None, "valid": False}
+            if node.val <= left or node.val >= right:
+                return False
 
-            right = dfs(node.right)
-            # print(node.val, "right", right)
-            if right["valid"] is False: return right
-            if right["min_val"] is not None and right["min_val"] <= node.val:
-                return {"min_val": None, "max_val": None, "valid": False}
+            return dfs(node.left, left, node.val) and dfs(node.right, node.val, right)
 
-            # return
-            # print(node.val, "\nleft: ", left, "\nright", right)
-            return {
-                "min_val": node.val if left["min_val"] is None else left["min_val"],
-                "max_val": node.val if right["max_val"] is None else right["max_val"],
-                "valid": True
-            }
-
-        return dfs(root)["valid"]
+        return dfs(root, float(-inf), float(inf))
