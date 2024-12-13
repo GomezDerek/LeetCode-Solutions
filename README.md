@@ -38,7 +38,6 @@ submissions are automatically uploaded by AlgoArchive
 
 "I remembered how to do this dynamic programming problem! Still took me too long to figure out..."
 
-
 ### 37. Product of An Array Except Self
 [ Time taken: 31 m 1 s ]
 
@@ -49,3 +48,8 @@ submissions are automatically uploaded by AlgoArchive
 
 "This was obviously mislabeled as 
 'medium' difficulty"
+
+### 39. Validate Binary Search Tree
+[ Time taken: 33 m 0 s ]
+
+"Wow, I overcomplicated this, but hey! I Almost made it under 30min!"
