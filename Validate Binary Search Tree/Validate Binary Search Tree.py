@@ -15,11 +15,13 @@ class Solution:
 
             # recursive call(s)
             left_children = dfs(node.left)
+            if left_children[1] is False: return ([], False)
             for child in left_children[0]:
                 if child.val >= node.val:
                     return ([], False)
 
             right_children = dfs(node.right)
+            if right_children[1] is False: return ([], False)
             for child in right_children[0]:
                 if child.val <= node.val:
                     return ([], False)
