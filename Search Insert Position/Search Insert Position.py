@@ -5,15 +5,14 @@ class Solution:
         r = len(nums)-1
 
         while l <= r:
-            m = (l+r) // 2
 
-            if nums[m] < target:
-                l = m + 1
+            if nums[(l+r) // 2] < target:
+                l = (l+r) // 2 + 1
 
-            elif nums[m] > target:
-                r = m - 1
+            elif nums[(l+r) // 2] > target:
+                r = (l+r) // 2 - 1
 
             else:
-                return m
+                return (l+r) // 2
 
         return l
