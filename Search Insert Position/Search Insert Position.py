@@ -3,21 +3,13 @@ class Solution:
         l = 0
         r = len(nums)-1
 
-        while r - l > 1:
+        while l <= r:
             m = (l+r) // 2
-            
-            if nums[m] == target:
+            if nums[m] is target:
                 return m
-                
-            elif nums[m] < target:
-                l = m
-
             elif nums[m] > target:
-                r = m
+                r = m -1
+            elif nums[m] < target:
+                l = m + 1
         
-        if nums[l] is target or nums[l] > target:
-            return l
-        elif nums[r] < target:
-            return r + 1
-        else: # nums[l] < target < nums[r] or r is target
-            return r
+        return l
