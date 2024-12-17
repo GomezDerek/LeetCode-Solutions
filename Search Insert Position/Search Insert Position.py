@@ -14,9 +14,6 @@ class Solution:
 
             elif nums[m] > target:
                 r = m
-
-            else:
-                print("uh oh")
         
         if nums[l] is target or nums[l] > target:
             return l
