@@ -21,5 +21,9 @@ class Solution:
         
         if nums[l] is target:
             return l
-        else:
+        elif nums[r] < target:
+            return r + 1
+        elif nums[l] > target:
+            return l-1
+        else: # nums[l] < target < nums[r] or r is target
             return r
