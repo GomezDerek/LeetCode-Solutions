@@ -1,9 +1,8 @@
 class Solution:
     def searchInsert(self, nums: List[int], target: int) -> int:
-        # Greg Hogg solution
-        n = len(nums)
+        # Optimized Greg Hogg solution
         l = 0
-        r = n-1
+        r = len(nums)-1
 
         while l <= r:
             m = (l+r) // 2
@@ -17,8 +16,4 @@ class Solution:
             else:
                 return m
 
-        if nums[m] < target:
-            return m + 1
-            
-        else:
-            return m
+        return l
