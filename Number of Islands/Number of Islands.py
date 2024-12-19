@@ -22,8 +22,12 @@ class Solution:
 
         for row in range(m):
             for col in range(n):
-                if visited[row][col]: continue # skip bc we've already visited
-                else: visited[row][col] = True # mark as visited
+                # print(f"{(row,col)} = {grid[row][col]}")
+                if visited[row][col]:
+                    # print("\t alr visited") 
+                    continue # skip bc we've already visited
+                else: 
+                    visited[row][col] = True # mark as visited
 
                 if int(grid[row][col]): # ==1, land found! This is the beginnign of an island
                     numIslands += 1 
@@ -31,9 +35,10 @@ class Solution:
                     stack.append((row,col))
                     while stack:
                         currX, currY = stack.pop(0)
+                        # print(f"\t{(currX,currY)}")
                         visited[currX][currY] = True
                         
-                        dxdy = [(0,1), (1,0), (-1,0), (1,0)] # neighbor coordinates
+                        dxdy = [(0,1), (1,0), (0,-1), (-1,0)] # neighbor coordinates
                         for dX, dY in dxdy:
                             nX, nY = currX + dX, currY + dY # new coordinates
                             if 0 <= nX < m and 0 <= nY < n:                   # if in bounds
