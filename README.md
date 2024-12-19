@@ -53,3 +53,5 @@ submissions are automatically uploaded by AlgoArchive
 [ Time taken: 33 m 0 s ]
 
 "Wow, I overcomplicated this, but hey! I Almost made it under 30min!"
+
+### 40. Number of Islands
