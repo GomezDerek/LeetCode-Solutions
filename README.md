@@ -46,8 +46,7 @@ submissions are automatically uploaded by AlgoArchive
 ### 38. Min Stack
 [ Time taken: 13 m 8 s ]
 
-"This was obviously mislabeled as 
-'medium' difficulty"
+"This was obviously mislabeled as *medium* difficulty"
 
 ### 39. Validate Binary Search Tree
 [ Time taken: 33 m 0 s ]
@@ -55,3 +54,6 @@ submissions are automatically uploaded by AlgoArchive
 "Wow, I overcomplicated this, but hey! I Almost made it under 30min!"
 
 ### 40. Number of Islands
+[ Conceded after 1 h 50m ]
+
+"Popping from the front of a Python list takes O(N) time?! 🤯🤦‍♂️"
