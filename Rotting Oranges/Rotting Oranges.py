@@ -48,7 +48,7 @@ class Solution:
         if not fresh:
             return 0
 
-        print(fresh)
+        # print(fresh)
         ans = float(-inf)
         for val in fresh.values():
             if val is -1:
