@@ -12,15 +12,24 @@ class Solution:
         def dfs(x,y,minute):
             # print("DFS activated")
             if grid[x][y] is 1: # if fresh orange
-                if fresh[(x,y)] > minute or fresh[(x,y)] is -1: 
+                # print(x,y)
+                # print(fresh)
+                if (x,y) not in fresh.keys():
+                        fresh[(x,y)] = minute
+                elif fresh[(x,y)] > minute or fresh[(x,y)] is -1: 
                     fresh[(x,y)] = minute
+                # print(fresh)
 
             dxdy = [(0,1),(1,0),(0,-1),(-1,0)]
             for dx,dy in dxdy:
                 nx,ny = x+dx, y+dy
                 if 0 <= nx < m and 0 <= ny < n and grid[nx][ny] is 1: # if in bounds AND fresh
+                    # if fresh is unvisited or worth visiting
                     # recursive call(s)
-                    dfs(nx,ny,minute+1)
+                    if (nx,ny) not in fresh.keys():
+                        dfs(nx,ny,minute+1)
+                    elif fresh[(nx,ny)] > minute:
+                        dfs(nx,ny,minute+1)
 
         m = len(grid)
         n = len(grid[0])
@@ -37,9 +46,14 @@ class Solution:
                 else:
                     print("!")
 
-        min_minutes = float(inf)
+        if not fresh:
+            return 0
+
+        print(fresh)
+        ans = float(-inf)
         for val in fresh.values():
             if val is -1:
                 return -1
             else:
-                min_minutes = val if val < min_minutes else min_minutes
+                ans = val if val > ans else ans
+        return ans
