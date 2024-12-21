@@ -12,7 +12,7 @@ class Solution:
                 if grid[i][j] is 2:
                     q.append((i,j,0))
                 elif grid[i][j] is 1:
-                    fresh[(i,j)] = 11
+                    fresh[(i,j)] = float(inf)
 
         while q:
             x,y,minute = q.popleft()
@@ -32,5 +32,5 @@ class Solution:
         # invert values to turn min-heap into max-heap
         rot_times = [val*-1 for val in fresh.values()]
         heapq.heapify(rot_times)
-        if rot_times[0]*-1 is 11: return -1
+        if rot_times[0] == float(-inf): return -1
         else: return rot_times[0]*-1
