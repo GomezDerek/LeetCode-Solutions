@@ -11,26 +11,16 @@ class Solution:
 
         def dfs(x,y,minute):
             # print("DFS activated")
-            # base case(s)
-            # none
             if grid[x][y] is 1: # if fresh orange
                 if fresh[(x,y)] > minute or fresh[(x,y)] is -1: 
                     fresh[(x,y)] = minute
-
-            adj_fresh = []
 
             dxdy = [(0,1),(1,0),(0,-1),(-1,0)]
             for dx,dy in dxdy:
                 nx,ny = x+dx, y+dy
                 if 0 <= nx < m and 0 <= ny < n and grid[nx][ny] is 1: # if in bounds AND fresh
-                    # adj_fresh.append((nx,ny))
-
-            # recursive call(s)
-            for fx,fy in adj_fresh:
-                dfs(fx,fy,minute+1)
-
-            # return statement
-            # none
+                    # recursive call(s)
+                    dfs(nx,ny,minute+1)
 
         m = len(grid)
         n = len(grid[0])
