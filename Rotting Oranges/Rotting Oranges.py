@@ -28,7 +28,7 @@ class Solution:
                     # recursive call(s)
                     if (nx,ny) not in fresh.keys():
                         dfs(nx,ny,minute+1)
-                    elif fresh[(nx,ny)] > minute:
+                    elif fresh[(nx,ny)] > minute or fresh[(nx,ny)] is -1: 
                         dfs(nx,ny,minute+1)
 
         m = len(grid)
@@ -42,7 +42,6 @@ class Solution:
                         fresh[(i,j)] = -1
                 elif grid[i][j] is 2: # rotten
                     dfs(i,j,0)
-                    continue
                 else:
                     print("!")
 
