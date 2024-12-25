@@ -2,45 +2,21 @@ class Solution:
     def capitalizeTitle(self, title: str) -> str:
         
         ans = ""
+        words = [""]
 
-        wordStart = -1
-        for i in range(len(title)):
-            # beginning of word
-            if wordStart < 0 and title[i] != " ":
-                wordStart = i
+        for ch in title:
+            if ch != " ":
+                words[-1] += ch
+            if ch == " ":
+                words.append("")
 
-            # end of word
-            elif i == len(title)-1:
-                if i - wordStart <= 2:
-                    # lowercase because word len <= 2
-                    for j in range(wordStart, i+1):
-                        ans += title[j].lower()
-                         
-                else:
-                    # uppercase beginning of word
-                    ans += title[wordStart].upper()
-
-                    #lowecase the rest of the word
-                    for j in range(wordStart+1, i+1):
-                        ans += title[j].lower()
-                
-                wordStart = -1
+        for word in words:
+            if len(word) <= 2:
+                ans += word.lower()
+            else:
+                ans += word[0].upper()
+                ans += word[1:].lower()
             
-            elif title[i] == " ":
-                if i - wordStart <= 2:
-                    # lowercase because word len <= 2
-                    for j in range(wordStart, i):
-                        ans += title[j].lower()
-                else:
-                    # uppercase beginning of word
-                    ans += title[wordStart].upper()
+            ans += " "
 
-                    #lowercase the rest of the word
-                    for j in range(wordStart+1, i):
-                        ans += title[j].lower()
-                
-                ans += " "
-                wordStart = -1
-
-
-        return ans
+        return ans[:len(ans)-1]
