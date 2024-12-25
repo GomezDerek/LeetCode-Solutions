@@ -1,22 +1,13 @@
 class Solution:
     def capitalizeTitle(self, title: str) -> str:
-        
-        ans = ""
-        words = [""]
+        words = title.split(" ")
 
-        for ch in title:
-            if ch != " ":
-                words[-1] += ch
-            if ch == " ":
-                words.append("")
+        ans = []
 
-        for word in words:
+        for i, word in enumerate(words):
             if len(word) <= 2:
-                ans += word.lower()
+                ans.append( word.lower() )
             else:
-                ans += word[0].upper()
-                ans += word[1:].lower()
-            
-            ans += " "
+                ans.append( word[0].upper() + word[1:].lower() )
 
-        return ans[:len(ans)-1]
+        return " ".join(ans)
