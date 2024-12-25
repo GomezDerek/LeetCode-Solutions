@@ -13,7 +13,7 @@ class Solution:
             elif i == len(title)-1:
                 if i - wordStart <= 2:
                     # lowercase because word len <= 2
-                    for j in range(wordStart, i):
+                    for j in range(wordStart, i+1):
                         ans += title[j].lower()
                          
                 else:
