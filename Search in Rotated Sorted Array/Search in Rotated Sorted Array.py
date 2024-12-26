@@ -50,11 +50,11 @@ class Solution:
 
             # if value is before pivot in nums
             elif nums[0] <= unpivoted[m] <= nums[pivot-1]:
-                return m - 1
-                # t   p
-                # 3 5 1 
+                return (m + pivot)%len(nums)
+                # t p
+                # 5 1 3 
                 # 1 3 5
-                # p t
+                # p   t
  
         # binary search on unpivoted
         l = 0
