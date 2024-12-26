@@ -1,22 +1,9 @@
 class Solution:
     def maximumProduct(self, nums: List[int]) -> int:
-        if len(nums) == 3:
-            ans = 1
-            for num in nums:
-                ans *= num
-            return ans
+        nums.sort()
 
-        heapq.heapify(nums)
+        max1 = nums[-3] * nums[-2] * nums[-1]
 
-        smallest = heapq.nsmallest(2, nums)
+        max2 = nums[0] * nums[1] * nums[-1]
 
-        abs_ans = float("-inf")
-        if smallest[0] < 0 and smallest[1] < 0:
-            abs_ans = heapq.nlargest(1, nums)[0]
-            for num in smallest:
-                abs_ans *= num
-
-        reg_ans = 1
-        for num in heapq.nlargest(3, nums):
-            reg_ans *= num
-        return max(abs_ans, reg_ans)
+        return max(max1, max2)
