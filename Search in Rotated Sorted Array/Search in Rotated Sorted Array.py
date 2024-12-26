@@ -32,11 +32,14 @@ class Solution:
 
 
         print("pivot:", pivot)
+
+        unpivoted = None
         if not pivot:
-            return -1
+            unpivoted = nums
         
         # unrotate array
-        unpivoted = nums[pivot:] + nums[:pivot]
+        else:
+            unpivoted = nums[pivot:] + nums[:pivot]
         print(unpivoted)
 
         def calc_ind_w_k(m):
@@ -54,7 +57,7 @@ class Solution:
             
             # target found! We win!
             if unpivoted[m] == target:
-                return calc_ind_w_k(m)
+                return calc_ind_w_k(m) if pivot else m
 
             elif unpivoted[m] < target:
                 l = m+1
