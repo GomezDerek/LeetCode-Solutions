@@ -8,11 +8,11 @@ class Solution:
             m = (l+r)//2
             
             # target found
-            if nums[m] == target:
+            if target == nums[m]:
                 return m
-            
+                                
             # m in left of partition
-            elif nums[l] < nums[m]:
+            elif nums[l] <= nums[m]:
                 if target < nums[l]:
                     l = m+1
                 elif target > nums[m]:
@@ -27,6 +27,6 @@ class Solution:
                 elif target < nums[m]:
                     r = m-1
                 else: # nums[m] < target < nums[r]
-                    l = m + 1
+                    l = m+1
 
         return -1
