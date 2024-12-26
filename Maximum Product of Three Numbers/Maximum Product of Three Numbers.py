@@ -1,14 +1,15 @@
 class Solution:
     def maximumProduct(self, nums: List[int]) -> int:
-        # edge case, 0 is included in highest 3
-        # edge case, multiplying negative numbers gets us higher product
-        
-        heapq.heapify(nums)
-        
-        largest = heapq.nlargest(3, nums)
-        
         ans = 1
-        for num in largest:
-            ans *= num
+        if len(nums) == 3:
+            for num in nums:
+                    ans *= num
+            return ans
 
-        return ans
+        nums.sort()
+        abs_ans = float("-inf")
+        if nums[0] < 0 and nums[1] < 0:
+            abs_ans = nums[0] * nums[1] * nums[-1]
+
+        reg_ans = nums[-3] * nums[-2] * nums[-1]
+        return max(abs_ans, reg_ans)
