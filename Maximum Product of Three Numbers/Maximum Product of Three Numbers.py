@@ -1,12 +1,7 @@
 class Solution:
     def maximumProduct(self, nums: List[int]) -> int:
-        ans = 1
-        if len(nums) == 3:
-            for num in nums:
-                    ans *= num
-            return ans
-
         nums.sort()
+
         abs_ans = float("-inf")
         if nums[0] < 0 and nums[1] < 0:
             abs_ans = nums[0] * nums[1] * nums[-1]
