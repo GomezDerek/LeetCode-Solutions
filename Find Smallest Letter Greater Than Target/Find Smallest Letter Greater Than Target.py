@@ -3,14 +3,7 @@ class Solution:
         ans = letters[0]
 
         for i, ch in enumerate(letters):
-            if ch == target:
-                j = i
-                length = len(letters)
-                while(letters[j] == target and j < length):
-                    j += 1
-                    if letters[j] != target:
-                        ans = letters[j]
-                        break
-                break
+            if ch > target:
+                return ch
     
         return ans
