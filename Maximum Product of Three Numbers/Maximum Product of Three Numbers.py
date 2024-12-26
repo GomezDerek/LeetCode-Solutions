@@ -1,10 +1,16 @@
 class Solution:
     def maximumProduct(self, nums: List[int]) -> int:
-        nums.sort()
+        heapq.heapify(nums)
+
+        smallest = heapq.nsmallest(2, nums)
 
         abs_ans = float("-inf")
-        if nums[0] < 0 and nums[1] < 0:
-            abs_ans = nums[0] * nums[1] * nums[-1]
+        if smallest[0] < 0 and smallest[1] < 0:
+            abs_ans = heapq.nlargest(1, nums)[0]
+            for num in smallest:
+                abs_ans *= num
 
-        reg_ans = nums[-3] * nums[-2] * nums[-1]
+        reg_ans = 1
+        for num in heapq.nlargest(3, nums):
+            reg_ans *= num
         return max(abs_ans, reg_ans)
