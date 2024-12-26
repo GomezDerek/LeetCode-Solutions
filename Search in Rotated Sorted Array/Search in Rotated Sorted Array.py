@@ -27,12 +27,12 @@ class Solution:
                 continue
             # or did we pass the pivot?
             else:
-                print("pivot passed", l, r)
+                # print("pivot passed", l, r)
                 break
                 # return
 
 
-        print("pivot:", pivot)
+        # print("pivot:", pivot)
 
         unpivoted = None
         if not pivot:
@@ -41,7 +41,7 @@ class Solution:
         # unrotate array
         else:
             unpivoted = nums[pivot:] + nums[:pivot]
-        print(unpivoted)
+        # print(unpivoted)
 
         def calc_ind_w_k(m):
             # if value is after pivot in nums
@@ -51,22 +51,18 @@ class Solution:
             # if value is before pivot in nums
             elif nums[0] <= unpivoted[m] <= nums[pivot-1]:
                 return (m + pivot)%len(nums)
-                # t p
-                # 5 1 3 
-                # 1 3 5
-                # p   t
- 
         # binary search on unpivoted
         l = 0
         r = len(nums) - 1
         while (l <= r):
             m = (l+r)//2
-            print(f"m: {m}\n[m]: {unpivoted[m]}")
+            # print(f"m: {m}\n[m]: {unpivoted[m]}")
             
             # target found! We win!
             if unpivoted[m] == target:
-                print("target found!")
-                return calc_ind_w_k(m) if pivot else m
+                # print("target found!")
+                return (m + pivot)%len(nums) if pivot else m
+                # return calc_ind_w_k(m) if pivot else m
 
             elif unpivoted[m] < target:
                 l = m+1
