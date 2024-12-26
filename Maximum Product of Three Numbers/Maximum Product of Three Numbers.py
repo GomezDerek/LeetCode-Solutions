@@ -5,10 +5,7 @@ class Solution:
         smallest = heapq.nsmallest(2, nums)
         largest = heapq.nlargest(3, nums)
 
-        small_sum = smallest[0] * smallest[1]
-        large_sum = largest[1] * largest[2]
+        product_1 = smallest[0] * smallest[1] * largest[0]
+        product_2 = largest[1] * largest[2] * largest[0]
 
-        if small_sum > large_sum:
-            return small_sum * largest[0]
-        else:
-            return large_sum * largest[0]
+        return product_1 if product_1 > product_2 else product_2
