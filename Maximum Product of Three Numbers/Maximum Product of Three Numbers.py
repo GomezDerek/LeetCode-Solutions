@@ -3,15 +3,12 @@ class Solution:
         heapq.heapify(nums)
 
         smallest = heapq.nsmallest(2, nums)
+        largest = heapq.nlargest(3, nums)
 
-        abs_ans = float("-inf")
-        if smallest[0] < 0 and smallest[1] < 0:
-            abs_ans = heapq.nlargest(1, nums)[0]
-            for num in smallest:
-                abs_ans *= num
+        small_sum = smallest[0] * smallest[1]
+        large_sum = largest[1] * largest[2]
 
-        reg_ans = 1
-        for num in heapq.nlargest(3, nums):
-            reg_ans *= num
-        
-        return reg_ans if reg_ans > abs_ans else abs_ans
+        if small_sum > large_sum:
+            return small_sum * largest[0]
+        else:
+            return large_sum * largest[0]
