@@ -5,11 +5,13 @@ class Solution:
         # each branches with a negative or positive
         # there's probably an opportunity for optimization with dynamic programming
 
+        # return len(nums)
+
         ans = 0
 
         def r(prog_sum, i):
             # base case
-            print(i)
+            # print(i)
             if i >= len(nums): # finished array traversal
                 if prog_sum == target: # sumWay found
                     nonlocal ans
