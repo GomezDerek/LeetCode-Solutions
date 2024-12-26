@@ -47,7 +47,7 @@ class Solution:
             if nums[pivot] <= unpivoted[m] <= nums[-1]:
                 return m + pivot
             elif nums[0] <= unpivoted[m] <= nums[pivot-1]:
-                return m - pivot
+                return pivot - m - 1
 
         # binary search on unpivoted
         l = 0
@@ -58,6 +58,7 @@ class Solution:
             
             # target found! We win!
             if unpivoted[m] == target:
+                print("target found!")
                 return calc_ind_w_k(m) if pivot else m
 
             elif unpivoted[m] < target:
