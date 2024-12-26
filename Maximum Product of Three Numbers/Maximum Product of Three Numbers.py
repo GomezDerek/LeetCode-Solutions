@@ -1,9 +1,13 @@
 class Solution:
     def maximumProduct(self, nums: List[int]) -> int:
-        nums.sort()
+        heapq.heapify(nums)
 
-        max1 = nums[-3] * nums[-2] * nums[-1]
+        max1 = 1
+        for num in heapq.nlargest(3, nums):
+            max1 *= num
 
-        max2 = nums[0] * nums[1] * nums[-1]
+        max2 = heapq.nlargest(1, nums)[0]
+        for num in heapq.nsmallest(2, nums):
+            max2 *= num
 
         return max(max1, max2)
