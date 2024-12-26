@@ -44,11 +44,18 @@ class Solution:
         print(unpivoted)
 
         def calc_ind_w_k(m):
+            # if value is after pivot in nums
             if nums[pivot] <= unpivoted[m] <= nums[-1]:
                 return m + pivot
-            elif nums[0] <= unpivoted[m] <= nums[pivot-1]:
-                return pivot - m - 1
 
+            # if value is before pivot in nums
+            elif nums[0] <= unpivoted[m] <= nums[pivot-1]:
+                return m - 1
+                # t   p
+                # 3 5 1 
+                # 1 3 5
+                # p t
+ 
         # binary search on unpivoted
         l = 0
         r = len(nums) - 1
