@@ -10,4 +10,4 @@ class Solution:
         for num in heapq.nsmallest(2, nums):
             max2 *= num
 
-        return max(max1, max2)
+        return max1 if max1 > max2 else max2
