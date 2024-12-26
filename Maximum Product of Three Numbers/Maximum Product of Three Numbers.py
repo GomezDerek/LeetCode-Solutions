@@ -1,5 +1,11 @@
 class Solution:
     def maximumProduct(self, nums: List[int]) -> int:
+        if len(nums) == 3:
+            ans = 1
+            for num in nums:
+                ans *= num
+            return ans
+
         heapq.heapify(nums)
 
         smallest = heapq.nsmallest(2, nums)
