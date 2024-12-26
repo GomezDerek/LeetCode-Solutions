@@ -27,8 +27,9 @@ class Solution:
                 continue
             # or did we pass the pivot?
             else:
-                print("pivot passed")
-                return
+                print("pivot passed", l, r)
+                break
+                # return
 
 
         print("pivot:", pivot)
