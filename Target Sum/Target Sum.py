@@ -9,6 +9,8 @@ class Solution:
 
         ans = 0
 
+        cache = {}
+
         def r(prog_sum, i):
             # base case
             # print(i)
@@ -21,14 +23,24 @@ class Solution:
             # print(i, nums[i])
 
             # recursive call(s)
-            r(prog_sum + nums[i], i+1)
-            r(prog_sum - nums[i], i+1) 
+            for num in [nums[i], -nums[i]]:
+                # print(cache)
+                # i_cache = cache[(prog_sum, num)]
+                if (prog_sum, num) in cache:
+                    # r(i_cache, i+1)
+                    r(cache[(prog_sum, num)], i+1)
+
+                else:
+                    cache[(prog_sum, num)] = prog_sum + num
+                    r(cache[(prog_sum, num)], i+1)
+            # r(prog_sum + nums[i], i+1)
+            # r(prog_sum - nums[i], i+1) 
 
         r(0,0)
         return ans
 
 
-        # 0
-        #                        [-49]                   [+49]
+        #                                                   0
+        #                        [-49]                                               [+49]
         #        [-49 +19]                [-49 -19]                   [+49 +19]                  [+49 -19]
         # [-49 +19 +9] [-49 +19 -9] [-49 -19 +9] [-49 -19 -9] [+49 +19 +9] [+49 +19 -9] [+49 - 19 +9] [+49 - 19 -9]
