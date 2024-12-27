@@ -26,13 +26,21 @@ class Solution:
             for num in [nums[i], -nums[i]]:
                 # print(cache)
                 # i_cache = cache[(prog_sum, num)]
-                if (prog_sum, num) in cache:
-                    # r(i_cache, i+1)
+                try:
                     r(cache[(prog_sum, num)], i+1)
-
-                else:
+                
+                except KeyError:
                     cache[(prog_sum, num)] = prog_sum + num
                     r(cache[(prog_sum, num)], i+1)
+
+                # if (prog_sum, num) in cache:
+                #     print((prog_sum, num), "cache called!")
+                #     # r(i_cache, i+1)
+                #     r(cache[(prog_sum, num)], i+1)
+
+                # else:
+                #     cache[(prog_sum, num)] = prog_sum + num
+                #     r(cache[(prog_sum, num)], i+1)
             # r(prog_sum + nums[i], i+1)
             # r(prog_sum - nums[i], i+1) 
 
