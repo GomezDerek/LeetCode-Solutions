@@ -53,3 +53,18 @@ submissions are automatically uploaded by AlgoArchive
 [ Time taken: 33 m 0 s ]
 
 "Wow, I overcomplicated this, but hey! I Almost made it under 30min!"
+
+### 40. Number of Islands
+[ Conceded after 1 h 20 m ]
+
+"Popping from the front of a Python list takes O(N) time?! 🤯🤦‍♂️"
+
+### 41. Rotting Oranges
+[ Time taken: 48 m 47 s ]
+
+" I solved my first graph question w/ no outside help! So much code though, no way I could do this in less than 30 minutes"
+
+### 42. Search in Rotated Sorted Array
+[ Conceded after 50 m ]
+
+"This is the hardest problem I've ever done..."
