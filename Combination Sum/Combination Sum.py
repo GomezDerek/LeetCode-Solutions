@@ -16,7 +16,9 @@ class Solution:
 
             # recursive call(s)
             else:
-                dfs(i, currCombo + [candidates[i]], total + candidates[i]) # branch to a duplicate of current candidate
+                currCombo.append(candidates[i])
+                dfs(i, currCombo, total + candidates[i]) # branch to a duplicate of current candidate
+                currCombo.pop()
                 dfs(i+1, currCombo, total) # branch to the next candidate
 
         dfs(0,[],0)
