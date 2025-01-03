@@ -9,7 +9,6 @@ class Solution:
         permutations = []
 
         def p(curr, remainder):
-            print(curr, remainder)
             # base case
             if not remainder:
                 permutations.append(curr)
@@ -17,8 +16,8 @@ class Solution:
 
             # recursive call(s)
             for i, num in enumerate(remainder):
-                newCurr = curr[:] + [num]
-                newRemainder = []
+                newCurr = curr + [num]
+                newRemainder = False
                 if i == 0:
                     newRemainder = remainder[i+1:]
                 elif i == len(remainder)-1:
