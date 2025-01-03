@@ -72,3 +72,8 @@ submissions are automatically uploaded by AlgoArchive
 [ Conceded after 1 h 4 m ]
 
 "I'm impressed with how such a simple solution can solve such an intimidating question"
+
+### 44. Permutations
+[ Time taken: 21 m 5 s ]
+
+"Woah! O(N!) runtime!"
