@@ -8,33 +8,19 @@
 class Solution:
     def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
 
-        pPath, qPath = [], []
+        # solution from Cracking FAANG
 
-        def dfs(node, path):
-            # base case
-            nonlocal pPath, qPath
-            if not node or (pPath is False and qPath is False):
-                return
-            
+        if not root:
+            return
 
-            newPath = path + [node]
-            
-            # check if we found our targets
-            if node is p:
-                pPath = newPath
-            elif node is q:
-                qPath = newPath
+        l = self.lowestCommonAncestor(root.left, p, q)
+        r = self.lowestCommonAncestor(root.right, p, q)
 
-            dfs(node.left, newPath)
-            dfs(node.right, newPath)
+        if l != None and r != None:
+            return root
+        
+        elif root is p or root is q:
+            return root
 
-        dfs(root, [])
-
-        # find LCA by comparing paths
-        pPath.reverse()
-        qPath.reverse()
-
-        for pNode in pPath:
-            for qNode in qPath:
-                if pNode.val == qNode.val: 
-                    return pNode
+        else:
+            return l or r
