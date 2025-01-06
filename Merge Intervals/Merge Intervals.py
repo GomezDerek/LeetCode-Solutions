@@ -22,7 +22,7 @@ class Solution:
             # if curr's end > interval's start
             if currInterval[1] >= intervals[i][0]:
                 # merge by updating curr's end
-                currInterval[1] = intervals[i][1]
+                currInterval[1] = max(currInterval[1], intervals[i][1])
                 currInterval[0] = min(currInterval[0], intervals[i][0])
             
             # intervals do not overlap
