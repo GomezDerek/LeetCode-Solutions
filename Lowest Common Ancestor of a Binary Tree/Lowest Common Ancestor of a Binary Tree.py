@@ -13,13 +13,13 @@ class Solution:
         if not root:
             return
 
+        elif root is p or root is q:
+            return root
+        
         l = self.lowestCommonAncestor(root.left, p, q)
         r = self.lowestCommonAncestor(root.right, p, q)
 
         if l != None and r != None:
-            return root
-        
-        elif root is p or root is q:
             return root
 
         else:
