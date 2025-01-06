@@ -2,6 +2,7 @@ class Solution:
     def merge(self, intervals: List[List[int]]) -> List[List[int]]:
         # questions:
             # can the intervals be unsorted?
+                # YES, THEY CAN BE UNSORTED
             # can intervals be sub intervals of each other
             # can startI ?= endI
 
@@ -22,6 +23,7 @@ class Solution:
             if currInterval[1] >= intervals[i][0]:
                 # merge by updating curr's end
                 currInterval[1] = intervals[i][1]
+                currInterval[0] = min(currInterval[0], intervals[i][0])
             
             # intervals do not overlap
             else:
