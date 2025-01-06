@@ -7,40 +7,30 @@
 
 class Solution:
     def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
-        # STRATEGY
-        # consider the tree is not balanced
-        # BFS traversal
-            # record paths to EVERY node with a hashmap
-            # once both targets have been found, end traversal
-        # find LCA by comparing paths
-            # LCA found by the last shared node in path
 
-        queue = collections.deque()
-        queue.append( [root, []] )
         paths = {}
         pFound, qFound = False, False
 
-        # end traversal early when both targets have been found
-        while queue or not pFound or not qFound:
-            node, path = queue.popleft()
-
+        def dfs(node, path):
             # base case
-            # skip this node if null
-            if not node:
-                continue
+            nonlocal pFound, qFound
+            if not node or (pFound is True and qFound is True):
+                return
             
-            else:
-                newPath = path + [node] # update path
-                paths[node] = newPath   # add node's path to hashmap
-                
-                if node.val == p.val:
-                    pFound = True
-                elif node.val == q.val:
-                    qFound = True
+            # check if we found our targets
+            elif node is p:
+                pFound = True
+            elif node is q:
+                qFound = True
 
-                queue.append([node.left, newPath])
-                queue.append([node.right, newPath])
-                        
+            newPath = path + [node]
+            paths[node] = newPath
+
+            dfs(node.left, newPath)
+            dfs(node.right, newPath)
+
+        dfs(root, [])
+
         # find LCA by comparing paths
         pPath = paths[p]
         qPath = paths[q]
