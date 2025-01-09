@@ -13,6 +13,9 @@ class TimeMap:
     def get(self, key: str, timestamp: int) -> str:
         if key not in self.store:
             return ""
+        # this cheeky lil elif saves us a bit of time by checking if an earlier tiemstamp is even possible
+        elif timestamp < self.store[key][0][1]:
+            return ""
         else:
             value = ""
             l, r = 0, len(self.store[key])-1
