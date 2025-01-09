@@ -1,54 +1,30 @@
 class TimeMap:
+    # NeetCode solution (from memory)
 
     def __init__(self):
-        # key will be str
-        # value will be t
-        self.data = {}
+        self.store = {}
 
     def set(self, key: str, value: str, timestamp: int) -> None:
-        # key already exists
-        if self.data.get(key):
-            
-            # timestamp already exists
-            if self.data[key].get(timestamp):
-                # print("Error: timestamp already exists:", key, value, timestamp)
-                pass
-            else:
-                self.data[key][timestamp] = value
-
-        # key doesn't exist
+        if key not in self.store:
+            self.store[key] = [[value, timestamp]]
         else:
-            self.data[key] = {timestamp: value}
-        
+            self.store[key].append([value, timestamp])
 
     def get(self, key: str, timestamp: int) -> str:
-        # check if key doesn't exist
-        if not self.data.get(key):
-            # print("Key doesn't exist:", key, timestamp)
-            return ""
-        
-        # timestamp exists
-        if self.data[key].get(timestamp):
-            return self.data[key][timestamp]
-
-        # timestamp doesn't exist so look for earlier time stamps
-        timestamps = [ts for ts in self.data[key].keys()]
-
-        # no earlier timestamps exist
-        if timestamp < timestamps[0]:
-            # print(f"No earlier timestamp exists\ntimestamp: {timestamp}, timestamps[0]: {timestamps[0]}")
+        if key not in self.store:
             return ""
         else:
-            # return earlier timestamp closest to timestamp arg
-            prev = ""
-            for ts in timestamps:
-                if ts > timestamp:
-                    return self.data[key][prev]
-                prev = ts
-            # print(f"No earlier time stamp found with for-loop\ntimestamp: {timestamp}, timestamps = {timestamps}")
-            # print(f"\nEarlier time stamp found with for-loop\ntimestamp: {timestamp}, \nprev: {prev}, \nself.data[key]: {self.data[key]}")
-            # print(f"return: {self.data[key][prev]}")
-            return self.data[key][prev]
+            value = ""
+            l, r = 0, len(self.store[key])-1
+            while(l <= r):
+                m = (l+r)//2
+                if self.store[key][m][1] <= timestamp:
+                    value = self.store[key][m][0]
+                    l = m+1
+                else:
+                    r = m-1
+
+            return value
 
 
 
