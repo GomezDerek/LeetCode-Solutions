@@ -77,3 +77,18 @@ submissions are automatically uploaded by AlgoArchive
 [ Time taken: 21 m 5 s ]
 
 "Woah! O(N!) runtime!"
+
+### 45. Merge Intervals
+[ Conceded after 1 h 5 m ]
+
+"I'm so mad. The solution was just to sort at the beginning..."
+
+### 46. Lowest Common Ancestor of a Binary Tree
+[ Time taken: 1 h 1 m 31 s ]
+
+"I was debugging for so long because I wasn't returning the node! 😭"
+
+### 47. Time Based Key-Value Store
+[ Conceded after 1 h 32 m ]
+
+"I have to be more eager to use BSA!"
