@@ -8,7 +8,7 @@ class Solution:
 
         maxScore = 0
 
-        for i in range(len(s)-2):
+        for i in range(len(s)-1):
             left = s[:i+1]
             right = s[i+1:]
 
@@ -21,6 +21,6 @@ class Solution:
                 score += 1 if num == "1" else 0
 
             maxScore = score if score > maxScore else maxScore
-            print(left, right, score)
+            # print(left, right, score)
 
         return maxScore
