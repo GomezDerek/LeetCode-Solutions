@@ -92,3 +92,8 @@ submissions are automatically uploaded by AlgoArchive
 [ Conceded after 1 h 32 m ]
 
 "I have to be more eager to use BSA!"
+
+### 48. Accounts Merge
+[ Time taken: 2 hrs 14 m 41 s ]
+
+"Crazy how much of a difference a good night's rest improves my code's performance 😏"
