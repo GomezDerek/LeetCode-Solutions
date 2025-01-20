@@ -16,6 +16,7 @@ var groupAnagrams = function(strs) {
 
     function isAnagram(str1, str2) {
         // console.log(`\nisAnagram: ${str1} & ${str2}`);
+        if (str1.length != str2.length) return false;
 
         var freqMap = new Map();
 
