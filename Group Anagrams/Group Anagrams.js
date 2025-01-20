@@ -15,17 +15,20 @@ var groupAnagrams = function(strs) {
     var answer = []
 
     function isAnagram(str1, str2) {
+        // console.log(`\nisAnagram: ${str1} & ${str2}`);
+
         var freqMap = new Map();
 
         // create a frequency map for str1
         for(let i=0; i<str1.length; i++) {
             if (freqMap.has(str1[i])) {
-                freqMap[str[i]] ++;
+                freqMap.set( str1[i], freqMap.get(str1[i]) + 1 );
             }
             else {
-                freqMap.set(str[i],1)
+                freqMap.set(str1[i],1)
             }
         }
+        // console.log(`${st1}`);
 
         // run str2 against str1's frequency map
         for(let i=0; i<str2.length; i++) {
@@ -46,6 +49,7 @@ var groupAnagrams = function(strs) {
         }
 
         // all anagram tests passed
+        // console.log(`they're anagrams!`)
         return true;
     }
 
@@ -55,16 +59,14 @@ var groupAnagrams = function(strs) {
         // check if str belongs to any anagram groups
         for(group of answer) {
             if (isAnagram(str, group[0])) {
-                group.push(str)
+                group.push(str);
                 joinedGroup = true;
                 break;
             }
         }
 
         // create a new group for this str b/c no anagrams found
-        if (!joinedGroup) {
-            answer.push([str])
-        }
+        if (!joinedGroup) answer.push([str]);
     }
 
     return answer;
