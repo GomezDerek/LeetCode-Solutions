@@ -3,28 +3,30 @@
  * @return {string[][]}
  */
 var groupAnagrams = function(strs) {
-    // this solution is inspired by Neetcode
+    // strategy
+    const ans = new Map();
 
-    const answer = new Map();
-
-    strs.forEach( str => {
-
-        const freqArr = new Array(26).fill(0);
-
-        for(let i=0; i<str.length; i++) {
-            faIndex = str.charCodeAt(i) - 'a'.charCodeAt(0);
-            freqArr[faIndex] ++;
+    for(let i=0; i< strs.length; i++) {
+        var freqMap = new Array(26).fill(0);
+        for(let j=0; j< strs[i].length; j++) {
+            const currChar = strs[i][j];
+            freqMap[currChar.charCodeAt(0) - 'a'.charCodeAt(0)] += 1;
         }
-       
-        const answerKey = JSON.stringify(freqArr);
-        if (answer.has(answerKey)) {
-            answer.get(answerKey).push(str);
+
+        freqMap = JSON.stringify(freqMap);
+
+        if (ans.has(freqMap)) {
+            const res = ans.get(freqMap);
+            res.push(strs[i]);
+            ans.set(freqMap, res);
         }
         else {
-            answer.set(answerKey, [str]);
+            ans.set(freqMap, [strs[i]]);
         }
+    }
 
-    });
+    // console.log(ans);
+    return [...ans.values()];
+    // return Object.values(ans);
 
-    return [...answer.values()];
 };
