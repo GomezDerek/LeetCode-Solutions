@@ -5,9 +5,12 @@
  * @return {string}
  */
 var encode = function(strs) {
-    var msg = "";
+    var msg = ``;
     for(let str of strs) {
-        msg += `""` + str
+        msg += `\\\\`;
+        for(let ch of str) {
+            msg += ch;
+        }
     }
     return msg;
 };
@@ -26,7 +29,7 @@ var decode = function(s) {
     let currStr = "";
 
     while(i < s.length) {
-        if (s[i] == `"` && s[i+1] == `"`) {
+        if (s[i] == `\\` && s[i+1] == `\\`) {
             strs.push(currStr);
             currStr = "";
             i += 2;
