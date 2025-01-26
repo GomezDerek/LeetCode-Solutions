@@ -1,3 +1,4 @@
+const delimiter = "对吗";
 /**
  * Encodes a list of strings to a single string.
  *
@@ -7,7 +8,7 @@
 var encode = function(strs) {
     var msg = ``;
     for(let str of strs) {
-        msg += `\\\\`;
+        msg += delimiter;
         for(let ch of str) {
             msg += ch;
         }
@@ -29,7 +30,7 @@ var decode = function(s) {
     let currStr = "";
 
     while(i < s.length) {
-        if (s[i] == `\\` && s[i+1] == `\\`) {
+        if (s[i] == delimiter[0] && s[i+1] == delimiter[1]) {
             strs.push(currStr);
             currStr = "";
             i += 2;
