@@ -5,7 +5,11 @@
  * @return {string}
  */
 var encode = function(strs) {
-    return strs
+    var msg = "";
+    for(let str of strs) {
+        msg += `""` + str
+    }
+    return msg;
 };
 
 /**
@@ -15,7 +19,26 @@ var encode = function(strs) {
  * @return {string[]}
  */
 var decode = function(s) {
-    return s
+
+    const strs = [];
+    
+    let i = 2;
+    let currStr = "";
+
+    while(i < s.length) {
+        if (s[i] == `"` && s[i+1] == `"`) {
+            strs.push(currStr);
+            currStr = "";
+            i += 2;
+        }
+        else {
+            currStr += s[i];
+            i += 1;
+        }
+    }
+
+    strs.push(currStr);
+    return strs
 };
 
 /**
