@@ -1,25 +1,37 @@
 /**
- * @param {number[]} nums
- * @param {number} k
- * @return {number[]}
+ * Definition for singly-linked list.
+ * function ListNode(val, next) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.next = (next===undefined ? null : next)
+ * }
  */
-var topKFrequent = function(nums, k) {
+/**
+ * @param {ListNode} head
+ * @return {ListNode}
+ */
 
-    // create the frequency map (plain obj)
-    const freq = {};
-    for(const num of nums) {
-        if (freq[num] == undefined) 
-            freq[num] = 1
-        else 
-            freq[num] += 1;
+// 1 -> 2 -> 3 -> null
+// 1 -> 2 -> 3 -> null
+// 1 -> 2 <- 3 
+
+var reverseList = function(head) {
+    
+    // edge case for empty LL
+    if ( !head) {
+        return head;
     }
 
-    // turn the freq obj into an array for sorting
-    var freqArr = Object.entries(freq);
+    // base case for original tail
+    if( head.next == null) {
+        return head;
+    }
 
-    // sort by value in descending order
-    freqArr.sort((a,b) => b[1]-a[1]);
+    // recursive call
+    let headNext = head.next;
+    let reverseTail = reverseList(headNext);
+    headNext.next = head;
+    head.next = null;
 
-    // return keys of first k elements
-    return freqArr.slice(0,k).map( kvPair => parseInt(kvPair[0]) );
+    // return
+    return reverseTail
 };
