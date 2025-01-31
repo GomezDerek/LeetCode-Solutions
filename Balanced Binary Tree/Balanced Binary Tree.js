@@ -27,7 +27,7 @@ var getHeight = function(node) {
     if (leftHeight == -1 || rightHeight == -1) {
         return -1;
     }
-    else if ( Math.abs(leftHeight - rightHeight > 1) ) {
+    else if ( Math.abs(leftHeight - rightHeight) > 1 ) {
         return -1;
     }
     else {
