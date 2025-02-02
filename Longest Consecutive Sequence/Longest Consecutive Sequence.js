@@ -28,7 +28,7 @@ var longestConsecutive = function(nums) {
             currStreak = 0;
             let currKey = key;
             while(hMap.has(currKey)) {
-                hMap.delete(currKey);
+                // hMap.delete(currKey);
                 currStreak ++;
                 maxStreak = currStreak > maxStreak ? currStreak : maxStreak;
                 currKey++;
