@@ -3,37 +3,36 @@
  * @return {number}
  */
 var longestConsecutive = function(nums) {
-    // BFS solution inspired from discussion section
-    const hMap = new Map();
+    // strategy
+    // 1. create a map to store each num and provide O(1) lookup
+    // 2. iterate through the map to find subsequence start candidates
+    // 3. attempt subsequence starting at the candidate
+    // 4. as we access map elements, delete them from the map
 
-    // populate hashMap
+    // 1.
+    const hMap = new Map();
     for(const num of nums) {
-        hMap.set(num, null);
+        if (!hMap.has(num)) 
+            hMap.set(num, true);
+        else 
+            continue;
     }
 
     let maxStreak = 0;
-    let currStreak = 0;
-
+    let currStreak = 0
+    // 2. 
     for(const key of hMap.keys()) {
-
-        // if num isn't in the middle/end of a subsequence
-        // then we can start streak
-        if ( !hMap.has(key-1) ) {
-            
+        // starter candidate if no prevElement
+        if( !hMap.has(key-1) ) {
+            // 3.
+            currStreak = 0;
             let currKey = key;
-            while( hMap.has(currKey) ) {
+            while(hMap.has(currKey)) {
+                hMap.delete(currKey);
                 currStreak ++;
                 maxStreak = currStreak > maxStreak ? currStreak : maxStreak;
-
-                hMap.delete(currKey);
-                currKey++;    
+                currKey++;
             }
-            currStreak = 0;
-        }
-
-        // num can't start a sequence
-        else {
-            continue;
         }
     }
     return maxStreak;
