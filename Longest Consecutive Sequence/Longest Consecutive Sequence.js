@@ -30,9 +30,9 @@ var longestConsecutive = function(nums) {
             while(hMap.has(currKey)) {
                 // hMap.delete(currKey);
                 currStreak ++;
-                maxStreak = currStreak > maxStreak ? currStreak : maxStreak;
                 currKey++;
             }
+            maxStreak = currStreak > maxStreak ? currStreak : maxStreak;
         }
     }
     return maxStreak;
