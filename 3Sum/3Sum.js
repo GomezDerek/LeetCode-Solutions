@@ -23,13 +23,11 @@ var threeSum = function(nums) {
 
     // create every possible pair of vals
     for(let i=0; i<nums.length; i++) {
+        
         const val = nums[i];
-        if ( !hMap[val] ) {
-            hMap[val] = [i];
-        }
-        else {
-            hMap[val].push(i);
-        }
+        if ( !hMap[val] ) hMap[val] = [i];
+        else hMap[val].push(i);
+
         for(let j=i+1; j<nums.length; j++) {
             pairs.push( [i,j] );
         }
