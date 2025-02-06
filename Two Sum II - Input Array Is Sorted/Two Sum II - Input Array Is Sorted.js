@@ -11,7 +11,7 @@ var twoSum = function(numbers, target) {
     let i1 = 0;
     let i2 = 1;
 
-    while(i1 < numbers.length-2) {
+    while(i1 <= numbers.length-2) {
         const diff = target - numbers[i1];
 
         i2 = i1 + 1;
@@ -23,6 +23,7 @@ var twoSum = function(numbers, target) {
 
         i1++;
     }
-
+    console.log(i1,i2);
+    console.log(numbers[i1],numbers[i2]);
     return [i1+1, i2+1];
 };
