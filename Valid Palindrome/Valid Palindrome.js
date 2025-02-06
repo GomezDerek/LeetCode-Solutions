@@ -18,23 +18,21 @@ var isPalindrome = function(s) {
     while(lp < rp) {
         
         // increment left pointer until it reaches an alphanum char
-        if ( !valid.includes(s[lp].toLowerCase()) ) {
+        while ( !valid.includes(s[lp].toLowerCase()) && lp < rp ) {
             lp++;
         }
 
         // decrement right pointer until it reaches an alphanum char
-        else if ( !valid.includes(s[rp].toLowerCase()) ) {
+        while ( !valid.includes(s[rp].toLowerCase()) && lp < rp ) {
             rp--;
         }
 
-        // both pointers are at alphanum chars
-        else {
-            if ( s[lp].toLowerCase() != s[rp].toLowerCase()) {
-                return false;
-            }
-            lp++;
-            rp--;
+        // both pointers should be at alphanum chars
+        if ( s[lp].toLowerCase() != s[rp].toLowerCase()) {
+            return false;
         }
+        lp++;
+        rp--;
     }
 
     // s has passed all comparisons
