@@ -11,15 +11,15 @@ var twoSum = function(numbers, target) {
     let i1 = 0;
     let i2 = 1;
 
-    while(i1 < numbers.length) {
-        let diff = target - numbers[i1];
+    while(i1 < numbers.length-2) {
+        const diff = target - numbers[i1];
 
         i2 = i1 + 1;
-        while(numbers[i1] + numbers[i2] < target) {
+        while(numbers[i2] < diff) {
             i2++;
         }
         
-        if (numbers[i1] + numbers[i2] == target) break;
+        if (numbers[i2] == diff) break;
 
         i1++;
     }
