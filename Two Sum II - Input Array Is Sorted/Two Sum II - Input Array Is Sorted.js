@@ -23,7 +23,5 @@ var twoSum = function(numbers, target) {
 
         i1++;
     }
-    console.log(i1,i2);
-    console.log(numbers[i1],numbers[i2]);
     return [i1+1, i2+1];
 };
