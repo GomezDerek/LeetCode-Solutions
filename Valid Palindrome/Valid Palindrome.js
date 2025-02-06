@@ -10,7 +10,45 @@ var isPalindrome = function(s) {
     // pointers stop at alphanums, then compare
     // repeat til pointers meet or pass
 
-    const valid = 'abcdefghijklmnopqrstuvwxyz0123456789';
+    // const valid = 'abcdefghijklmnopqrstuvwxyz0123456789';
+    const valid = {
+        'a': true,
+        'b': true,
+        'c': true,
+        'd': true,
+        'e': true,
+        'f': true,
+        'g': true,
+        'h': true,
+        'i': true,
+        'j': true,
+        'k': true,
+        'l': true,
+        'm': true,
+        'n': true,
+        'o': true,
+        'p': true,
+        'q': true,
+        'r': true,
+        's': true,
+        't': true,
+        'u': true,
+        'v': true,
+        'w': true,
+        'x': true,
+        'y': true,
+        'z': true,
+        '1': true,
+        '2': true,
+        '3': true,
+        '4': true,
+        '5': true,
+        '6': true,
+        '7': true,
+        '8': true,
+        '9': true,
+        '0': true,
+    }
 
     let lp = 0;
     let rp = s.length-1;
@@ -18,12 +56,12 @@ var isPalindrome = function(s) {
     while(lp < rp) {
         
         // increment left pointer until it reaches an alphanum char
-        while ( !valid.includes(s[lp].toLowerCase()) && lp < rp ) {
+        while ( !valid[ s[lp].toLowerCase() ] && lp < rp ) {
             lp++;
         }
 
         // decrement right pointer until it reaches an alphanum char
-        while ( !valid.includes(s[rp].toLowerCase()) && lp < rp ) {
+        while ( !valid[ s[rp].toLowerCase() ] && lp < rp ) {
             rp--;
         }
 
