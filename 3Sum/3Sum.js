@@ -18,26 +18,27 @@ var threeSum = function(nums) {
     const pairs = [];
     const triplets = new Set();
 
-    // create every possible pair
+    // create every possible pair of vals
     for(let i=0; i<nums.length; i++) {
         for(let j=i+1; j<nums.length; j++) {
-            pairs.push([i,j]);
+            pairs.push( [nums[i], nums[j]] );
         }
     }
     
     // try to find valid triplets for every pair
-    pairs.forEach( (pair) => {
-        const [a,b] = pair;
+    pairs.forEach( ([a,b]) => {
         
         // iterate through the entire num[] for the 3rd element
-        nums.forEach( (num, nI) => {
-            // skip to avoid duplicate indices
-            if (pair.includes(nI)) {
+        nums.forEach( c => {
+            // skip to avoid duplicate values
+            if ( [a,b].includes(c) ) {
                 return;
             }
 
-            if (nums[a] + nums[b] + nums[nI] == 0) {
-                const triplet = [nums[a],nums[b],nums[nI]].sort().toString();
+            // valid triplet found!
+            if (a+b+c == 0) {
+                // sort, stringify, and store!
+                const triplet = [a,b,c].sort().toString();
                 triplets.add( triplet );
             }
         });
