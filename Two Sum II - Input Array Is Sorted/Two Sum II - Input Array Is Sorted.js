@@ -4,24 +4,22 @@
  * @return {number[]}
  */
 var twoSum = function(numbers, target) {
-    // strategy
-    // iterate from beginning
-    // 2nd iteration to find index2 until >diff
+    // 2 pointer strategy inspired by the discussion section
 
     let i1 = 0;
-    let i2 = 1;
+    let i2 = numbers.length - 1;
 
-    while(i1 <= numbers.length-2) {
-        const diff = target - numbers[i1];
-
-        i2 = i1 + 1;
-        while(numbers[i2] < diff) {
-            i2++;
+    while( numbers[i1] + numbers[i2] != target ) {
+        // sum is too big
+        if (numbers[i1] + numbers[i2] > target ) {
+            i2--;
         }
-        
-        if (numbers[i2] == diff) break;
 
-        i1++;
+        // sum is too small
+        else if ( numbers[i1] + numbers[i2] < target ) {
+            i1++;
+        }
     }
+
     return [i1+1, i2+1];
 };
