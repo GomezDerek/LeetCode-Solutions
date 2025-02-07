@@ -11,7 +11,6 @@ var threeSum = function(nums) {
     // skip duplicates by comparing current pointer's to prev index. This works bc we're sorted
 
     nums.sort( (a,b) => a - b);
-    // console.log(nums);
     ans = [];
 
     for(let l=0; l<nums.length-2; l++) {
@@ -25,33 +24,16 @@ var threeSum = function(nums) {
         // twosum strategy with all elements past l
         while(m<r) {
             
-            // skip duplicates EDIT: this placement doesn't allow for nums[l] == nums[m]
-            // if( nums[m] == nums[m-1]) {
-            //     m++;
-            //     continue;
-            // }
-            // if ( nums[r] == nums[r+1]) {
-            //     r--;
-            //     continue;
-            // }
 
             const tripleSum = nums[l] + nums[m] + nums[r];
 
             // increase m if less than 0
             if (tripleSum < 0) {
                 m++;
-                // ensure m reaches a new num, and skips duplicates
-                while( nums[m] == nums[m-1] ) {
-                    m++;
-                }
             }
             // decrease r if more than 0
             else if (tripleSum > 0) {
                 r--;
-                // ensure r reaches a new num, and skips duplicates
-                while( nums[r] == nums[r+1] ) {
-                    r--;
-                }
             }
 
             // valid triplet found
