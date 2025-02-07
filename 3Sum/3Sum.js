@@ -37,7 +37,8 @@ var threeSum = function(nums) {
             }
 
             // valid triplet found
-            if ( tripleSum == 0 ) {
+            // else ( tripleSum == 0 ) {
+            else {
                 // add triplet to answer
                 ans.push([nums[l],nums[m],nums[r]]);
                 
