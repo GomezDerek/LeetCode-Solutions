@@ -10,8 +10,8 @@ var threeSum = function(nums) {
     // m and r will use the 2sum strategy for all elements after l
     // skip duplicates by comparing current pointer's to prev index. This works bc we're sorted
 
-    nums.sort();
-    console.log(nums);
+    nums.sort( (a,b) => a - b);
+    // console.log(nums);
     ans = [];
 
     for(let l=0; l<nums.length-2; l++) {
