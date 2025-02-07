@@ -3,59 +3,65 @@
  * @return {number[][]}
  */
 var threeSum = function(nums) {
-    nums.sort();
-    const ans = [];
+    // strategy
+    // sort nums
+    // use 3 pointers: l,m,r
+    // l increments linearly across nums
+    // m and r will use the 2sum strategy for all elements after l
+    // skip duplicates by comparing current pointer's to prev index. This works bc we're sorted
 
-    for(let i=0; i<nums.length; i++) {
-        if (nums[i] > 0) break;
+    nums.sort();
+    console.log(nums);
+    ans = [];
+
+    for(let l=0; l<nums.length-2; l++) {
 
         // skip duplicates
-        if (i > 0 && nums[i] === nums[i-1]) {
-            continue;
-        }
-    
-        // solve for two-sum
-        let l = i+1;
+        if(l > 0 && nums[l] == nums[l-1]) continue;
+
+        let m = l+1;
         let r = nums.length-1;
 
-        while(l<r) {
-            const sum3 = nums[i] + nums[l] + nums[r];
+        // twosum strategy with all elements past l
+        while(m<r) {
+            
+            // skip duplicates EDIT: this placement doesn't allow for nums[l] == nums[m]
+            // if( nums[m] == nums[m-1]) {
+            //     m++;
+            //     continue;
+            // }
+            // if ( nums[r] == nums[r+1]) {
+            //     r--;
+            //     continue;
+            // }
 
-            // twosum is too big
-            if (sum3 > 0)   {
-                r = decrementR(nums, r);
+            const tripleSum = nums[l] + nums[m] + nums[r];
+
+            // increase m if less than 0
+            if (tripleSum < 0) {
+                m++;
+                // ensure m reaches a new num, and skips duplicates
+                while( nums[m] == nums[m-1] ) {
+                    m++;
+                }
             }
-            // twosum is too small
-            else if (sum3 < 0) {
-                l = incrementL(nums, l);
+            // decrease r if more than 0
+            else if (tripleSum > 0) {
+                r--;
+                // ensure r reaches a new num, and skips duplicates
+                while( nums[r] == nums[r+1] ) {
+                    r--;
+                }
             }
 
-            // twosum is just right
-            else if (sum3 == 0)  {
-                const triplet = [nums[i],nums[l],nums[r]];
-                ans.push(triplet);
-                
-                // continue looking for valid triplets for this i
-                r = decrementR(nums,r);
-                l = incrementL(nums, l);
+            // valid triplet found
+            if ( tripleSum == 0 ) {
+                // add triplet to answer
+                ans.push([nums[l],nums[m],nums[r]]);
+                m++;
+                r--;
             }
         }
     }
     return ans;
 };
-
-var decrementR = function(nums,r) {
-    r--;
-    while(nums[r] == nums[r+1]) {
-        r--;
-    }
-    return r;
-}
-
-var incrementL = function(nums,l) {
-    l++;
-    while(nums[l] == nums[l-1]) {
-        l++;
-    }
-    return l;
-}
