@@ -58,8 +58,17 @@ var threeSum = function(nums) {
             if ( tripleSum == 0 ) {
                 // add triplet to answer
                 ans.push([nums[l],nums[m],nums[r]]);
+                
+                // same logic as in prev if/else
                 m++;
+                while( nums[m] == nums[m-1] ) {
+                    m++;
+                }
+
                 r--;
+                while( nums[r] == nums[r+1] ) {
+                    r--;
+                }
             }
         }
     }
