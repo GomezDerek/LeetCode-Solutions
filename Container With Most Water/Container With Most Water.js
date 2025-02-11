@@ -17,7 +17,6 @@ var maxArea = function(height) {
     let r = height.length -1;
 
     let maxVol = 0;
-    let currVol;
     
     while(l<r) {
 
@@ -30,18 +29,13 @@ var maxArea = function(height) {
         }
 
         // h X w
-        currVol = height[shorter] * (r-l);
-        maxVol = Math.max(maxVol, currVol);
-        // console.log(l,r, currVol);
+        maxVol = Math.max(maxVol, height[shorter] * (r-l));
 
         if(shorter == l) {
             l++;
         }
         else if (shorter == r) {
             r--;
-        }
-        else {
-            console.log('alert');
         }
     }
 
