@@ -1,6 +1,5 @@
 var MinStack = function() {
     this.stack = []
-    // this.min = null;
     this.minStack = [];
 };
 
@@ -12,12 +11,9 @@ MinStack.prototype.push = function(val) {
     this.stack.push(val);
 
     if (!this.minStack.length) this.minStack.push(val);
-    else if ( val < this.minStack[this.minStack.length-1] ) { // this.minStack not empty
+    else if ( val <= this.minStack[this.minStack.length-1] ) { // this.minStack not empty
         this.minStack.push(val);
     }  
-    // if (!this.min) this.min = val;
-    // else this.min = Math.min(this.min, val);
-
 };
 
 
@@ -30,12 +26,6 @@ MinStack.prototype.pop = function() {
     if (poppedVal == this.minStack[this.minStack.length-1]) {
         this.minStack.pop();
     }
-
-    // if .pop() == this.min 
-        // we need to update this.min
-        // iterating through all of this.stack and recording minimum
-
-    // 
 };
 
 
@@ -55,12 +45,6 @@ MinStack.prototype.getMin = function() {
 };
 
 // test area
-// const testStack = new MinStack();
-// testStack.push(7);
-// testStack.push(3);
-// testStack.push(9);
-// console.log(testStack.stack);
-// console.log(testStack.getMin());
 
 /** 
  * Your MinStack object will be instantiated and called as such:
