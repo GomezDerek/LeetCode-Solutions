@@ -21,13 +21,13 @@ var evalRPN = function(tokens) {
     const operate = (operand1,operand2, operator) => {
         switch(operator){
             case '+':
-                return parseInt(operand1) + parseInt(operand2);
+                return operand1 + operand2;
             case '-':
-                return parseInt(operand2) - parseInt(operand1);
+                return operand2 - operand1;
             case '*':
-                return parseInt(operand1) * parseInt(operand2);
+                return operand1 * operand2;
             case '/':
-                return parseInt(parseInt(operand2) / parseInt(operand1));
+                return parseInt(operand2 / operand1); // convert quotient from double to int
         }
     }
 
@@ -44,7 +44,7 @@ var evalRPN = function(tokens) {
 
         // tkn is operand
         else {
-            operands.push(tkn);
+            operands.push(parseInt(tkn));
         }
     }
 
