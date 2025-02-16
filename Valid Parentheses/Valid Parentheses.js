@@ -21,6 +21,6 @@ var isValid = function(s) {
         else if ( ch != pairs[ stack.pop() ] ) return false; // closer doesn't match opener!
     }
 
-    // s is valid 😁
-    return true;  
+    // s is valid if no openers are left in the stack
+    return !stack.length;  
 };
