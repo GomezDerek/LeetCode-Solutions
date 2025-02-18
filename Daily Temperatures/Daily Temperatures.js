@@ -17,7 +17,7 @@ var dailyTemperatures = function (temperatures) {
 
         let daysUntilHotter = 0;
 
-        if (!(stackVal < temperatures[i])) { // we found a temperature that is hotter than current
+        if (!(stackVal <= temperatures[i])) { // we found a temperature that is hotter than current
             daysUntilHotter = stack[stackIndex] - i;
         }
         else {
@@ -32,7 +32,7 @@ var dailyTemperatures = function (temperatures) {
                 stackIndex = stack.length - 1;
                 stackVal = temperatures[stack[stackIndex]];
 
-                if (!(stackVal < temperatures[i])) { // we found a temperature that is hotter than current
+                if (!(stackVal <= temperatures[i])) { // we found a temperature that is hotter than current
                     daysUntilHotter = stack[stackIndex] - i;
                     break;
                 }
