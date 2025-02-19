@@ -5,10 +5,10 @@
 var dailyTemperatures = function (temperatures) {
 
     // forward iteration with ascending monotonic stack
-    const stack = [];
+    const stack = [0];
     const answer = new Array(temperatures.length).fill(0);
 
-    for(let i=0; i<temperatures.length; i++) {
+    for(let i=1; i<temperatures.length; i++) {
         const currTemp = temperatures[i];
 
         // while stack not empty
