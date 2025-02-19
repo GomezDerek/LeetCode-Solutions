@@ -3,7 +3,7 @@
  * @return {string[]}
  */
 var generateParenthesis = function(n) {
-    // DFS recursive strategy (without outside variables)
+    // DFS recursive strategy (no outside vars and array merging with .push(...))
     // use the decision tree strategy outlined by tejavenkat lanka
     // https://leetcode.com/problems/generate-parentheses/description/comments/1574327
 
@@ -17,19 +17,18 @@ var generateParenthesis = function(n) {
         }
 
         // recursive call(s)
-        let openPath = [];
-        let closedPath = [];
+        let paths = []
         // open parentheses
         if (open < n) {
-            openPath = recursion(str+'(', open+1, closed);
+            paths.push(...recursion(str+'(', open+1, closed));
         }
 
         // closed parentheses
         if (closed < n && closed < open) {
-            closedPath = recursion(str+')', open, closed+1);
+            paths.push(...recursion(str+')', open, closed+1));
         }
 
-        return [...openPath, ...closedPath];
+        return paths;
     }
 
     return recursion('', 0, 0, []);
