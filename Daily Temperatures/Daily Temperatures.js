@@ -3,44 +3,28 @@
  * @return {number[]}
  */
 var dailyTemperatures = function (temperatures) {
-    // backward iteration with descending monotonic stack
+
+    // forward iteration with ascending monotonic stack
     const stack = [];
-    const answer = new Array(temperatures.length);
+    const answer = new Array(temperatures.length).fill(0);
 
-    // because we know last element is ALWAYS 0
-    answer[answer.length - 1] = 0;
-    stack.push( temperatures.length-1 );
+    for(let i=0; i<temperatures.length; i++) {
+        const currTemp = temperatures[i];
 
-    for (let i = temperatures.length - 2; i >= 0; i--) {
-        let stackIndex = stack.length - 1;
-        let stackVal = temperatures[stack[stackIndex]];
+        // while stack not empty
+        while(stack.length) {
+            const stackTop = stack[stack.length-1];
+            const stackTemp = temperatures[stackTop];
 
-        let daysUntilHotter = 0;
-
-        // if (!(stackVal <= temperatures[i])) { // we found a temperature that is hotter than current
-        if ( temperatures[i] < stackVal ) {
-            daysUntilHotter = stack[stackIndex] - i;
-        }
-        else {
-            while (stack.length) { // while stack has something
-                stack.pop();
-
-                if(!stack.length) {
-                    break;
-                }
-
-                // recalculate after pop()
-                stackIndex = stack.length - 1;
-                stackVal = temperatures[stack[stackIndex]];
-
-                if (!(stackVal <= temperatures[i])) { // we found a temperature that is hotter than current
-                    daysUntilHotter = stack[stackIndex] - i;
-                    break;
-                }
+            // currTemp is hotter than stack top's temperature
+            if( currTemp > stackTemp ) {
+                answer[stackTop] = i - stackTop;
+                stack.pop(); // remove stackTemp from stack
             }
+            else break; // no chance currTemp can be hotter than the rest of the stack
         }
 
-        answer[i] = daysUntilHotter;
+        // always add currTempIndex to stack
         stack.push(i);
     }
 
