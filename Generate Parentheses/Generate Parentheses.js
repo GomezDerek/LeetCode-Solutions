@@ -3,58 +3,30 @@
  * @return {string[]}
  */
 var generateParenthesis = function(n) {
-    // strategy
-    // decision tree + backtracking? O(n!) ?
-    
-    // n = 1
-    // ()
-    
-    // n = 2
-    // ()() = n=1+()
-    // (()) = (n=1)
+    // DFS recursive strategy
+    // use the decision tree strategy outlined by tejavenkat lanka
+    // https://leetcode.com/problems/generate-parentheses/description/comments/1574327
 
-    // n = 3
-    // ()()() = n=2 + ()
-    // (())() = n=2 + ()
-    // ()(()) = () + n=2
-    // (()()) = (n=2)
-    // ((())) = (n=2)
+    // track how many open/closed parentheses we have
+    // closed can never be greater than open
 
-    // curr = ...prev+(), ()+...prev + (...prev)
+    let answer = [];
 
-    // answer[n] = all combinations of n pairs of parentheses
-    // use Set to prevent duplicates
-    // prefill with n = 0
-    const answer = [new Set()]; 
-    answer[0].add('');
-
-    for(let i=1; i<=n; i++) {
-        nCombos = new Set();
-        
-        // iterate through prev
-        for(const combo of answer[i-1]) {
-            // add new combos to nCombos
-            nCombos.add('('+combo+')');
-            nCombos.add( '()'+combo );
-            nCombos.add( combo+'()' );
+    function recursion(str, open, closed) {
+        // base case(s)
+        if (closed == n) {
+            answer.push(str);
         }
 
-        if(i >= 4) {
-            let combo = [...answer[i-2]][0];
-            nCombos.add(combo+combo);
-        }
+        // recursive call(s)
+        // open parentheses
+        if (open < n) recursion(str+'(', open+1, closed);
 
-        // add nCombos to our answer
-        answer.push(nCombos);
+        // closed parentheses
+        if (closed < n && closed < open) recursion(str+')', open, closed+1);
     }
 
-    const answer4 = ["(((())))","((()()))","((())())","((()))()","(()(()))","(()()())","(()())()","(())(())","(())()()","()((()))","()(()())","()(())()","()()(())","()()()()"];
+    recursion('', 0, 0);
 
-    if(n==4) {
-        let missing = answer4.filter(combo => !answer[4].has(combo) );
-        console.log(missing)
-    }
-
-    // convert our set to an array
-    return [...answer[n]];
+    return answer;
 };
