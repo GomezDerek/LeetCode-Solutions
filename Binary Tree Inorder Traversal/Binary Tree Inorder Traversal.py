@@ -9,18 +9,16 @@ class Solution:
         # recursive solution
 
         # base case
-        if not root: return
+        if not root: return []
 
         answer = []
 
         # recursive calls
-        if root.left:
-            answer.extend( self.inorderTraversal(root.left) )
+        answer.extend( self.inorderTraversal(root.left) )
 
         answer.append(root.val)
 
-        if root.right:
-            answer.extend( self.inorderTraversal(root.right) )
+        answer.extend( self.inorderTraversal(root.right) )
 
         # return
         return answer

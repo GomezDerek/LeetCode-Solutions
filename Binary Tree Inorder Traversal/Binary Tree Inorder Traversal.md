@@ -1,4 +1,4 @@
-<h2><a href="https://leetcode.com/problems/binary-tree-inorder-traversal/">22. Binary Tree Inorder Traversal</a></h2><h3>Easy</h3><hr><p>Given the <code>root</code> of a binary tree, return <em>the inorder traversal of its nodes' values</em>.</p>
+<h3>Easy</h3><hr><p>Given the <code>root</code> of a binary tree, return <em>the inorder traversal of its nodes' values</em>.</p>
 
 <p>&nbsp;</p>
 <p><strong class="example">Example 1:</strong></p>
