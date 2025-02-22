@@ -38,10 +38,10 @@ class Solution:
                 traveler = breadCrumbs.pop() # traveler = parent
 
                 # sever leaf node, so we don't revisit it
-                if traveler.left and answer[ traveler.left ]:
+                if traveler.left and answer[ traveler.left ] != None:
                     traveler.left = None
 
-                elif traveler.right and answer[ traveler.right ]:
+                elif traveler.right and answer[ traveler.right ] != None:
                     traveler.right = None
 
         # return answer
