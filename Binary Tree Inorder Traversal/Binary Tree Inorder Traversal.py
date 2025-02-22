@@ -9,7 +9,6 @@ class Solution:
         # iterative solution
 
         breadCrumbs = []
-        # answer = []
         answer = {}
 
         traveler = root
@@ -23,31 +22,27 @@ class Solution:
             # navigate right bc only the right node is available
             elif traveler.right:
                 # answer.append( traveler.val )
-                answer[ traveler.val ] = True
+                answer[ traveler ] = traveler.val
                 breadCrumbs.append( traveler )
                 traveler = traveler.right
 
             # we're at the root; with no leaf nodes nor sub-branches
             elif not breadCrumbs:
-                # answer.append( traveler.val )
-                answer[ traveler.val ] = True
+                answer[ traveler ] = traveler.val
                 traveler = None
 
             # leaf node
             else:
-                # answer.append( traveler.val ) # add traveler.val to answer
-                answer[ traveler.val ] = True
+                answer[ traveler ] = traveler.val
 
                 traveler = breadCrumbs.pop() # traveler = parent
 
                 # sever leaf node, so we don't revisit it
-                # if traveler.left and traveler.left.val == answer[-1]:
-                if traveler.left and answer[ traveler.left.val ]:
+                if traveler.left and answer[ traveler.left ]:
                     traveler.left = None
 
-                # elif traveler.right and traveler.right.val == answer[-1]:
-                elif traveler.right and answer[ traveler.right.val ]:
+                elif traveler.right and answer[ traveler.right ]:
                     traveler.right = None
 
         # return answer
-        return list(answer.keys())
+        return list(answer.values())
