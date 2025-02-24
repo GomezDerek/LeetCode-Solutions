@@ -23,18 +23,19 @@ var carFleet = function(target, position, speed) {
         fleets.push( new Fleet(pos, spd, time) );
     }
 
-    fleets.sort( (a,b) => a.pos - b.pos );
+    fleets.sort( (a,b) => b.pos - a.pos ); // sort in descending position
+ 
+    let endingFleets = [];
 
-    let endingFleets = 0;
+    fleets.forEach( currFleet => {
+        if (endingFleets.length == 0) endingFleets.push(currFleet);
 
-    fleets.forEach( (currFleet, i) => {
-        // if fleet will never catch up to next fleet
-        // it will reach the target without merging
-        const nextFleet = fleets[i+1];
-        if ( !nextFleet || currFleet.time > nextFleet.time ) {
-            endingFleets++;
+        // else if no collision
+        else if (currFleet.time > endingFleets[endingFleets.length-1].time) {
+            endingFleets.push(currFleet);
         }
+
     });
 
-    return endingFleets;
+    return endingFleets.length;
 };
