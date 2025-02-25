@@ -25,7 +25,7 @@ var largestRectangleArea = function(heights) {
         while( stack.length && currHeight <= stack[stack.length-1].height) {
             const prevBar = stack.pop();
 
-            maxArea = Math.max( maxArea, (i-prevBar.index)*prevBar.height );
+            maxArea = maxArea < (i-prevBar.index)*prevBar.height ? (i-prevBar.index)*prevBar.height : maxArea;
             
             // start of area interval shifts left to replace prevBar
             startIndex = prevBar.index;
@@ -35,11 +35,14 @@ var largestRectangleArea = function(heights) {
         stack.push({height: currHeight, index: startIndex});
     });
 
+    console.log(maxArea)
+
     // calculate intervals' areas going backwards
     while(stack.length) {
         const interval = stack.pop();
-        maxArea = Math.max(maxArea, (heights.length-interval.index)*interval.height );
+        maxArea = maxArea < (heights.length-interval.index)*interval.height ? (heights.length-interval.index)*interval.height : maxArea;
     }
 
+    console.log(maxArea);
     return maxArea;
 }
