@@ -38,13 +38,11 @@ var largestRectangleArea = function(heights) {
     });
 
     // calculate intervals' areas going backwards
-    let rightIndex = heights.length
     while(stack.length) {
         const interval = stack.pop();
-        const area = (rightIndex - interval.index) * interval.height;
+        const area = (heights.length - interval.index) * interval.height;
         maxArea = Math.max(area, maxArea);
 
-        rightIndex = interval.index-1;
     }
 
     return maxArea;
