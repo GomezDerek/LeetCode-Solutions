@@ -22,7 +22,7 @@ var largestRectangleArea = function(heights) {
      
         // when height decreases
         // calculate previous areas and replace bars so they match shorter height & create a new interval
-        while( stack.length && currHeight < stack[stack.length-1].height) {
+        while( stack.length && currHeight <= stack[stack.length-1].height) {
             const prevBar = stack.pop();
 
             const area = (i - prevBar.index) * prevBar.height;
