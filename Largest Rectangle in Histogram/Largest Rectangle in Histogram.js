@@ -3,46 +3,42 @@
  * @return {number}
  */
 var largestRectangleArea = function(heights) {
-    /* Greg Hogg's strategy
-    ** as we iterate through heights
-    **  push to (height,index) to stack as heights increase
-    **  when height decreases
-    **      calculate areas going backwards
-    **      and push to stack the indices' updated height for future calculations
-    ** until we reach the end
-    ** once we reach the end, calculate areas going backwards
-    */
+    // strategy
+    // as we iterate through the histogram
+    // add bars to our stack to track horizontal rectangles
+    // when the next bar is lower than prev
+        // calc prev rectangles' areas before capping their height at our new bar height
     
+    // when we finish our iteration, we can pop through the stack to calculate the rect areas
+
+
     const stack = [];
     let maxArea = 0;
 
-    heights.forEach( (currHeight, i) => {
+    // iterate and create the monotonic stack
+    heights.forEach( (currHeight, newIndex) => {
+        let leftIndex = newIndex;
         
-        let startIndex = i; // start of area interval
-     
-        // when height decreases
-        // calculate previous areas and replace bars so they match shorter height & create a new interval
-        while( stack.length && currHeight <= stack[stack.length-1].height) {
-            const prevBar = stack.pop();
+        // merge current bar with previous rects that are taller
+        while( stack.length && currHeight <= stack[stack.length-1].height ) {
+            const prevRect = stack.pop();
 
-            maxArea = maxArea < (i-prevBar.index)*prevBar.height ? (i-prevBar.index)*prevBar.height : maxArea;
-            
-            // start of area interval shifts left to replace prevBar
-            startIndex = prevBar.index;
+            // update maxArea if prevRect's area >
+            maxArea = Math.max(maxArea, prevRect.height*(newIndex-prevRect.index));
+
+            // cap rect at currHeight and merge rects
+            leftIndex = prevRect.index;
         }
 
-        // push new area interval
-        stack.push({height: currHeight, index: startIndex});
+        // always add either our new bar, or a new merged rect
+        stack.push({height: currHeight, index: leftIndex});
     });
 
-    console.log(maxArea)
-
-    // calculate intervals' areas going backwards
+    // pop through the monotonic stack
     while(stack.length) {
-        const interval = stack.pop();
-        maxArea = maxArea < (heights.length-interval.index)*interval.height ? (heights.length-interval.index)*interval.height : maxArea;
+        const rect = stack.pop();
+        maxArea = Math.max(maxArea, rect.height*(heights.length-rect.index)); // rect areas are always calculated until the end of the histogram chart
     }
 
-    console.log(maxArea);
     return maxArea;
-}
+};
