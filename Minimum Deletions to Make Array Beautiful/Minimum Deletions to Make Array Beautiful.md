@@ -1,4 +1,4 @@
-<h2><a href="https://leetcode.com/problems/minimum-deletions-to-make-array-beautiful/">84. Minimum Deletions to Make Array Beautiful</a></h2><h3>Medium</h3><hr><p>You are given a <strong>0-indexed</strong> integer array <code>nums</code>. The array <code>nums</code> is <strong>beautiful</strong> if:</p>
+<h3>Medium</h3><hr><p>You are given a <strong>0-indexed</strong> integer array <code>nums</code>. The array <code>nums</code> is <strong>beautiful</strong> if:</p>
 
 <ul>
 	<li><code>nums.length</code> is even.</li>
