@@ -8,8 +8,7 @@ var decodeString = function(s) {
     const stack = [];
 
     // iterate through input
-    for(let i=0; i<s.length; i++) {
-        const ch = s[i];
+    for(const ch of s) {
 
         // if ch is not ], add it to the stack
         if (ch != "]") stack.push(ch);
@@ -35,9 +34,5 @@ var decodeString = function(s) {
     }
 
     // combine stack elements
-    let answer = "";
-    for(let i=0; i<stack.length; i++) {
-        answer += stack[i];
-    }
-    return answer;
+    return stack.reduce( (acc,val) => acc+val, "");
 };
