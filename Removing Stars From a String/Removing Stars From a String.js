@@ -10,9 +10,5 @@ var removeStars = function(s) {
         else stack.push( s[i] );
     }
 
-    let answer = "";
-    for (let i=0; i<stack.length; i++) {
-        answer += stack[i];
-    }
-    return answer;
+    return stack.join("");
 };
