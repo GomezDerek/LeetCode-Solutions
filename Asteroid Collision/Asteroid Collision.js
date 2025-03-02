@@ -10,7 +10,8 @@ var asteroidCollision = function(asteroids) {
 
     const stack = [];
 
-    for (const astr of asteroids) {
+    for (let i=0; i<asteroids.length; i++) {
+        const astr = asteroids[i];
         
         let astrExploded = false;
 
