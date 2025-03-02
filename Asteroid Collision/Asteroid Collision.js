@@ -19,11 +19,11 @@ var asteroidCollision = function(asteroids) {
             const top = stack[stack.length-1];
 
             // no collision
-            if (top*astr > 0) break;
+            if ( !(top>0 && astr<0) ) break;
 
             // collision
             else {
-                astrExploded = astr <= top;
+                astrExploded = Math.abs(astr) <= Math.abs(top);
                 if ( Math.abs(top) <= Math.abs(astr) ) stack.pop();
             }
         }
