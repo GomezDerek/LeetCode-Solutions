@@ -33,19 +33,19 @@ var maxProfit = function(prices) {
     let max = prices[0];
     for (let i=1; i<prices.length; i++) {
         if (prices[i] < min) { // new minimum detected
-            best = Math.max( best, max - min ); // calc before resetting
+            best = (max-min) > best ? (max-min) : best;
             
             // reset the window
             min = prices[i];
             max = prices[i];
         }
-        else { // keep extending the window
-            max = Math.max( max, prices[i] );
+        else { // check for new max as we keep extending the window
+            max = prices[i] > max ? prices[i] : max;
         }
     }
 
     // one last calculation bc iteration only triggers calc when window is reset
-    best = Math.max( best, max - min );
+    best = (max-min) > best ? (max-min) : best;
 
     return best;
 };
