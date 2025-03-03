@@ -31,16 +31,16 @@ var maxProfit = function(prices) {
     let best = 0;
     let min = prices[0];
     let max = prices[0];
-    for (const price of prices) {
-        if (price < min) { // new minimum detected
+    for (let i=1; i<prices.length; i++) {
+        if (prices[i] < min) { // new minimum detected
             best = Math.max( best, max - min ); // calc before resetting
             
             // reset the window
-            min = price;
-            max = price;
+            min = prices[i];
+            max = prices[i];
         }
         else { // keep extending the window
-            max = Math.max( max, price );
+            max = Math.max( max, prices[i] );
         }
     }
 
