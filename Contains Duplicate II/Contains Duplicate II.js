@@ -21,20 +21,27 @@ var containsNearbyDuplicate = function(nums, k) {
     if (k==0) return false;
 
     let set = new Set();
+    let hash = new Map();
 
     // creating the first window [0,k)
     for (let i=1; i<k; i++) {
-        set.add(nums[i]);
+        hash.set(nums[i], 1);
     }
 
     // sliding window
     for (let i=0; i<nums.length; i++) {
-        set.add( nums[i+k] );
-        if ( set.has(nums[i]) ) {
+        hash.set(nums[i+k], hash.has(nums[i+k]) ? hash.get(nums[i+k])+1 : 1);
+        if ( hash.has(nums[i]) ) {
             return true;
         }
         else {
-            set.delete(nums[i+1]);
+            if ( hash.get(nums[i+1]) > 1) { // multiple values
+                // decrement
+                hash.set( nums[i+1], hash.get(nums[i+1])-1);
+            }
+            else {
+                hash.delete(nums[i+1])
+            }
         }
     }
 
