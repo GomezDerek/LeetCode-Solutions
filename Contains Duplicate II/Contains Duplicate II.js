@@ -4,48 +4,23 @@
  * @return {boolean}
  */
 var containsNearbyDuplicate = function(nums, k) {
-    /* 
-    brute force strategy O(n^2)
-    for each value, 
-    check all succeeding values up to k+1 for a value match
+    // inspired by Luis's solution
 
-    optimized solution O(n)
-    hashmap storing all values from (i, i+k) akak window
-    as we iterate, update the hashmap with values in the new window
-    
-    for each val,
-    update window's hashmap
-    check for duplicate in said hashmap 
-    */
+    let map = new Map();
 
-    if (k==0) return false;
-
-    let set = new Set();
-    let hash = new Map();
-
-    // creating the first window [0,k)
-    for (let i=1; i<k; i++) {
-        hash.set(nums[i], hash.has(nums[i]) ? hash.get(nums[i])+1: 1);
-    }
-
-    // sliding window
     for (let i=0; i<nums.length; i++) {
-        if (i+k < nums.length) hash.set(nums[i+k], hash.has(nums[i+k]) ? hash.get(nums[i+k])+1 : 1);
-        
-        if ( hash.has(nums[i]) ) {
-            return true;
+        if (!map.has(nums[i])) {
+            // add it if map doesn't have it
+            map.set(nums[i], i);
         }
-        else {
-            if ( hash.get(nums[i+1]) > 1) { // multiple values
-                // decrement
-                hash.set( nums[i+1], hash.get(nums[i+1])-1);
-            }
-            else {
-                hash.delete(nums[i+1])
-            }
+        else { // does exist
+            // size < k?
+            if ( Math.abs(i-map.get(nums[i])) <= k ) return true;
+            // else 👇
+            map.set(nums[i], i); // upping the index, bc duplicate found in window
         }
     }
 
-    // no duplicates ever found
+    // if none of that worked
     return false;
 };
