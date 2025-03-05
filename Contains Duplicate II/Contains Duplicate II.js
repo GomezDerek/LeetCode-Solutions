@@ -26,7 +26,7 @@ var containsNearbyDuplicate = function(nums, k) {
     }
 
     // sliding window
-    for (let i=0; i<=(nums.length-k); i++) {
+    for (let i=0; i<nums.length; i++) {
         set.add( nums[i+k] );
         if ( set.has(nums[i]) ) {
             return true;
