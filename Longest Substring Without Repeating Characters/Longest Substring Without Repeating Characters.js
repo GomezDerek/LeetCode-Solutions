@@ -17,9 +17,9 @@ var lengthOfLongestSubstring = function(s) {
     for (let i=0; i<s.length; i++) {
 
         // duplicate ch found
-        if ( map.has( s[i]) ) {
+        if ( map.has(s[i])) {
+            start = map.get(s[i])+1;
             map.set(s[i], i);
-            start = i;
         }
 
         // no duplicate, substring grows
