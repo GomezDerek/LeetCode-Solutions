@@ -25,12 +25,13 @@ var containsNearbyDuplicate = function(nums, k) {
 
     // creating the first window [0,k)
     for (let i=1; i<k; i++) {
-        hash.set(nums[i], 1);
+        hash.set(nums[i], hash.has(nums[i]) ? hash.get(nums[i])+1: 1);
     }
 
     // sliding window
     for (let i=0; i<nums.length; i++) {
-        hash.set(nums[i+k], hash.has(nums[i+k]) ? hash.get(nums[i+k])+1 : 1);
+        if (i+k < nums.length) hash.set(nums[i+k], hash.has(nums[i+k]) ? hash.get(nums[i+k])+1 : 1);
+        
         if ( hash.has(nums[i]) ) {
             return true;
         }
