@@ -18,8 +18,13 @@ var lengthOfLongestSubstring = function(s) {
 
         // duplicate ch found
         if ( map.has(s[i])) {
-            start = map.get(s[i])+1;
-            map.set(s[i], i);
+            // remove all chs from the map between start and 1st s[i]
+            for (let j=start; j<map.get(s[i]); j++) {
+                map.delete(s[j]);
+            }
+
+            start = map.get(s[i])+1; // set new substring start
+            map.set(s[i], i);        // reassign index for this ch
         }
 
         // no duplicate, substring grows
@@ -28,6 +33,6 @@ var lengthOfLongestSubstring = function(s) {
             maxL = Math.max(maxL, i-start+1);
         }
     }
-
+    console.log(maxL);
     return maxL;
 };
