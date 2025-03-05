@@ -3,13 +3,26 @@
  * @return {number}
  */
 var maxProfit = function(prices) {
-    let best = 0;
+    /*
+    brute force solution O(n^2)
+    as we iterate through prices,
+    compare against all future prices to find the best profit
+    
+    optimized solution O(n)
+    as we iterate through prices,
+    track the lowest price,
+    calculate profit of current price and lowest price tracked
+    */
 
-    for (let i=0; i<prices.length; i++) {
-        for (let j=i+1; j<prices.length; j++) {
-            if (prices[j]-prices[i] > best) best = prices[j]-prices[i];
-        }
-    }
+    let bestProfit = 0;
+    let lowestPrice = Infinity;
 
-    return best;
+    prices.forEach( price => {
+        lowestPrice = Math.min(lowestPrice, price);
+        bestProfit = Math.max(bestProfit, price-lowestPrice);
+    });
+
+    return bestProfit;
+
+
 };
