@@ -18,6 +18,8 @@ var containsNearbyDuplicate = function(nums, k) {
     check for duplicate in said hashmap 
     */
 
+    if (k==0) return false;
+
     let set = new Set();
 
     // creating the first window [0,k)
