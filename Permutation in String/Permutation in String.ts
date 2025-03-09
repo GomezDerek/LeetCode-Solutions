@@ -24,7 +24,7 @@ function checkInclusion(s1: string, s2: string): boolean {
     for (let i=0; i<s2.length; i++) {
         const ch = s2[i];
         // console.log(i, remFreqMap);
-        if (remFreqMap[ch] == undefined || remFreqMap[ch] < 0) {
+        if (remFreqMap[ch] == undefined || remFreqMap[ch] <= 0) {
             // reset freqMap
             remFreqMap = {...ogFreqMap};
         }
@@ -34,7 +34,10 @@ function checkInclusion(s1: string, s2: string): boolean {
             remFreqMap[ch]--;
             
             // if reaches 0
-            if ( remFreqMap[ch]==0 && Object.values(remFreqMap).every(freq => freq==0) ) return true;
+            if ( remFreqMap[ch]==0 && Object.values(remFreqMap).every(freq => freq==0) ) {
+                // console.log(i);
+                return true;
+            }
         }
 
     }
