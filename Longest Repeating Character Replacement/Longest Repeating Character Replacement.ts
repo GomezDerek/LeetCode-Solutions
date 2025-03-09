@@ -12,7 +12,7 @@ function characterReplacement(s: string, k: number): number {
     for (let i=0; i<s.length; i++) {
         let subsRemaining:number = k;
         let j=i+1;
-        while (subsRemaining > 0 || s[j] == s[i]) {
+        while ( (subsRemaining > 0 || s[j] == s[i]) && j<s.length) {
             if (s[j] != s[i]) subsRemaining--;
             maxLength = Math.max(maxLength, j-i+1);
             j++;
