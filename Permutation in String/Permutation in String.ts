@@ -13,6 +13,7 @@ function checkInclusion(s1: string, s2: string): boolean {
     true when all values of freqMap reach 0
   */  
 
+    // create the frequency maps
     const ogFreqMap:{[key:string]:number} = {};
     for (const ch of s1) { 
         ogFreqMap[ch] = ogFreqMap[ch] == undefined ? 1 : ogFreqMap[ch]+1;
@@ -30,7 +31,7 @@ function checkInclusion(s1: string, s2: string): boolean {
         if (remFreqMap[ch] == undefined) {
             // reset freqMap & l pointer
             remFreqMap = {...ogFreqMap};
-            l=i;
+            l=i+1;
         }
 
         // extra ch found
@@ -40,6 +41,9 @@ function checkInclusion(s1: string, s2: string): boolean {
                 remFreqMap[s2[l]]++;
                 l++;
             }
+            
+            // l is at ch, so move pointer just after it
+            // ch count is the same
             l++;
         }
 
