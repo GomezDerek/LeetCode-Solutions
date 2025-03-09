@@ -1,33 +1,40 @@
 function characterReplacement(s: string, k: number): number {
     /* 
-    O(n^2) solution
+    Greg Hogg solution
+    https://www.youtube.com/watch?v=tkNWKvxI3mU
+
+    O(n)
     as we iterate from left -> right
-    record the starting point
-    create the longest substring going to the right as possible
-    do the same for the left
+    record the frequency of each letter
+
+    ensure window is valid
+    by ensuring that k< non most frequent character
+
+    if not valid, iterate left and update freq
+    
+    update maxLength if window valid
     */
 
     let maxLength: number = 1;
+    let l:number = 0;
+    const freqMap: { [key:string]: number } = {};
 
-    for (let i=0; i<s.length; i++) {
-        let subsRemaining:number = k;
-        let j:number = i+1;
+    for (let r=0; r<s.length; r++) {
 
-        // expand right
-        while ( (subsRemaining > 0 || s[j] == s[i]) && j<s.length) {
-            if (s[j] != s[i]) subsRemaining--;
-            maxLength = Math.max(maxLength, j-i+1);
-            j++;
+        // increment freqMap
+        freqMap[s[r]] = freqMap[s[r]] == undefined ? 1 : freqMap[s[r]]+1;
+
+        // ensure window is valid
+        const maxFreqCount:number = Math.max(...Object.values(freqMap));
+
+        // if not valid, iterate left & update freq
+        while (k < (r-l+1 - maxFreqCount)) {
+            freqMap[s[l]] = freqMap[s[l]]-1;
+            l++;
         }
+        
+        maxLength = Math.max(maxLength, r-l+1);
 
-
-        // expand left
-        let l:number = i-1;
-        while( (subsRemaining > 0 || s[l] == s[i]) && l>=0) {
-            if (s[i] != s[l]) subsRemaining--;
-            maxLength = Math.max(maxLength, j-l);
-            l--;
-        }
     }
 
     return maxLength;
