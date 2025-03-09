@@ -18,20 +18,18 @@ function checkInclusion(s1: string, s2: string): boolean {
     for (const ch of s1) { 
         ogFreqMap[ch] = ogFreqMap[ch] == undefined ? 1 : ogFreqMap[ch]+1;
     }
-    // console.log(ogFreqMap);
 
     let remFreqMap:{[key:string]:number} = {...ogFreqMap};
 
     let l:number = 0;
-    for (let i=0; i<s2.length; i++) {
-        const ch = s2[i];
-        // console.log(i, remFreqMap);
+    for (let r=0; r<s2.length; r++) {
+        const ch = s2[r];
 
         // ch not in s1
         if (remFreqMap[ch] == undefined) {
             // reset freqMap & l pointer
             remFreqMap = {...ogFreqMap};
-            l=i+1;
+            l=r+1; // move l just after i, because i is invalid
         }
 
         // extra ch found
@@ -53,8 +51,7 @@ function checkInclusion(s1: string, s2: string): boolean {
             remFreqMap[ch]--;
             
             // if reaches 0
-            if ( remFreqMap[ch]==0 && Object.values(remFreqMap).every(freq => freq==0) ) {
-                // console.log(i);
+            if ( r-l+1 == s1.length && Object.values(remFreqMap).every(freq => freq==0) ) {
                 return true;
             }
         }
