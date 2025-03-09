@@ -15,20 +15,20 @@ function characterReplacement(s: string, k: number): number {
     update maxLength if window valid
     */
 
-    let maxLength: number = 1;
+    let maxLength:number = 1;
+    let maxCount:number = 0;
     let l:number = 0;
-    const freqArr: number[] = new Array(26).fill(0);
+    const freqArr:number[] = new Array(26).fill(0);
 
     for (let r=0; r<s.length; r++) {
 
         // increment freqArr
         freqArr[ s.charCodeAt(r) -65 ] ++;
+        maxCount = Math.max(maxCount, freqArr[ s.charCodeAt(r) -65 ]);
 
         // ensure window is valid
-        const maxFreqCount:number = Math.max(...freqArr);
-
-        // if not valid, iterate left & update freq
-        while (k < (r-l+1 - maxFreqCount)) {
+        while (k < (r-l+1 - maxCount)) {
+            // if not valid, iterate left & update freq
             freqArr[ s.charCodeAt(l) -65 ] --;
             l++;
         }
