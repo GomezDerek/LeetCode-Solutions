@@ -17,19 +17,19 @@ function characterReplacement(s: string, k: number): number {
 
     let maxLength: number = 1;
     let l:number = 0;
-    const freqMap: { [key:string]: number } = {};
+    const freqArr: number[] = new Array(26).fill(0);
 
     for (let r=0; r<s.length; r++) {
 
-        // increment freqMap
-        freqMap[s[r]] = freqMap[s[r]] == undefined ? 1 : freqMap[s[r]]+1;
+        // increment freqArr
+        freqArr[ s.charCodeAt(r) -65 ] ++;
 
         // ensure window is valid
-        const maxFreqCount:number = Math.max(...Object.values(freqMap));
+        const maxFreqCount:number = Math.max(...freqArr);
 
         // if not valid, iterate left & update freq
         while (k < (r-l+1 - maxFreqCount)) {
-            freqMap[s[l]] = freqMap[s[l]]-1;
+            freqArr[ s.charCodeAt(l) -65 ] --;
             l++;
         }
         
