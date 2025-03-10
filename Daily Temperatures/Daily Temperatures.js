@@ -2,27 +2,36 @@
  * @param {number[]} temperatures
  * @return {number[]}
  */
-var dailyTemperatures = function (temperatures) {
+var dailyTemperatures = function(temperatures) {
+    /*
+        STRATEGY O(n)
+        keep a stack of temperatures that need a warmer day
+        
+        as we iterate from left -> right
+        if currTemp > stack.top()
+        output [top.index] = top.temp;
+        continue until currTemp < top
 
-    // forward iteration with ascending monotonic stack
+        after iterating,
+        all temps in stack never found a warmer day,
+        ~~assign all their outputs to 0~~
+        nvm they're already 0 if we initialize our output with .fill(0)
+    */
+
+    const output = new Array(temperatures.length).fill(0);
+
     const stack = [];
-    const answer = new Array(temperatures.length).fill(0);
 
-    for(let i=0; i<temperatures.length; i++) {
-
-        // while stack not empty
-        while(stack.length) {
-
-            // currTemp is hotter than stack top's temperature
-            if( temperatures[i] > temperatures[ stack[stack.length-1] ] ) {
-                answer[ stack[stack.length-1] ] = i - stack.pop();
-            }
-            else break; // no chance currTemp can be hotter than the rest of the stack
+    for (let i=0; i<temperatures.length; i++) {
+        const currTemp = temperatures[i];
+        
+        while (stack.length && currTemp > stack[stack.length-1].temp) {
+            const top = stack.pop();
+            output[top.index] = i-top.index;
         }
 
-        // always add currTempIndex to stack
-        stack.push(i);
+        stack.push({index: i, temp: currTemp});
     }
 
-    return answer;
+    return output;
 };
