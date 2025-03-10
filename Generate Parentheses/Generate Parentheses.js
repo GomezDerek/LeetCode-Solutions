@@ -17,12 +17,14 @@ var generateParenthesis = function(n) {
 
     function recursion(str, open, close) {
         // base case(s)
-        if (close==n) combos.push(str);
+        if (close==n) {
+            combos.push(str);
+            return;
+        }
 
         // recursive call(s)
         if (open < n) recursion(str+"(", open+1, close);
         if (close < open) recursion(str+")", open, close+1);
-
     }
 
     recursion("",0,0);
