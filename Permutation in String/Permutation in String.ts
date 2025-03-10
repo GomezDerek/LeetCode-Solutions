@@ -21,6 +21,8 @@ function checkInclusion(s1: string, s2: string): boolean {
 
     let remFreqMap:{[key:string]:number} = {...ogFreqMap};
 
+    let remDistinctChars = Object.keys(ogFreqMap).length;
+
     let l:number = 0;
     for (let r=0; r<s2.length; r++) {
         const ch = s2[r];
@@ -29,6 +31,7 @@ function checkInclusion(s1: string, s2: string): boolean {
         if (remFreqMap[ch] == undefined) {
             // reset freqMap & l pointer
             remFreqMap = {...ogFreqMap};
+            remDistinctChars = Object.keys(ogFreqMap).length;
             l=r+1; // move l just after i, because i is invalid
         }
 
@@ -36,6 +39,7 @@ function checkInclusion(s1: string, s2: string): boolean {
         else if (remFreqMap[ch] == 0) {
             // shift l to exclude first ch
             while(s2[l] != ch) {
+                if (remFreqMap[s2[l]]==0) remDistinctChars++;
                 remFreqMap[s2[l]]++;
                 l++;
             }
@@ -51,9 +55,10 @@ function checkInclusion(s1: string, s2: string): boolean {
             remFreqMap[ch]--;
             
             // if reaches 0
-            if ( r-l+1 == s1.length && Object.values(remFreqMap).every(freq => freq==0) ) {
-                return true;
-            }
+            if (remFreqMap[ch]==0) remDistinctChars--;
+
+            // all characters have been used
+            if(remDistinctChars == 0) return true;
         }
 
     }
