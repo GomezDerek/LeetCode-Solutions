@@ -25,12 +25,12 @@ var dailyTemperatures = function(temperatures) {
     for (let i=0; i<temperatures.length; i++) {
         const currTemp = temperatures[i];
         
-        while (stack.length && currTemp > stack[stack.length-1].temp) {
+        while (stack.length && currTemp > temperatures[stack[stack.length-1]]) {
             const top = stack.pop();
-            output[top.index] = i-top.index;
+            output[top] = i-top;
         }
 
-        stack.push({index: i, temp: currTemp});
+        stack.push(i)
     }
 
     return output;
