@@ -21,7 +21,7 @@ var minWindow = function(s, t) {
     // edge case optimization
     if (s.length < t.length) return ""
 
-    let minSubstr = s;
+    let minSubstr = [0, s.length-1];
 
     // create the frequency map
     const tFreq = {};
@@ -57,7 +57,7 @@ var minWindow = function(s, t) {
         // separate if() to include the 1st iteration it becomes valid
         if (distinctChRemainder == 0) {
             shrinkWindow();
-            minSubstr = r-l+1 < minSubstr.length ? s.slice(l,r+1) : minSubstr;
+            minSubstr = r-l < minSubstr[1] - minSubstr[0] ? [l,r] : minSubstr;
         }
     }
 
@@ -74,5 +74,5 @@ var minWindow = function(s, t) {
     }
 
     // if not all of ch in t were in s, return an empty string
-    return distinctChRemainder == 0 ? minSubstr : "";
+    return distinctChRemainder == 0 ? s.slice(minSubstr[0],minSubstr[1]+1) : "";
 };
