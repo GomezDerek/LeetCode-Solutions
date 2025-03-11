@@ -56,7 +56,7 @@ var minWindow = function(s, t) {
 
         // separate if() to include the 1st iteration it becomes valid
         if (distinctChRemainder == 0) {
-            minSubstr = l-r+1 < minSubstr.length ? s.slice(l,r+1) : minSubstr;
+            minSubstr = r-l+1 < minSubstr.length ? s.slice(l,r+1) : minSubstr;
         }
     }
 
