@@ -5,44 +5,61 @@
  */
 var minWindow = function(s, t) {
     /* 
-    O(n^2) STRATEGY
-    for every ch in s
-    try to build a window that has all of the characters in T
+    O(N) STRATEGY
+    as we iterate from left -> right
+    build the window
+    window is valid when distinctCharsRemaining == 0
+    when the window, is valid: compare against current minSubstr
+
+    when we already have a valid window && we find a ch from t:
+    trim left elements to create the smallest valid window
+    by trimming non-t chars, and extra t-chars
+
+    t-chars are extra if count < 0. essential if count == 0
     */
 
     let minSubstr = s;
 
     const tFreq = {};
-    for (ch of t) tFreq[ch] = tFreq[ch] == undefined ? 1 : tFreq[ch]+1;
+    for (ch of t) tFreq[ch] = tFreq[ch] ? tFreq[ch]+1 : 1;
 
-    let chRemaining = {...tFreq};
+    let l=0;
+    let distinctChRemainder = Object.keys(tFreq).length;
+    // iterate left to right
+    for (let r=0; r<s.length; r++) {
 
-    // for every ch in s
-    for (let i=0; i<s.length; i++) {
-        let distinctChLeft = Object.keys(chRemaining).length;
-        
-        // for every remaining ch in s
-        for (let j=i; j<s.length; j++) {
-            const ch = s[j];
-            if (chRemaining[ch] > 0) { // && != undefined
-                chRemaining[ch]--; // decrement
-
-                if (chRemaining[ch]==0) distinctChLeft--;
+        const ch = s[r];
+        // t-chars still absent from window
+        if (distinctChRemainder>0) {
+            if (tFreq[ch] != undefined) { // t-ch found
+                tFreq[ch]--;
+                if (tFreq[ch]==0) distinctChRemainder--; // all instances of t-ch are now in window
             }
-
-            // first valid substring found!
-            if (distinctChLeft == 0) {
-                // replace minSubstr if substr is shorter
-                const substr = s.slice(i,j+1);
-                minSubstr = substr.length < minSubstr.length ? substr : minSubstr;
-            }
-
-            // s doesn't contain all of t's letters, so substr doesn't exist
-    
-            else if (i==0 && j==s.length-1 && distinctChLeft>0) return "";
         }
-        chRemaining = {...tFreq}; // reset the checklist
+
+        // all t-chars in window!
+        else {
+            // extra t-ch found
+            if (tFreq[ch] != undefined) {
+                tFreq[ch]--;
+                
+                // shrink the window!
+                let lCh = s[l];
+                while (tFreq[lCh] == undefined || tFreq[lCh] < 0) {
+                    if ( tFreq[lCh] < 0 ) {
+                        tFreq[lCh]++;
+                    }
+                    lCh = s[++l]; // increment l
+                }
+            }
+        }
+
+        // separate if() to include the 1st iteration it becomes valid
+        if (distinctChRemainder == 0) {
+            minSubstr = l-r+1 < minSubstr.length ? s.slice(l,r+1) : minSubstr;
+        }
     }
 
-    return minSubstr;
+    // if not all of ch in t were in s, return empty string
+    return distinctChRemainder == 0 ? minSubstr : "";
 };
