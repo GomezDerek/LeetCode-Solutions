@@ -10,8 +10,6 @@ var minWindow = function(s, t) {
     try to build a window that has all of the characters in T
     */
 
-    
-
     let minSubstr = s;
 
     const tFreq = {};
@@ -19,12 +17,6 @@ var minWindow = function(s, t) {
 
     let chRemaining = {...tFreq};
 
-    // edge cases
-    // substr doesn't exist because s.length < t.length
-    if (s.length < t.length) return "";
-
-    // s doesn't contain all of t's letters, so substr doesn't exist
-    
     // for every ch in s
     for (let i=0; i<s.length; i++) {
         let distinctChLeft = Object.keys(chRemaining).length;
@@ -44,6 +36,10 @@ var minWindow = function(s, t) {
                 const substr = s.slice(i,j+1);
                 minSubstr = substr.length < minSubstr.length ? substr : minSubstr;
             }
+
+            // s doesn't contain all of t's letters, so substr doesn't exist
+    
+            else if (i==0 && j==s.length-1 && distinctChLeft>0) return "";
         }
         chRemaining = {...tFreq}; // reset the checklist
     }
