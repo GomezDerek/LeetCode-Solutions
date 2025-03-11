@@ -20,15 +20,21 @@ var minWindow = function(s, t) {
 
     let minSubstr = s;
 
+    // create the frequency map
     const tFreq = {};
     for (ch of t) tFreq[ch] = tFreq[ch] ? tFreq[ch]+1 : 1;
 
+    // l pointer
     let l=0;
+
+    // track if we've found ALL instances of a ch
     let distinctChRemainder = Object.keys(tFreq).length;
+
     // iterate left to right
     for (let r=0; r<s.length; r++) {
 
         const ch = s[r];
+
         // t-chars still absent from window
         if (distinctChRemainder>0) {
             if (tFreq[ch] != undefined) { // t-ch found
@@ -42,24 +48,28 @@ var minWindow = function(s, t) {
             // extra t-ch found
             if (tFreq[ch] != undefined) {
                 tFreq[ch]--;
-                
-                // shrink the window!
-                let lCh = s[l];
-                while (tFreq[lCh] == undefined || tFreq[lCh] < 0) {
-                    if ( tFreq[lCh] < 0 ) {
-                        tFreq[lCh]++;
-                    }
-                    lCh = s[++l]; // increment l
-                }
             }
         }
 
         // separate if() to include the 1st iteration it becomes valid
         if (distinctChRemainder == 0) {
+            shrinkWindow();
             minSubstr = r-l+1 < minSubstr.length ? s.slice(l,r+1) : minSubstr;
         }
     }
 
-    // if not all of ch in t were in s, return empty string
+    
+    // helper function to shrink the window (left side)
+    function shrinkWindow() {
+        let ch = s[l];
+        while (tFreq[ch] == undefined || tFreq[ch] < 0) {
+            if ( tFreq[ch] < 0 ) {
+                tFreq[ch]++;
+            }
+            ch = s[++l]; // increment l
+        }
+    }
+
+    // if not all of ch in t were in s, return an empty string
     return distinctChRemainder == 0 ? minSubstr : "";
 };
