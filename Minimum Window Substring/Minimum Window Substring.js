@@ -30,6 +30,8 @@ var minWindow = function(s, t) {
     // track if we've found ALL instances of a ch
     let distinctChRemainder = Object.keys(tFreq).length;
 
+    let firstFound = false;
+
     // iterate left to right
     for (let r=0; r<s.length; r++) {
 
@@ -40,6 +42,11 @@ var minWindow = function(s, t) {
             if (tFreq[ch] != undefined) { // t-ch found
                 tFreq[ch]--;
                 if (tFreq[ch]==0) distinctChRemainder--; // all instances of t-ch are now in window
+                
+                if (!firstFound) {
+                    firstFound = true;
+                    shrinkWindow();
+                }
             }
         }
 
@@ -48,12 +55,12 @@ var minWindow = function(s, t) {
             // extra t-ch found
             if (tFreq[ch] != undefined) {
                 tFreq[ch]--;
+                shrinkWindow();
             }
         }
 
         // separate if() to include the 1st iteration it becomes valid
         if (distinctChRemainder == 0) {
-            shrinkWindow();
             minSubstr = r-l+1 < minSubstr.length ? s.slice(l,r+1) : minSubstr;
         }
     }
