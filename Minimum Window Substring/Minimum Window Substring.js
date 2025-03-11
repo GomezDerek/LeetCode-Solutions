@@ -38,20 +38,12 @@ var minWindow = function(s, t) {
 
         const ch = s[r];
 
-        // t-chars still absent from window
-        if (distinctChRemainder>0) {
-            if (tFreq[ch] != undefined) { // t-ch found
-                tFreq[ch]--;
-                if (tFreq[ch]==0) distinctChRemainder--; // all instances of t-ch are now in window
-            }
-        }
+        // ch in t found!
+        if (tFreq[ch] != undefined) {
+            tFreq[ch]--;
 
-        // all t-chars in window!
-        else {
-            // extra t-ch found
-            if (tFreq[ch] != undefined) {
-                tFreq[ch]--;
-            }
+            // all instances of t-ch are now in window
+            if (tFreq[ch]==0) distinctChRemainder--;
         }
 
         // separate if() to include the 1st iteration it becomes valid
