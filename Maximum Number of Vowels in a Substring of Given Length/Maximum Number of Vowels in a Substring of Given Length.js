@@ -32,14 +32,15 @@ var maxVowels = function(s, k) {
     maxVowels = currVowels;
 
     // iteration to slide window
-    for (let right=k-1; right<s.length; right++) {
+    for (let right=k; right<s.length; right++) {
         // update left
-        if ( isVowel[s[left]] ) currVowels--;
+        if ( isVowel[ s[left] ] ) currVowels--;
         left++;
 
         // update right
-        right++;
-        if ( isVowel[s[right]] ) currVowels++;
+        // for loop increments right
+        // right++;
+        if ( isVowel[ s[right] ] ) currVowels++;
 
         // window has been slid
         maxVowels = Math.max(currVowels, maxVowels);
