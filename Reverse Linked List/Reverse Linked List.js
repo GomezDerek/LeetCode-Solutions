@@ -11,7 +11,7 @@
  */
 var reverseList = function(head) {
     // base case(s)
-    if (!head.next || !head) return head; // tail found
+    if (!head || !head.next) return head; // tail found
 
     // recursive call
     let reversedHead = reverseList(head.next);
