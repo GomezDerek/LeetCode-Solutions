@@ -11,21 +11,14 @@
  */
 var reverseList = function(head) {
     // base case(s)
-    if (!head || !head.next) return head; // tail found
+    if (!head) return null;
+    if (!head.next) return head; // tail found
 
-    // recursive call
     let reversedHead = reverseList(head.next);
 
-    // STEPS FOR REVERSAL
-    // 1. store nextNode
     let nextNode = head.next;
-
-    // 2. remove nextNode from head.next
     head.next = null;
-
-    // 3. nextNode.next = head
     nextNode.next = head;
 
-    // return currently reversed LL
     return reversedHead;
 };
