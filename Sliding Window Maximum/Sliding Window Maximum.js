@@ -15,7 +15,20 @@ var maxSlidingWindow = function(nums, k) {
 
     let l = 0;
     for (let r=k; r<nums.length; r++) {
-        curMax = Math.max(nums[r], curMax);
+
+        if (nums[l] == curMax) {
+            // O(k) process
+            let newMax = -Infinity;
+            for(let i=l+1; i<=r; i++) {
+                newMax = Math.max(nums[i],newMax);
+            }
+            curMax = newMax;
+        }
+        else {
+            curMax = Math.max(nums[r], curMax);
+        }
+
+
         output.push(curMax);
         l++;
     }
