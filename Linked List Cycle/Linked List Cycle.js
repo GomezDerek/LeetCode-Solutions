@@ -11,25 +11,9 @@
  * @return {boolean}
  */
 var hasCycle = function(head) {
-    /*
-    STRATEGY
-        add a visited property to each ListNode.
-        cycle detected if traveling node finds a visited node
-    */
-
-    let traveler = head;
-
-    while(traveler) {
-        
-        // cycle detected, node already visited
-        if (traveler.visited) return true;
-
-        // add visited property
-        else traveler.visited = true;
-
-        traveler = traveler.next;
-    }
-
-    // no cycle, traveler found end of LL
-    return false;
+    // recursive solution
+    if (!head) return false;       // non-cyclical bc end of LL reached
+    if (head.visited) return true; // cycle detected, node already visited
+    else head.visited = true;      // mark node as visited
+    return hasCycle(head.next);
 };
