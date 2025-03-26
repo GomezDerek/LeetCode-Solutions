@@ -13,27 +13,23 @@
 var hasCycle = function(head) {
     /*
     STRATEGY
-    two pointer, tortoise-hare strategy
-    tortoise moves 1 node at a time
-    hare moves 2 nodes at a time
-    if both point to the same node, we have a cycle
-    no cycle if hare reaches null
+        add a visited property to each ListNode.
+        cycle detected if traveling node finds a visited node
     */
 
-    let tortoise = head;
-    let hare = head;
+    let traveler = head;
 
-    // until hare reached end of LL and becomes null
-    while (hare) {
-        tortoise = tortoise.next;
+    while(traveler) {
+        
+        // cycle detected, node already visited
+        if (traveler.visited) return true;
 
-        // if we can't move hare, while is exited
-        try { hare = hare.next.next; }
-        catch { break; }
+        // add visited property
+        else traveler.visited = true;
 
-        if (tortoise == hare) return true;
+        traveler = traveler.next;
     }
 
-    // hare found end of LL, TF LL isn't cycle
-    return false; 
+    // no cycle, traveler found end of LL
+    return false;
 };
