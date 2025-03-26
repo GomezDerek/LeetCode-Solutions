@@ -11,9 +11,17 @@
  * @return {boolean}
  */
 var hasCycle = function(head) {
-    // recursive solution
-    if (!head) return false;       // non-cyclical bc end of LL reached
-    if (head.visited) return true; // cycle detected, node already visited
-    else head.visited = true;      // mark node as visited
-    return hasCycle(head.next);
+    // copied and pasted from someone else's solution in 0.05% fastest runtimes
+    let slow = head
+    let fast = head
+
+    while (fast && fast.next) {
+        slow = slow.next
+        fast = fast.next.next
+
+        if (slow === fast) return true
+    }
+
+    return false
+    
 };
