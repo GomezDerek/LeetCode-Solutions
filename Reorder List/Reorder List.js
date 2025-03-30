@@ -44,9 +44,7 @@ var reorderList = function(head) {
         const leftNode = a[i];
         const rightNode = a[n-i-1]; 
 
-        // if n%2 == 1, and n is center
-        if (leftNode == rightNode) leftNode.next = null;
-        else leftNode.next = rightNode;
+        leftNode.next = rightNode;
 
         // if rightNode is not nth node
         if (i>0) {
