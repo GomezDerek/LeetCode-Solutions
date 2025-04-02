@@ -10,36 +10,54 @@
  * @return {void} Do not return anything, modify head in-place instead.
  */
 var reorderList = function(head) {
-    /*
-    STRATEGY
-    create an array of the nodes
-    array indices track original order
-    iterate through array and reassign node.next pointers
-
-
-    Runtime:   O(2N) -> O(N)
-    Spacetime: O(N)
+    /* 
+    NEETCODE STRATEGY
+    1. tortoise-hare to find the list's halfway point
+    2. reverse 2nd half of list
+    3. merge the two halves
     */
 
-    // create and fill array
-    const a = [];
-    let n = 0;
-    while (head) {
-        a.push(head);
-        head = head.next;
-        n++;
+    // 1. tortoise-hare to find the list's halfway point
+    let tortoise = head;
+    let hare = head.next;
+
+    while(hare && hare.next) {
+        tortoise = tortoise.next;
+        hare = hare.next.next;
     }
 
-    // reorder!
-    for (let i=0; i<n/2; i++) {
-        const leftNode = a[i];
-        const rightNode = a[n-i-1]; 
+    // 2. reverse the 2nd half of the list
+    // 2nd half starts at tortoise.next
+    function reverse(curr) {
+        // base case(s)
+        if (curr.next == null) return curr;
 
-        rightNode.next = leftNode.next;
-        leftNode.next = rightNode;
+        // recursive call
+        const reversedHead = reverse(curr.next);
+
+        // reversal operation
+        const nextNode = curr.next;
+        curr.next = null;
+        nextNode.next = curr;
+
+        // return recursive call
+        return reversedHead;
     }
+    // 2nd half starts at tortoise.next
+    let reversedHead = reverse(tortoise.next); 
 
-    // new tail will point at null, to avoid cycle
-    // a[ n//2 ] returns the middle node (& new tail) from the original list
-    a[ parseInt(n/2) ].next = null;
+    // separate 1st half from the 2nd
+    tortoise.next = null;
+
+    // 3. merge the two halves
+    while(reversedHead) { // reversedHalf.length <= firstHalf.length
+        const nextHead = head.next;
+        const nextReversedHead = reversedHead.next;
+
+        head.next = reversedHead;
+        reversedHead.next = nextHead;
+
+        head = nextHead;
+        reversedHead = nextReversedHead;
+    }
 };
