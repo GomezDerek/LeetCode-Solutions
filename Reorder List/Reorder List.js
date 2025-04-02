@@ -21,6 +21,8 @@ var reorderList = function(head) {
     let tortoise = head;
     let hare = head.next;
 
+    if (!hare) return // edge case: only 1 node in LL
+
     while(hare && hare.next) {
         tortoise = tortoise.next;
         hare = hare.next.next;
