@@ -14,32 +14,44 @@
 var copyRandomList = function(head) {
     /*
     STRATEGY
-    create a hashmap {originalNode: dupeNode}
-    iterate through the hashmap
-        dupeNode.next = hash[ originalNode.next.val ]
-        dupeNode.randome = hash[ originalNode.random.val ]
+    interweaving strategy from Hints 3 & 4
     */
 
-    const ogHead = head;
-    const hash = new Map();
+    // weave new nodes into original list
+    let traveler = head;
+    while (traveler) {
+        const cachedNext = traveler.next;
+        const copy = new Node(traveler.val, cachedNext, null);
 
-    // iterate original and populate hashMap
-    while (head) {
-        const dupeNode = new Node(head.val, null, null);
-        hash.set(head, dupeNode);
-        head = head.next;
+        traveler.next = copy;  // interweaves copy into original
+        traveler = cachedNext; // iterate traveler pointer
+    }
+    const copyHead = head.next;
+
+    // set the random pointers
+    // NOTE: we do this before setting next pointers because
+    //       setting next pointers will unweave the lists,
+    traveler = head;
+    while (traveler) {
+        const ogRandom = traveler.random;
+
+        const copy = traveler.next;
+        copy.random = ogRandom != null ? ogRandom.next : null;
+
+        traveler = copy.next;
     }
 
-    // iterate through the hashMap
-    for ([og, dupe] of hash) {
-        // console.log(og.val, dupe.val);
-        const ogNext = og.next;
-        const ogRand = og.random;
-        // console.log(og.val, ogNext ? ogNext.val : null, ogRand ? ogRand.val : null, '\n');
+    // set the next pointers
+    traveler = head;
+    while (traveler) {
+        const copy = traveler.next;
+        const ogNext = copy.next;
 
-        dupe.next = ogNext != null ? hash.get(ogNext) : null;
-        dupe.random = ogRand != null ? hash.get(ogRand) : null;
+        copy.next = ogNext != null ? ogNext.next : null;
+        traveler.next = ogNext;
+
+        traveler = ogNext;
     }
 
-    return hash.get(ogHead);
+    return copyHead;
 };
