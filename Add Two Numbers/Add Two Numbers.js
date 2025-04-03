@@ -27,67 +27,38 @@ var addTwoNumbers = function(l1, l2) {
     EDIT: bc lengths may differ, just reverse the lists before iterating
 
     NOTE: l1 & l2 lengths may differ
-          l1 & l1 are non-empty
-          return list is not backwards\
+          l1 & l2 are non-empty
+          return list is not backwards
     */
 
-    // reverse both lists 1st
-    function reverseLL(cur) {
-        // base case
-        if (!cur.next) return cur; // cur is tail
+    // giving up on my optimized solution at minute 50
+    // here is the implementation of the naive solution!
 
-        // recursive call
-        const reversed = reverseLL(cur.next);
+    const val1 = getValStr(l1);
+    const val2 = getValStr(l2);
 
-        // operation
-        const cachedNext = cur.next;
-        cachedNext.next = cur;
-        cur.next = null;
+    function getValStr(node) {
+        // base case(s)
+        if (!node) {
+            return "";
+        }
 
-        // return
-        return reversed;
-    }
-
-    let rl1 = reverseLL(l1);
-    let rl2 = reverseLL(l2);
-
+        // recursive call(s)
+        const valStr = getValStr(node.next);
     
-    const dummyNode = new ListNode(null);
-    let dummyPtr = dummyNode;
-    let carry = 0;
-
-    // iterate through both lists
-    while (rl1 || rl2) {
-        // calc sum
-        const val1 = rl1 ? rl1.val : 0;
-        const val2 = rl2 ? rl2.val : 0;
-        let sum = val1 + val2 + carry;
-        
-        // adjust if >9
-        if (sum > 9) {
-            // console.log('\nsum > 9, sum = ',sum);
-            let strSum = sum+"";
-            const strCarry = strSum.slice(0,strSum.length-1);
-            strSum = strSum.slice(strSum.length-1);
-            
-            carry = parseInt(strCarry);
-            sum = parseInt(strSum);
-            // console.log(`adjusted:\nsum = ${sum}\ncarry = ${carry}`);
-        }
-        else {
-            carry = 0;
-        }
-
-        // add to sumList
-        dummyPtr.next = new ListNode(sum)
-        dummyPtr = dummyPtr.next;
-
-        // iterate lists
-        if (rl1) rl1 = rl1.next;
-        if (rl2) rl2 = rl2.next;
+        // return
+        return valStr + node.val
     }
 
-    if (carry>0) dummyPtr.next = new ListNode(carry);
+    const sum = parseInt(val1) + parseInt(val2);
+    const strSum = sum + "";
 
-    return dummyNode.next;
+    // create sumList backwards
+    let sumHead = null;
+    for(ch of strSum) {
+        const newHead = new ListNode(parseInt(ch), sumHead);
+        sumHead = newHead;
+    }
+
+    return sumHead;
 };
