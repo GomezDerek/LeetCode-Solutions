@@ -17,6 +17,9 @@ var copyRandomList = function(head) {
     interweaving strategy from Hints 3 & 4
     */
 
+    // edge case: empty list
+    if (!head) return null;
+
     // weave new nodes into original list
     let traveler = head;
     while (traveler) {
