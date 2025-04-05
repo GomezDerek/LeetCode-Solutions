@@ -34,23 +34,19 @@ var addTwoNumbers = function(l1, l2) {
     // giving up on my optimized solution at minute 50
     // here is the implementation of the naive solution!
 
-    const val1 = getValStr(l1);
-    const val2 = getValStr(l2);
+    // revisiting at 120 min, like 3 days later
 
+    const val1 = BigInt(getValStr(l1)); 
+    const val2 = BigInt(getValStr(l2));
+
+    // returns arg lists' vals as strs
     function getValStr(node) {
-        // base case(s)
-        if (!node) {
-            return "";
-        }
-
-        // recursive call(s)
+        if (!node) return "";
         const valStr = getValStr(node.next);
-    
-        // return
         return valStr + node.val
     }
 
-    const sum = parseInt(val1) + parseInt(val2);
+    const sum = val1+val2;
     const strSum = sum + "";
 
     // create sumList backwards
@@ -60,5 +56,6 @@ var addTwoNumbers = function(l1, l2) {
         sumHead = newHead;
     }
 
+    // return sumHead;
     return sumHead;
 };
