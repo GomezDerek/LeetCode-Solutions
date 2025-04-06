@@ -42,13 +42,14 @@ var addTwoNumbers = function(l1, l2) {
         t1 = t1.next;
         t2 = t2.next;
     }
-    console.log(l1);
-    console.log(l2);
+    // console.log(l1);
+    // console.log(l2);
 
     const sumListHat = new ListNode();
     let sumList = sumListHat;
     let carry = 0;
 
+    // 3. add the lists, create the sum list
     while (l1 && l2) {
         let sum = l1.val + l2.val + carry;
 
