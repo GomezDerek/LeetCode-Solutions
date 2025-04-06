@@ -13,49 +13,64 @@
 var addTwoNumbers = function(l1, l2) {
     /*
     STRATEGY
+    1. make both lists the same length
+        add trailing 0's to shorter list
+        to align digits' places
 
-    naive solution
-    iterate through each list, to build each int
-    calc sum of ints
-    create new linked list to represent the sum
+    2. reverse both lists
 
-    optimal solution
-    create new linked list as we iterate through l1 & l2
-    use recursion to iterate backwards
-    create a variable to store the number to carry when node sum > 10
+    3. add the lists, create the sum list
+        simultaneously iterate through both lists
+        append the sum of both nodes to the sum list
+        use an external var to track carry
 
-    EDIT: bc lengths may differ, just reverse the lists before iterating
-
-    NOTE: l1 & l2 lengths may differ
-          l1 & l2 are non-empty
-          return list is not backwards
+    NOTE: minute 42 - just realized that the answer needs to be reversed, too 😖
     */
 
-    // giving up on my optimized solution at minute 50
-    // here is the implementation of the naive solution!
+    // 1. make both lists the same length
+    let t1 = l1;
+    let t2 = l2;
 
-    // revisiting at 120 min, like 3 days later
+    while (t1.next || t2.next) {
+        if (!t1.next && t2.next) {
+            t1.next = new ListNode(0,null);
+        }
+        else if (t1.next && !t2.next) {
+            t2.next = new ListNode(0,null);
+        }
 
-    const val1 = BigInt(getValStr(l1)); 
-    const val2 = BigInt(getValStr(l2));
+        t1 = t1.next;
+        t2 = t2.next;
+    }
+    console.log(l1);
+    console.log(l2);
 
-    // returns arg lists' vals as strs
-    function getValStr(node) {
-        if (!node) return "";
-        const valStr = getValStr(node.next);
-        return valStr + node.val
+    const sumListHat = new ListNode();
+    let sumList = sumListHat;
+    let carry = 0;
+
+    while (l1 && l2) {
+        let sum = l1.val + l2.val + carry;
+
+        if (sum > 9) {
+            const strSum = sum+"";
+            const carryStr = strSum.slice(0,strSum.length-1);
+            carry = parseInt(carryStr);
+
+            sum = sum%10;
+        }
+        else {
+            carry = 0;
+        }
+
+        l1 = l1.next;
+        l2 = l2.next;
+
+        sumList.next = new ListNode(sum, null);
+        sumList = sumList.next;
     }
 
-    const sum = val1+val2;
-    const strSum = sum + "";
+    if (carry > 0) sumList.next = new ListNode(carry, null);
 
-    // create sumList backwards
-    let sumHead = null;
-    for(ch of strSum) {
-        const newHead = new ListNode(parseInt(ch), sumHead);
-        sumHead = newHead;
-    }
-
-    // return sumHead;
-    return sumHead;
+    return sumListHat.next;
 };
