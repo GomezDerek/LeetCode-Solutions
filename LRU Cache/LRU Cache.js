@@ -1,3 +1,13 @@
+/* starting over at 1hr 6min*/
+// list: Tail -> 2 -> 1
+var ListNode = function(key, val, prev, next) {
+    this.key = key != undefined ? key : null;
+    this.val = val != undefined ? val : null;
+    this.prev = prev != undefined ? prev : null;
+    this.next = next != undefined ? next : null;
+}
+
+
 /**
  * @param {number} capacity
  */
@@ -5,27 +15,46 @@ var LRUCache = function(capacity) {
     this.capacity = capacity;
     this.length = 0;
 
-    // hashmap for O(1) get and put ops
+    // {key: {val, prev, next}}
     this.dict = {};
 
-    // how to track least used?
-    this.recordStack = [];
+    this.head = new ListNode();
+    this.tail = this.head;
+    this.lru = () => {return this.tail.next};
 };
+
+// remove node from the list
+LRUCache.prototype.spliceNode = function(node) {
+    node.prev.next = node.next;
+    if (node.next) node.next.prev = node.prev;
+}
+
+// add node to head
+LRUCache.prototype.newHead = function(node) {
+    node.prev = this.head;
+    node.next = null;
+    
+    this.head.next = node;
+    this.head = this.head.next;
+}
 
 /** 
  * @param {number} key
  * @return {number}
  */
 LRUCache.prototype.get = function(key) {
-    // console.log('get', key, '=', this.dict[key]);
+    // key exists
     if (this.dict[key] != undefined) {
-        this.recordStack.push(key);
-        return this.dict[key];
+        let keyNode = this.dict[key];
+        this.spliceNode(keyNode);
+        this.newHead(keyNode);
+
+        // console.log(`updated ${key}, new lru = ${this.lru().key}`);
+        return keyNode.val;
     }
     else {
         return -1;
     }
-    
 };
 
 /** 
@@ -34,45 +63,39 @@ LRUCache.prototype.get = function(key) {
  * @return {void}
  */
 LRUCache.prototype.put = function(key, value) {
-    // key already exists, update
+    // update, key already exists
     if (this.dict[key] != undefined) {
-        this.dict[key] = value; // update
+        let keyNode = this.dict[key];
+        keyNode.val = value; // update val
+
+        this.spliceNode(keyNode);
+        this.newHead(keyNode);
     }
 
-    // it doesn't exist AND we have space
+    // add, space exists and key is new
     else if (this.length < this.capacity) {
-        this.dict[key] = value; // add it in
+        let newNode = new ListNode(key, value);
+        this.newHead(newNode); // add to list
+
+        this.dict[key] = newNode; // add to dict
         this.length++;
     }
 
-    // it DNE AND we don't have space
+    // evict + add, space DNE and key is new
     else {
-        // EVICTION
-        let seen = {};
-        let numSeen = 0;
+        // console.log('\nput', key);
+        // console.log('eviction!');
+        let evictedNode = this.lru();
+        this.spliceNode(evictedNode); // list eviction
+        this.dict[evictedNode.key] = undefined; // dict eviction
+        // console.log(`evicted: {${evictedNode.key},${evictedNode.val}}`);
+        // console.log(`dict[${evictedNode.key}] = ${this.dict[evictedNode.key]}`);
 
-        // iterate backwards through the recordStack
-        for (let i=this.recordStack.length-1; i>=0; i--) {
-            let iKey = this.recordStack[i];
-            if (seen[iKey]) {
-                continue;
-            }
-            else if (numSeen >= this.capacity-1) {
-                // we found an eviction!
-                this.dict[iKey] = undefined;
+        let newNode = new ListNode(key, value);
+        this.newHead(newNode); // add to list
 
-                // add in new value
-                this.dict[key] = value;
-            }
-
-            else {
-                seen[iKey] = true;
-                numSeen++;
-            }
-        }
+        this.dict[key] = newNode; // add to dict
     }
-
-    this.recordStack.push(key);
 };
 
 /** 
