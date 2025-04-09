@@ -1,5 +1,4 @@
-/* starting over at 1hr 6min*/
-// list: Tail -> 2 -> 1
+// node obj constructor
 var ListNode = function(key, val, prev, next) {
     this.key = key != undefined ? key : null;
     this.val = val != undefined ? val : null;
