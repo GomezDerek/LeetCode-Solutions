@@ -15,7 +15,7 @@ var LRUCache = function(capacity) {
     this.capacity = capacity;
     this.length = 0;
 
-    // {key: {val, prev, next}}
+    // {key: {key, val, prev, next}}
     this.dict = {};
 
     this.head = new ListNode();
@@ -25,11 +25,12 @@ var LRUCache = function(capacity) {
 
 // remove node from the list
 LRUCache.prototype.spliceNode = function(node) {
-    if (node.key == this.head.key) {
-        this.head = this.head.prev;
-    }
+    // if head, set head to prev before splice
+    if (node.key == this.head.key) this.head = this.head.prev;
+    
+    // splice
     node.prev.next = node.next;
-    if (node.next) node.next.prev = node.prev;
+    if (node.next) node.next.prev = node.prev; 
 }
 
 // add node to head
@@ -48,13 +49,15 @@ LRUCache.prototype.newHead = function(node) {
 LRUCache.prototype.get = function(key) {
     // key exists
     if (this.dict[key] != undefined) {
-        let keyNode = this.dict[key];
+        let keyNode = this.dict[key]; // get node
+
+        // update LL
         this.spliceNode(keyNode);
         this.newHead(keyNode);
+        
         return keyNode.val;
     }
     else {
-        // console.log(-1);
         return -1;
     }
 };
@@ -70,6 +73,7 @@ LRUCache.prototype.put = function(key, value) {
         let keyNode = this.dict[key];
         keyNode.val = value; // update val
 
+        // update LL
         this.spliceNode(keyNode);
         this.newHead(keyNode);
     }
