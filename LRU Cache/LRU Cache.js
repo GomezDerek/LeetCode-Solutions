@@ -21,17 +21,6 @@ var LRUCache = function(capacity) {
     this.head = new ListNode();
     this.tail = this.head;
     this.lru = () => {return this.tail.next};
-    this.printList = function() {
-        let string = "";
-
-        let traveler = this.tail;
-        while(traveler) {
-            string += `${traveler.key} →`
-            traveler = traveler.next;
-        }
-
-        console.log(string);
-    }
 };
 
 // remove node from the list
@@ -41,8 +30,6 @@ LRUCache.prototype.spliceNode = function(node) {
     }
     node.prev.next = node.next;
     if (node.next) node.next.prev = node.prev;
-    // console.log('after splice: ');
-    // this.printList();
 }
 
 // add node to head
@@ -52,9 +39,6 @@ LRUCache.prototype.newHead = function(node) {
     
     this.head.next = node;
     this.head = this.head.next;
-
-    // console.log('after new head:');
-    // this.printList();
 }
 
 /** 
@@ -62,15 +46,11 @@ LRUCache.prototype.newHead = function(node) {
  * @return {number}
  */
 LRUCache.prototype.get = function(key) {
-    // console.log('get', key);
     // key exists
     if (this.dict[key] != undefined) {
         let keyNode = this.dict[key];
         this.spliceNode(keyNode);
         this.newHead(keyNode);
-        // console.log(`lru = ${this.lru()}`);
-        // console.log(`updated ${key}, new lru = ${this.lru().key}`);
-        // console.log(keyNode.val);
         return keyNode.val;
     }
     else {
@@ -85,7 +65,6 @@ LRUCache.prototype.get = function(key) {
  * @return {void}
  */
 LRUCache.prototype.put = function(key, value) {
-    // console.log('\nput', key);
     // update, key already exists
     if (this.dict[key] != undefined) {
         let keyNode = this.dict[key];
@@ -106,12 +85,9 @@ LRUCache.prototype.put = function(key, value) {
 
     // evict + add, space DNE and key is new
     else {
-        // console.log('eviction!');
         let evictedNode = this.lru();
         this.spliceNode(evictedNode); // list eviction
         this.dict[evictedNode.key] = undefined; // dict eviction
-        // console.log(`evicted: {${evictedNode.key},${evictedNode.val}}`);
-        // console.log(`dict[${evictedNode.key}] = ${this.dict[evictedNode.key]}`);
 
         let newNode = new ListNode(key, value);
         this.newHead(newNode); // add to list
@@ -119,8 +95,6 @@ LRUCache.prototype.put = function(key, value) {
         this.dict[key] = newNode; // add to dict
     }
 
-    // console.log('put successful!');
-    // this.printList();
 };
 
 /** 
