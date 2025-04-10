@@ -42,9 +42,9 @@ var mergeKLists = function(lists) {
         }
     }
 
-    // no need to sort our list,
-    // because numeric object keys self-sort
-    const valLists = Object.values(map); // O(N)
+    
+    let valLists = Object.values(map); // O(N)
+    valLists.sort( (a,b) => a.val - b.val ); // O(NlogN)
 
     // add each valList to our resList
     valLists.forEach( head => {
