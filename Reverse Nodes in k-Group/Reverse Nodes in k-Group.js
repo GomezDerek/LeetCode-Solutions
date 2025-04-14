@@ -43,14 +43,14 @@ var reverseKGroup = function(head, k) {
     }
 
     // iterate through array
-    for (let i=0; i+k<nodeArray.length; i+=k) {
+    for (let i=0; i+k-1<nodeArray.length; i+=k) {
         const subHead = nodeArray[i];
-        // console.log(i, subHead.val);
+        console.log(i, subHead.val);
         
 
         // reverse the sub list
         for (let j=i; j<i+k-1; j++) {
-            // console.log(`\t${j} ${nodeArray[j].val}`);
+            console.log(`\t${j} ${nodeArray[j].val}`);
             let first = nodeArray[j];
             let second = nodeArray[j+1];
 
@@ -58,7 +58,12 @@ var reverseKGroup = function(head, k) {
         }
 
         // connect new tail to next sub-list
-        subHead.next = nodeArray[i+k];
+        if(i+k < nodeArray.length) {
+            subHead.next = nodeArray[i+k];
+        }
+        else {
+            subHead.next = null;
+        }
 
         // connect new head to prev sub-list
         if (i-k>=0) {
@@ -68,6 +73,6 @@ var reverseKGroup = function(head, k) {
         }
     }
 
-    // console.log(nodeArray);
+    console.log(nodeArray);
     return nodeArray[k-1];
 };
