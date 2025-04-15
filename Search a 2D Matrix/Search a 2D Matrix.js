@@ -31,15 +31,17 @@ var searchMatrix = function(matrix, target) {
             // we want left to be the cell to the right of middle
             // if the middle is the last number in the row,
             // we set left to the first number in the next row
-            left.row = middle.col == n-1 ? middle.row + 1 : middle.row;
-            left.col = middle.col == n-1 ? 0 : middle.col + 1;
+            let newLeftDistance = newMidDist +1;
+            left.row = parseInt(newLeftDistance/n);
+            left.col = newLeftDistance%n;
         }
         else if (middle.val() > target) { // too far right
             // we want right to be the cell to the left of the middle
             // if the middle is the first number in the row
             // we set right to the last number in the prev row
-            right.row = middle.col == 0 ? middle.row - 1 : middle.row;
-            right.col = middle.col == 0 ? n-1 : middle.col -1;
+            let newRightDistance = newMidDist -1;
+            right.row = parseInt(newRightDistance/n);
+            right.col = newRightDistance%n;
         }
     }
 
