@@ -11,8 +11,7 @@ var minEatingSpeed = function(piles, h) {
     // find max pile
     let maxPile = -Infinity;
     for (let i=0; i<piles.length; i++) {
-        const num = piles[i];
-        maxPile = num > maxPile ? num : maxPile;
+        maxPile = piles[i] > maxPile ? piles[i] : maxPile;
     }
     let bestK = maxPile;
 
