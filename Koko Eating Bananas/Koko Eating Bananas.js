@@ -10,12 +10,13 @@ var minEatingSpeed = function(piles, h) {
 
     // find max pile
     let maxPile = -Infinity;
-    for (let num of piles) {
+    for (let i=0; i<piles.length; i++) {
+        const num = piles[i];
         maxPile = num > maxPile ? num : maxPile;
     }
     let bestK = maxPile;
 
-    // BSA
+    // BSA O(logN)
     let l = 1;
     let r = maxPile;
     while (l <= r) {
@@ -23,10 +24,12 @@ var minEatingSpeed = function(piles, h) {
         const mValid = isKValid(m); // is m a valid k
 
         if (mValid) {
+            // console.log(`[${l}, ${r}] ${m} ✅`);
             bestK = m;
             r = m-1; // keep searching left of m
         }
         else {
+            // console.log(`[${l}, ${r}] ${m} ❌`);
             l = m+1; // keep searching right of m
         }
     }
@@ -34,18 +37,18 @@ var minEatingSpeed = function(piles, h) {
 
     return bestK;
 
-    // helper function 
+    // helper function O(n*?)
     // to test if Koko can finish all the bananas in time
     function isKValid(k) {
         let curHours = 0;
 
         for (let bananas of piles) {
             if (curHours > h) return false;
-
-            while (bananas>0) {
-                bananas -= k;
-                curHours++;
-            }
+            curHours += Math.ceil(bananas/k);
+            // while (bananas>0) {
+            //     bananas -= k;
+            //     curHours++;
+            // }
         }
 
         return curHours <= h;
