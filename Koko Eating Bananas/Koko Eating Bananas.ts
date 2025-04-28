@@ -44,7 +44,7 @@ function minEatingSpeed(piles: number[], h: number): number {
     // BSA
     while (left <= right) {
         midK = Math.trunc((left+right)/2);
-        console.log(left, right, piles[midK]);
+        // console.log(left, right, piles[midK]);
 
         if (isKValid(midK)) {
             // look lower
