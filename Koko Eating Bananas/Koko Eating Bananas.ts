@@ -11,14 +11,16 @@ function minEatingSpeed(piles: number[], h: number): number {
     1 <= min k <= max(piles)
 
     brute force: O( max(piles) )
+    store prevK
     starting from k = max(piles), and decrementing all the way to 1
         test if Koko can finish all the bananas in h time
         if she finishes the bananas
+            prevK = currK
             continue
         else 
             prev k is min k
 
-    optimization: O( log max(piles) )
+    optimization: O( log max(piles) + piles )
     use BSA to find min K between 1 and maxPiles
         calc midK
         if Koko finishes in time
@@ -31,9 +33,10 @@ function minEatingSpeed(piles: number[], h: number): number {
     let right: number = 1; // 1 <= piles[i] <= 10^9
 
     // right = max(piles)
-    for (let i=0; i<piles.length; i++) {
-        right = Math.max(right, piles[i]);
-    }
+    right = Math.max(...piles);
+    // for (let i=0; i<piles.length; i++) {
+    //     right = Math.max(right, piles[i]);
+    // }
 
     let minK: number;
     let midK: number;
@@ -41,6 +44,7 @@ function minEatingSpeed(piles: number[], h: number): number {
     // BSA
     while (left <= right) {
         midK = Math.trunc((left+right)/2);
+        console.log(left, right, piles[midK]);
 
         if (isKValid(midK)) {
             // look lower
@@ -54,7 +58,7 @@ function minEatingSpeed(piles: number[], h: number): number {
         }
     }
 
-    function isKValid(k): boolean {
+    function isKValid(k: number): boolean {
         let elapsed: number = 0;
         for (let i=0; i<piles.length; i++) {
             const numBananas: number = piles[i];
