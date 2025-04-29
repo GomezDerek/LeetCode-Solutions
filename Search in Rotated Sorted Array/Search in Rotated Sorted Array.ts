@@ -11,7 +11,7 @@ function search(nums: number[], target: number): number {
 
         // middle is left of pivot
         // if (nums[l] > nums[r]) {
-        if (nums[m] >  nums[l]) {
+        if (nums[m] >= nums[l]) {
             // target is right of middle
             if (target < nums[l]) {
                 l = m +1;
