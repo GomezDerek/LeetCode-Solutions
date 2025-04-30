@@ -1,5 +1,4 @@
 function search(nums: number[], target: number): number {
-    // Leetcode strategy from memory
     let l: number = 0;
     let r: number = nums.length-1;
     let m: number;
@@ -7,42 +6,34 @@ function search(nums: number[], target: number): number {
     while (l <= r) {
         m = Math.floor((l+r)/2);
 
-        if (nums[m] === target) return m; 
+        // target found!
+        if (target === nums[m]) return m;
 
-        // middle is left of pivot
-        // if (nums[l] > nums[r]) {
-        if (nums[m] >= nums[l]) {
-            // target is right of middle
-            if (target < nums[l]) {
+        // m is left of pivot
+        else if (nums[l] <= nums[m]) {
+            // target is right of m
+            if (target < nums[l] || target > nums[m]) {
                 l = m +1;
             }
-            else if (target > nums[m]) {
-                l = m + 1;
-            }
-            // target is left from middle
-            else { // target < nums[m]
+
+            // target is left of m
+            else { // target >= nums[l] && target < nums[m]
                 r = m -1;
             }
-
         }
 
-        // middle is right of pivot
+        // m is right of pivot
         else {
-            // target is left of middle
-            if (target > nums[r]) {
-                r = m -1;
-            }
-            else if (target < nums[m]) {
+            // target is left of m
+            if (target > nums[r] || target < nums[m]) {
                 r = m -1;
             }
 
-            // target is right of middle
-            else { // target > nums[m]
+            // target is right of m
+            else { // target > nums[m] && target <= nums[l]
                 l = m +1;
             }
         }
     }
-
-    // target isn't in nums
-    return -1;
+    return -1; // target is not in nums
 };
