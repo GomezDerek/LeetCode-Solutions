@@ -22,6 +22,10 @@ when getting,
             turn timestamp dict into array
             while timestamp DNE
                 linear iteration backwards to find most prev timestamp
+                
+optimized get():
+    check if key exists,
+    look for timestamp with BSA and record most recent
 
 */
 class TimeMap {
@@ -33,11 +37,8 @@ class TimeMap {
     set(key: string, value: string, timestamp: number): void {
         // key already exists
         if ( this.keys.has(key) ) {
-            // assume immutability
             // add in new timestamp + value
-            const timeStamps = this.keys.get(key);
-            // timeStamps[timestamp] = value;
-            timeStamps.push([timestamp, value]);
+            this.keys.get(key).push([timestamp, value]);
         }
         // key DNE
         else {
@@ -57,27 +58,25 @@ class TimeMap {
         let l: number = 0;
         let r: number = timeRecords.length-1;
         let m: number;
-        let mostRecentVal: string = "";
+        let val: string = "";
         let curTimeStamp: number;
         while (l <= r) {
             m = Math.floor((l+r)/2);
             curTimeStamp = timeRecords[m][0];
             
-            // timestamp found
-            if (curTimeStamp == timestamp) return timeRecords[m][1];
+            // (timestamp || most recent timestamp) found
+            if (curTimeStamp <= timestamp) {
+                val = timeRecords[m][1];
+                l = m +1;
+            }
             
             // curTimeStamp too late, look earlier
             else if (curTimeStamp > timestamp) {
                 r = m -1;
             }
 
-            // curTimeStamp too early, look later
-            else if (curTimeStamp < timestamp) {
-                mostRecentVal = timeRecords[m][1];
-                l = m +1;
-            }
         }
-        return mostRecentVal;
+        return val;
     }
 }
 
