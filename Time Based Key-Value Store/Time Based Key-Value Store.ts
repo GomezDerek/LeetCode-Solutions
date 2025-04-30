@@ -25,9 +25,9 @@ when getting,
 
 */
 class TimeMap {
-    keys: Map<string, Map<number, string>>;
+    keys: Map<string, [number, string][]>;
     constructor() {
-        this.keys = new Map<string, Map<number, string>>();
+        this.keys = new Map<string, [number, string][]>();
     }
 
     set(key: string, value: string, timestamp: number): void {
@@ -35,37 +35,49 @@ class TimeMap {
         if ( this.keys.has(key) ) {
             // assume immutability
             // add in new timestamp + value
-            const timeStampMap = this.keys.get(key);
-            timeStampMap.set(timestamp, value);
+            const timeStamps = this.keys.get(key);
+            // timeStamps[timestamp] = value;
+            timeStamps.push([timestamp, value]);
         }
         // key DNE
         else {
-            // create timestamp map
-            const newTimeStampMap = new Map<number, string>();
-            newTimeStampMap.set(timestamp, value);
+            // create timestamp + val pair
+            const timeRecord: [number, string] = [timestamp, value];
 
-            // assign new timestamp map to key
-            this.keys.set(key, newTimeStampMap);
+            // assign new timerecord to key
+            this.keys.set(key, [timeRecord]);
         }
-        // console.log(this.keys);
     }
 
     get(key: string, timestamp: number): string {
-        // console.log(`get ${key}, ${timestamp}`);
-        // console.log(this.keys);
-        const timestamps = this.keys.get(key); // assume if key DNE, .get() returns undefined
-        if (timestamps == undefined) return ""; // key DNE
+        const timeRecords = this.keys.get(key); // assume if key DNE, .get() returns undefined
+        if (timeRecords == undefined) return ""; // key DNE
 
-        // 1 <= timestamp <= 10^7
-        let value: string;
-        while( timestamp > 0 ) {
-            value = timestamps.get(timestamp);
-            if (value != undefined) return value;
-            else timestamp--;
+        // use BSA to find key's value at timestamp
+        let l: number = 0;
+        let r: number = timeRecords.length-1;
+        let m: number;
+        let mostRecentVal: string = "";
+        let curTimeStamp: number;
+        while (l <= r) {
+            m = Math.floor((l+r)/2);
+            curTimeStamp = timeRecords[m][0];
+            
+            // timestamp found
+            if (curTimeStamp == timestamp) return timeRecords[m][1];
+            
+            // curTimeStamp too late, look earlier
+            else if (curTimeStamp > timestamp) {
+                r = m -1;
+            }
+
+            // curTimeStamp too early, look later
+            else if (curTimeStamp < timestamp) {
+                mostRecentVal = timeRecords[m][1];
+                l = m +1;
+            }
         }
-        // unsure if this last return is necessary
-        // console.log('\tno valid timestamp + value ever found');
-        return "";
+        return mostRecentVal;
     }
 }
 
