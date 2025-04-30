@@ -51,18 +51,20 @@ class TimeMap {
     }
 
     get(key: string, timestamp: number): string {
+        // console.log(`get ${key}, ${timestamp}`);
+        // console.log(this.keys);
         const timestamps = this.keys.get(key); // assume if key DNE, .get() returns undefined
         if (timestamps == undefined) return ""; // key DNE
 
         // 1 <= timestamp <= 10^7
         let value: string;
-        while( timestamp > 1 ) {
+        while( timestamp > 0 ) {
             value = timestamps.get(timestamp);
             if (value != undefined) return value;
             else timestamp--;
         }
         // unsure if this last return is necessary
-        // console.log('no valid timestamp + value ever found');
+        // console.log('\tno valid timestamp + value ever found');
         return "";
     }
 }
