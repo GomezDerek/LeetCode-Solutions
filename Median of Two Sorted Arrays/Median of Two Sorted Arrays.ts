@@ -51,8 +51,9 @@ function findMedianSortedArrays(nums1: number[], nums2: number[]): number {
                 return (Math.max(aLeft, bLeft) + Math.min(aRight, bRight))/2;
             }
             else { // odd
-                console.log(aLeft, bLeft, aRight, bRight);
-                return Math.min(aRight, bRight);
+                // console.log(aLeft, bLeft, aRight, bRight);
+
+                return aRight == Infinity && bRight == Infinity ? aLeft : Math.min(aRight, bRight);
             }
         }
     }
