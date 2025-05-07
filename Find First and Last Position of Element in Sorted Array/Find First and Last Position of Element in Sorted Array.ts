@@ -108,7 +108,7 @@ function searchRange(nums: number[], target: number): number[] {
     function isEnd(index: number): boolean {
         
         // no possible value to right
-        if (index == nums[nums.length-1]) { 
+        if (index == nums.length-1) { 
             return true;
         }
 
