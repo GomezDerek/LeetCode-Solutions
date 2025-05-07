@@ -12,13 +12,13 @@ function findMedianSortedArrays(nums1: number[], nums2: number[]): number {
         a = nums2;
         b = nums1;
     }
-    console.log(a, b);
+    // console.log(a, b);
 
     let l: number = -1;
     let r: number = a.length;
 
     while (l <= r) {
-        console.log(l,r);
+        // console.log(l,r);
         // calc partiton for smaller
         let mid: number = Math.trunc((l+r)/2);
 
@@ -37,7 +37,7 @@ function findMedianSortedArrays(nums1: number[], nums2: number[]): number {
         // left-most value in right partition in larger array
         let bRight: number = b[j+1] != undefined ? b[j+1] : Infinity;
 
-        console.log(aLeft, bLeft, aRight, bRight);
+        // console.log(aLeft, bLeft, aRight, bRight);
 
         if (aLeft > bRight) {// if invalid
             // l = mid + 1;
