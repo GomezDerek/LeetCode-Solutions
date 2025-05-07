@@ -7,16 +7,18 @@ function findMedianSortedArrays(nums1: number[], nums2: number[]): number {
     let b: number[] = nums2;
 
     // assume a is smaller, and correct if assumption is wrong
-    if (a.length > b.length || !a.length) {        
+    // UNLESS a is an empty array. A should NEVER be empty
+    if ((a.length > b.length && b.length) || !a.length) {        
         a = nums2;
         b = nums1;
     }
+    // console.log(a, b);
 
     let l: number = -1;
     let r: number = a.length;
 
     while (l <= r) {
-        // console.log(l,r)
+        // console.log(l,r);
         // calc partiton for smaller
         let mid: number = Math.trunc((l+r)/2);
 
@@ -52,7 +54,8 @@ function findMedianSortedArrays(nums1: number[], nums2: number[]): number {
             }
             else { // odd
                 // console.log(aLeft, bLeft, aRight, bRight);
-
+                // return Math.min(aRight, bRight);
+                // ☝️ revised bc in case of empty array, aLeft will always be median
                 return aRight == Infinity && bRight == Infinity ? aLeft : Math.min(aRight, bRight);
             }
         }
