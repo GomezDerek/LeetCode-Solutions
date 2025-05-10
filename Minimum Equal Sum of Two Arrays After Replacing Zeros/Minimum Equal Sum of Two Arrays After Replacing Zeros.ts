@@ -32,6 +32,7 @@ function minSum(nums1: number[], nums2: number[]): number {
     function helper(arr): Stats {
         let sum = 0;
         let zCount = 0;
+        
         for (let i=0; i<arr.length; i++) {
             const num = arr[i];
             sum += num;
@@ -44,6 +45,8 @@ function minSum(nums1: number[], nums2: number[]): number {
     // store calculations
     const stats1: Stats = helper(nums1);
     const stats2: Stats = helper(nums2);
+    // console.log(stats1);
+    // console.log(stats2);
 
     const minSum1: number = stats1.sum + stats1.zCount;
     const minSum2: number = stats2.sum + stats2.zCount;
@@ -51,8 +54,11 @@ function minSum(nums1: number[], nums2: number[]): number {
     let smallerMinSum: number;
     let biggerMinSum: number;
 
+    // edge case: equal minSUm
+    if (minSum1 == minSum2) return minSum1;
+
     // assign smaller and bigger
-    if (minSum1 < minSum2) {
+    else if (minSum1 < minSum2) {
         smallerMinSum = minSum1;
         biggerMinSum = minSum2;
     }
