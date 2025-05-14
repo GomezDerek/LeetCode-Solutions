@@ -36,7 +36,7 @@ function isBalanced(root: TreeNode | null): boolean {
         
         // if we've already detected an inbalance, 
         // exit the recursion ASAP
-        else if (answer == false) return -1;
+        // else if (answer == false) return -1;
 
         // recurse to children
         const lHeight = calcBalanced(node.left);
