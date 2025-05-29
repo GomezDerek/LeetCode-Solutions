@@ -1,7 +1,7 @@
-[See my LeetCode account](https://leetcode.com/u/dergome/)
+[See my LeetCode account](https://leetcode.com/u/dergomez/)
 
 # Grind75 Submissions
-submissions are automatically uploaded by AlgoArchive
+submissions are automatically uploaded by [AlgoArchive](https://algoarchive.org/)
 
 ## My thoughts as I progress through [the Grind75 list](https://www.techinterviewhandbook.org/grind75/)
 
