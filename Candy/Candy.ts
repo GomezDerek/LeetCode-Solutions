@@ -69,7 +69,7 @@ function candy(ratings: number[]): number {
 
     for(let i=1; i<ratings.length; i++) {
     
-        if (ratings[i] > ratings[i-1]) {
+        if (ratings[i] >= ratings[i-1]) {
             // pop through the entire stack
             candies[i] = 0;
             let topIndex: number;
