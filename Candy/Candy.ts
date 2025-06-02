@@ -65,10 +65,9 @@ OPTIMIZED STRATEGY:
 
 function candy(ratings: number[]): number {
     const stack: number[] = [0]; // will hold ratings indices
-    const candies: number[] = new Array(ratings.length);
+    const candies: number[] = new Array(ratings.length).fill(0);
 
-    for(let i=1; i<ratings.length; i++) {
-    
+    for(let i=1; i<ratings.length; i++) {    
         if (ratings[i] >= ratings[i-1]) {
             // pop through the entire stack
             candies[i] = 0;
@@ -76,10 +75,14 @@ function candy(ratings: number[]): number {
             while(stack.length > 0) {
                 // calculate candies of all prev neighbors
                 topIndex = stack.pop();
-                candies[topIndex] = candies[topIndex+1] + 1;
+                candies[topIndex] = Math.max(candies[topIndex+1] + 1, candies[topIndex]);
             }
 
             // reset the stack with only curr in it
+            if (ratings[i] > ratings[i-1]) {
+                candies[i] = candies[i-1] + 1;
+            }
+
             stack.push(i);
         }
         else { // currentRating <= prevRating
@@ -88,9 +91,14 @@ function candy(ratings: number[]): number {
     }
 
 
-    // last kid/rating was larger than prev
-    if (stack.length === 1) {
-        candies[candies.length-1] = candies[candies.length-2] + 1;
+    // calculate candies for the last kid
+    if (stack.length === 1 ) {
+        if (ratings[ratings.length-1] > ratings[ratings.length-2]) {
+            candies[candies.length-1] = candies[candies.length-2] + 1;
+        }
+        else if (ratings[ratings.length-1] == ratings[ratings.length-2]) {
+            candies[candies.length-1] = 1;
+        }
     }
 
     // pop through the remainder of the stack
@@ -101,10 +109,10 @@ function candy(ratings: number[]): number {
         let topIndex: number;
         while(stack.length > 0) {
             topIndex = stack.pop();
-            candies[topIndex] = candies[topIndex+1] + 1;
+            candies[topIndex] = Math.max(candies[topIndex+1] + 1, candies[topIndex]);
         }
     }
 
-    console.log(candies);
+    // console.log(candies);
     return candies.reduce( (acc, num) => acc += num);
 };
