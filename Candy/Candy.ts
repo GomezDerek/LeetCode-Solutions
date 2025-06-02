@@ -64,6 +64,10 @@ OPTIMIZED STRATEGY:
 */
 
 function candy(ratings: number[]): number {
+
+    // edge case
+    if (ratings.length == 1) return 1;
+
     const stack: number[] = [0]; // will hold ratings indices
     const candies: number[] = new Array(ratings.length).fill(0);
 
@@ -113,6 +117,6 @@ function candy(ratings: number[]): number {
         }
     }
 
-    // console.log(candies);
+    console.log(candies);
     return candies.reduce( (acc, num) => acc += num);
 };
