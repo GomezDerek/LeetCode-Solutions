@@ -26,6 +26,8 @@ function wordBreak(s: string, wordDict: string[]): boolean {
             // else no match
             // continue
         }
+        
+        memo[start] = false;
         return false; // no matches found at all
     }
 
