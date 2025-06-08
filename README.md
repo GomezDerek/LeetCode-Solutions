@@ -1,7 +1,9 @@
-# Grind75 Submissions
-submissions are automatically uploaded by AlgoArchive
+[See my LeetCode account](https://leetcode.com/u/dergomez/)
 
-## My thoughts as I progress through [the Grind75 list](https://www.techinterviewhandbook.org/grind75/?weeks=4&hours=16&grouping=none)
+# Grind75 Submissions
+submissions are automatically uploaded by [AlgoArchive](https://algoarchive.org/)
+
+## My thoughts as I progress through [the Grind75 list](https://www.techinterviewhandbook.org/grind75/)
 
 ### 30. 3Sum
 [ Time taken: 1 hr 50 m 46 s ]
