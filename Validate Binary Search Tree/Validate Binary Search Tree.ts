@@ -34,9 +34,9 @@ function isValidBST(root: TreeNode | null): boolean {
     
     // returns [subtreeValid, min, max]
     function dfs(node: TreeNode | null): [boolean, number, number] {
-        // base case (node is a leaf)
-        if (node.left === null && node.right === null) {
-            return [true, node.val, node.val];
+        // base case
+        if (node === null) {
+            return [true, Infinity, -Infinity];
         }
 
         // recursive calls
@@ -48,7 +48,7 @@ function isValidBST(root: TreeNode | null): boolean {
         // if either subtree is invalid
         if (!left[0] || !right[0]) 
         {
-            console.log(node.val, 1);
+            // console.log(node.val, 1);
             return [false, -Infinity, Infinity];
         }
 
@@ -56,19 +56,24 @@ function isValidBST(root: TreeNode | null): boolean {
         // left tree is invalid if its max value > curr root value
         if ( node.val <= left[2] ) 
         {
-            console.log(node.val, 2);
+            // console.log(node.val, 2);
             return [false, -Infinity, Infinity];
         }
         // check if right subtree is invalid
         if ( node.val >= right[1] ) 
         {
-            console.log(node.val, 3);
+            // console.log(node.val, 3);
             return [false, -Infinity, Infinity];
         }
 
         // all validity checks have been passed
-        return [true, left[1], right[2]];
+        const min = node.left === null ? node.val : left[1];
+        const max = node.right === null ? node.val : right[2];
+        return [true, min, max];
     }
 
     return dfs(root)[0];
 };
+
+// runtime: O(n)
+// space:   O(height)
