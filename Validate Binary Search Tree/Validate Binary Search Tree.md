@@ -3,7 +3,7 @@
 <p>A <strong>valid BST</strong> is defined as follows:</p>
 
 <ul>
-	<li>The left <span data-keyword="subtree" class=" cursor-pointer relative text-dark-blue-s text-sm"><div class="popover-wrapper inline-block" data-headlessui-state=""><div><div aria-expanded="false" data-headlessui-state="" id="headlessui-popover-button-:rr:"><div>subtree</div></div><div style="position: fixed; z-index: 40; inset: 0px auto auto 0px; transform: translate(129px, 301px);"></div></div></div></span> of a node contains only nodes with keys <strong>less than</strong> the node's key.</li>
+	<li>The left <span data-keyword="subtree" class=" cursor-pointer relative text-dark-blue-s text-sm"><button type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="radix-:rs:" data-state="closed" class="">subtree</button></span> of a node contains only nodes with keys <strong>less than</strong> the node's key.</li>
 	<li>The right subtree of a node contains only nodes with keys <strong>greater than</strong> the node's key.</li>
 	<li>Both the left and right subtrees must also be binary search trees.</li>
 </ul>
