@@ -1,9 +1,14 @@
 name: Organize LeetCode Solutions
 
-# Trigger the workflow when code is pushed to main branch
+# Trigger the workflow when new folders are added to main branch
 on:
   push:
     branches: [ main ]
+    paths:
+      - '*/**'           # Any file inside any new root-level directory
+      - '!*'             # Exclude individual files in root
+      - '!solutions/**'
+      - '!.github/**'
 
 # Grant write permissions to repository contents
 permissions:
