@@ -1,0 +1,56 @@
+name: Organize LeetCode Solutions
+
+# Trigger the workflow when code is pushed to main branch
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  organize-solutions:
+    runs-on: ubuntu-latest
+    
+    steps:
+    # Step 1: Check out the repository code
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        # Fetch full history so we can detect changes
+        fetch-depth: 0
+        # Use a token that can push back to the repo
+        token: ${{ secrets.GITHUB_TOKEN }}
+    
+    # Step 2: Configure git for commits
+    - name: Configure Git
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+    
+    # Step 3: Find and move new folders
+    - name: Organize solutions
+      run: |
+        # Flag to track if we made any changes
+        CHANGES_MADE=false
+        
+        # Loop through all items in root directory
+        for item in *; do
+          # Check if it's a directory and not in our exclusion list
+          if [ -d "$item" ] && [ "$item" != ".git" ] && [ "$item" != "solutions" ] && [ "$item" != ".github" ]; then
+            echo "Moving folder: $item to solutions/"
+            mv "$item" solutions/
+            CHANGES_MADE=true
+          fi
+        done
+        
+        # Skip files like README.md (they're not directories anyway)
+        
+        # Set output for next step
+        echo "changes_made=$CHANGES_MADE" >> $GITHUB_OUTPUT
+      id: organize
+    
+    # Step 4: Commit and push changes (only if changes were made)
+    - name: Commit and push changes
+      if: steps.organize.outputs.changes_made == 'true'
+      run: |
+        git add .
+        git commit -m "Auto-organize: Move new solutions to solutions folder"
+        git push
