@@ -1,9 +1,17 @@
 name: Organize LeetCode Solutions
 
-# Trigger the workflow when code is pushed to main branch
+# Trigger the workflow when new folders are pushed to main branch
 on:
   push:
     branches: [ main ]
+    paths:
+      - '*/'
+      - '!solutions/'
+      - '!.github/'
+
+# Grant write permissions to repository contents
+permissions:
+  contents: write
 
 jobs:
   organize-solutions:
@@ -30,6 +38,8 @@ jobs:
       run: |
         # Flag to track if we made any changes
         CHANGES_MADE=false
+        # Array to track moved folders
+        MOVED_FOLDERS=()
         
         # Loop through all items in root directory
         for item in *; do
@@ -37,14 +47,17 @@ jobs:
           if [ -d "$item" ] && [ "$item" != ".git" ] && [ "$item" != "solutions" ] && [ "$item" != ".github" ]; then
             echo "Moving folder: $item to solutions/"
             mv "$item" solutions/
+            MOVED_FOLDERS+=("$item")
             CHANGES_MADE=true
           fi
         done
         
-        # Skip files like README.md (they're not directories anyway)
+        # Convert array to space-separated string for commit message
+        MOVED_FOLDERS_STR=$(IFS=' '; echo "${MOVED_FOLDERS[*]}")
         
-        # Set output for next step
+        # Set outputs for next step
         echo "changes_made=$CHANGES_MADE" >> $GITHUB_OUTPUT
+        echo "moved_folders=$MOVED_FOLDERS_STR" >> $GITHUB_OUTPUT
       id: organize
     
     # Step 4: Commit and push changes (only if changes were made)
@@ -52,5 +65,5 @@ jobs:
       if: steps.organize.outputs.changes_made == 'true'
       run: |
         git add .
-        git commit -m "Auto-organize: Move new solutions to solutions folder"
-        git push
+        git commit -m "chore: move ${{ steps.organize.outputs.moved_folders }} to solutions/"
+        git push origin main
