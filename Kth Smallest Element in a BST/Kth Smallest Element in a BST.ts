@@ -27,30 +27,36 @@ STATEGY:
     optimize with heap O(log n)
         log n insertion
         log n retrieval
+
+    O(n)
+    use a hashmap, node.val is the key 
+    in JS, if we use ints as keys, sorted
+    BSA through the keys
+
 */
 
 function kthSmallest(root: TreeNode | null, k: number): number {
-    // 1. store every node value in an array O(n)
-    const arr: number[] = [];
-    dfs(root);
+    // use a hashmap, node.val is the key 
+    // in JS, if we use ints as keys, sorted
+    const map: {[key: number]: boolean} = {};
+    fillMap(root);
 
-    // DFS traversal func def
-    function dfs(node: TreeNode | null): void {
+    function fillMap(node: TreeNode | null): void {
         // base case
         if (node === null) return;
 
         // operations
-        arr.push(node.val);
+        map[node.val] = true;
 
         // recursive calls
-        dfs(node.left);
-        dfs(node.right);
+        fillMap(node.left);
+        fillMap(node.right);
     }
 
-    // 2. sort the array O(n logn)
-    arr.sort( (a,b) => {return a-b});
-    // console.log(arr);
+    // console.log(map);
+    
+    const keys: string[] = Object.keys(map);
+    // console.log(keys);
 
-    // 3. return sortedArray[k-1]
-    return arr[k-1];
+    return parseInt(keys[k-1]);
 };
