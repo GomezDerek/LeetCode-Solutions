@@ -12,122 +12,61 @@
  * }
  */
 
- /*
-NOTES:
-    tree is NOT balanced
-
-    preorder traversal = top -> bottom, left -> right
-        parent, left, right, grandchildren
-
-        ()=> {
-            base case
-            print
-            recurse left
-            recurse right
-        }
-
-    inorder traversal = bottom -> top, left -> right
-        leaf, parent, leaf, parent, leaf
-
-        () => {
-            base case
-            recurse left
-            print
-            recurse right
-        }
-
-    simulation
-    preorder = [3,9,20,15,7], 
-    inorder =  [9,3,15,20,7]
-
-    use both to create and confirm left relationship
-    create right rel
-    repeat
-
-STRATEGY:
-    rebuild the tree in reverse preorder. Left then right
-    
-    iterate through both preorder and inorder arrays
-        until the substrings mirror each other. This is a left path
-        until the substrings mirror each other. This is a left path
-        the next value is a right child of the leaf node
-        repeat
-
-    
-conceded at: 35 min
- */
+//  ATTEMPT #4
+//  after rewatching the NC's solution
+//  preorder = [3,9,20,15,7]
+//  inorder =  [9,3,15,20,7]
 
 function buildTree(preorder: number[], inorder: number[]): TreeNode | null {
-    //1. map node values to their index in inorder
-    const iI: {[key: number]: number} = {};
-    inorder.forEach( (val,i) => iI[val] = i );
-    // console.log(iI);
+    // 1. create a map for preorder val -> inorder index
+    const inorderIndex: {[key: number]: number} = {};
+    inorder.forEach((val,i) => inorderIndex[val] = i);
+    // console.log(inorderIndex);
 
-    //2. recursively build the binary tree
-    console.log(iI[preorder[0]], 0, inorder.length-1);
-    console.log(inorder[iI[preorder[0]]], inorder[0], inorder[inorder.length-1]);
-    return build(iI[preorder[0]], 0, inorder.length-1);
-    // return null;
+    // extra credit
+    // bounds obj class
+    class Bounds {
+        left: number;
+        right: number;
+        
+        constructor(left: number, right: number) {
+            this.left = left;
+            this.right = right;
+        }
+    }
 
-    // recursive build definition
-    // args are inorder indices
-    function build(m: number, l: number, r: number): TreeNode {
-        // console.log('\n', m, l, r);
-        // console.log(inorder[m], inorder[l], inorder[r]);
+    // 2. build the tree with DFS
+    return build(new Bounds(0, preorder.length-1), new Bounds(0, inorder.length-1));
 
+    // dfs build func
+    function build(preBounds: Bounds, inBounds: Bounds): TreeNode | null {
         // base case
-        if (l > r) {
-            // console.log('base case triggerred');
+        // console.log(preBounds.left, preBounds.right);
+        if (preBounds.left > preBounds.right) {
+            // console.log("kill");
             return null;
         }
 
         // operations
-        const rootNode = new TreeNode(inorder[m]);
+        const rootVal: number = preorder[preBounds.left];
+        const rootNode: TreeNode = new TreeNode(rootVal);
 
-        const lM: number = Math.trunc((l+m-1)/2);
-        const rM: number = Math.trunc((m+1+r)/2);
+        const inMid: number = inorderIndex[rootVal];
+        const leftTreeSize: number = inMid - inBounds.left;
+        // console.log(inMid);
 
         // recursion
-        rootNode.left = build(lM, l, m-1);
-        // build(0,0,0) => TreeNode(9)
-        // build(0,0,-1) => null
-        rootNode.right = build(rM, m+1, r);
+        rootNode.left = build(
+            new Bounds(preBounds.left+1, preBounds.left + leftTreeSize), 
+            new Bounds(inBounds.left,inMid-1)
+        );
 
-        // return
+        rootNode.right = build(
+            new Bounds(preBounds.left+leftTreeSize+1, preBounds.right), 
+            new Bounds(inMid+1, inBounds.right)
+        );
+
+        // return 
         return rootNode;
     }
-}
-
-// 1st attempt 👇
-// function buildTree(preorder: number[], inorder: number[]): TreeNode | null {
-//     const root: TreeNode = new TreeNode(preorder[0]);
-//     let curParent: TreeNode = root;
-
-//     let pI: number = 0;
-//     let iI: number = 0;
-
-//     let curNode: TreeNode = curParent;
-//     while (pI < preorder.length) {
-//         console.log(pI, iI);
-
-//         // create the left path
-//         if ( preorder[pI] == inorder[iI] ) {// left path ends
-//             console.log('creat left path from ', preorder[iI], 'to ', inorder[iI]);
-//             while (iI <= pI) {
-//                 curNode.left = new TreeNode(preorder[iI++]);
-//                 curNode = curNode.left;
-//             }
-
-//             // start the right path
-//             console.log('new right path begins at', preorder[pI+1]);
-//             curParent.right = new TreeNode(preorder[pI+1]);
-//             curParent = curParent.right;
-//             curNode = curParent;
-//         }
-
-//         pI++;
-//     }
-
-
-//     return root.left;
-// };
+};
