@@ -71,23 +71,35 @@ function maxPathSum(root: TreeNode | null): number {
     
     // dfs func def
     function findMax(node: TreeNode | null): number {    
-        // base case
+        // BASE CASE
         if (node === null) return 0;
 
-        // recursion
+        // RECURSION
         const lMax: number = findMax(node.left);
         const rMax: number = findMax(node.right);
 
-        // operations
-        const curMax: number = Math.max(
+        // OPERATIONS
+
+        // NOTE: we cannot return a pathVal to the parent
+        //       that spans across both l & r of this subtree
+
+        // for returning to parent
+        const singleMax: number = Math.max(
             node.val,
             node.val + lMax,
-            node.val + rMax,
+            node.val + rMax
+        );
+
+        // for globalMax
+        const subtreeMax: number = Math.max(
+            singleMax,
             node.val + lMax + rMax
         );
-        globalMax = Math.max(curMax, globalMax);
+
+        globalMax = Math.max(subtreeMax, globalMax);
+        // console.log(`max @ ${node.val} is ${curMax}, globalMax is ${globalMax}`);
         
-        // return
-        return curMax;
+        // RETURN
+        return singleMax;
     }
 };
