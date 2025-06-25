@@ -12,61 +12,58 @@
  * }
  */
 
-//  ATTEMPT #4
-//  after rewatching the NC's solution
-//  preorder = [3,9,20,15,7]
-//  inorder =  [9,3,15,20,7]
+ /*
+STRATEGY
+use preorder to navigate between root nodes of subtrees
+use inorder to partition left and right subtrees from root
+use recursion to build every subtree
+use a map to connect preorder values to inorder indices
+ */
 
 function buildTree(preorder: number[], inorder: number[]): TreeNode | null {
-    // 1. create a map for preorder val -> inorder index
-    const inorderIndex: {[key: number]: number} = {};
-    inorder.forEach((val,i) => inorderIndex[val] = i);
-    // console.log(inorderIndex);
+    const map: {[key: number]: number} = {};
+    const n = preorder.length -1;
 
-    // extra credit
-    // bounds obj class
-    class Bounds {
-        left: number;
-        right: number;
-        
-        constructor(left: number, right: number) {
-            this.left = left;
-            this.right = right;
-        }
+    inorder.forEach( (val,i) => map[val] = i );
+    // console.log(map);
+
+    return dfsBuild(
+        {l: 0, r: n}, 
+        {l: 0, r: n}
+    );
+
+    // type def
+    interface Bounds {
+        l: number,
+        r: number
     }
 
-    // 2. build the tree with DFS
-    return build(new Bounds(0, preorder.length-1), new Bounds(0, inorder.length-1));
-
-    // dfs build func
-    function build(preBounds: Bounds, inBounds: Bounds): TreeNode | null {
+    // func def for recursion
+    function dfsBuild(preBounds: Bounds, inBounds: Bounds): TreeNode | null {
         // base case
-        // console.log(preBounds.left, preBounds.right);
-        if (preBounds.left > preBounds.right) {
-            // console.log("kill");
-            return null;
-        }
+        // assume preBounds.len == inBounds.len
+        if (preBounds.l > preBounds.r) return null;
 
         // operations
-        const rootVal: number = preorder[preBounds.left];
+        const rootVal = preorder[preBounds.l]; // root is always first value in preorder
         const rootNode: TreeNode = new TreeNode(rootVal);
 
-        const inMid: number = inorderIndex[rootVal];
-        const leftTreeSize: number = inMid - inBounds.left;
-        // console.log(inMid);
-
         // recursion
-        rootNode.left = build(
-            new Bounds(preBounds.left+1, preBounds.left + leftTreeSize), 
-            new Bounds(inBounds.left,inMid-1)
+        const inRootIndex = map[rootVal];
+        const lSubtreeLen = inRootIndex - inBounds.l;
+        rootNode.left = dfsBuild(
+            {l: preBounds.l + 1, r: preBounds.l + lSubtreeLen}, // shift to left subtree's root
+            {l: inBounds.l, r: inRootIndex-1}     // only include left subtree partition in inorder 
         );
 
-        rootNode.right = build(
-            new Bounds(preBounds.left+leftTreeSize+1, preBounds.right), 
-            new Bounds(inMid+1, inBounds.right)
+        rootNode.right = dfsBuild(
+            {l: preBounds.l+1 + lSubtreeLen, r: preBounds.r}, // shift to right subtree's root (skip all nodes in left subtree)
+            {l: inRootIndex+1, r: inBounds.r}                 // only include right subtree partition in inorder
         );
 
         // return 
         return rootNode;
     }
+
+    // return null; 
 };
