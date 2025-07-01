@@ -23,18 +23,22 @@ function lengthOfLIS(nums: number[]): number {
         if (nextI >= nums.length) return;
 
         // OPERATIONS
+        // console.log(subSeq, nums[nextI]);
         // if next val is larger, add to the subsequence
         if ( nums[nextI] > subSeq[subSeq.length-1] ) {
             subSeq.push(nums[nextI]);
+            // console.log('✅\n');
         }
-
+        // else console.log('❌\n');
         longest = Math.max(longest, subSeq.length);
 
         // RECURSION
-        recurse([nums[nextI]], nextI+1);
+        // recurse(subSeq, nextI+1);
+        // recurse(nums[nextI], nextI+1);
         
         for (let j=nextI+1; j<nums.length; j++) {
-            recurse([...subSeq], j)
+            recurse([nums[nextI]], j);
+            recurse([...subSeq], j);
         }
     }
 };
