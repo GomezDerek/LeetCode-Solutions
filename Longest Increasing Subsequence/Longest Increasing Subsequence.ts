@@ -1,38 +1,42 @@
 /*
-just watched Neetcode's solution video
-this is how I remember his brute force, recursive solution O(2^n)
+    watched Neetcode's explanation for the DP solution,
+    so I'll be coding my interpretation from memory
 
-STRATEGY:
-the decision tree starts at index 0, and is as follows:
-    measure the length of the current subsequence
-    attempt to add every remaining value to the subsequence
-    and 
-    start a new subsequence at the next value
+    STRATEGY:
+    find the longest subsequence starting from nums[-1]
+    then find the longest subsequence starting from nums[-2]
+    and so on and so forth...
+
+    nums[x] = 1 || 1 + nums[y]
+    where x is curI and y is all the other indexes after
+
+    optimizes O(2^N) to O(N^2)
 */
 
 function lengthOfLIS(nums: number[]): number {
-    
-    let longest: number = -1;
-    recurse([nums[0]], 0);
-    return longest;
+    const cache: number[] = new Array(nums.length).fill(1);
+    let globalMax: number = 1;
+    dp(nums.length-1);
+    return globalMax;
 
-    // func def
-    function recurse(subSeq: number[], curI: number): void {
-        // BASE CASE
-
+    function dp(i: number): void {
         // OPERATIONS
-        longest = Math.max(longest, subSeq.length);
+        let localMax: number = 1;
 
-        // RECURSE
-        // start fresh subseq at next val
-        if (curI < nums.length-2) recurse([nums[curI+1]], curI+1); 
-        
-        for (let j=curI+1; j<nums.length; j++) {
-            // try to add all other values to our subseq
-            // BASE CASE?
-            if ( nums[j] > subSeq[subSeq.length-1] ) {
-                recurse( [...subSeq, nums[j]], j );
-            }
+        // attempt to extend every cached subseq with current val
+        for (let j=i+1; j<nums.length; j++) {
+            localMax = Math.max(
+                localMax, 
+                1 + ( nums[j] > nums[i] ? cache[j] : 0 )
+            );
+        }
+
+        cache[i] = localMax; // memoization
+        globalMax = Math.max(globalMax, localMax);
+
+        // BASE CASE
+        if (i-1 >= 0) {
+            dp(i-1); // RECURSION
         }
     }
 };
