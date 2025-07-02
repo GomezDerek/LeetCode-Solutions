@@ -39,7 +39,6 @@ function serialize(root: TreeNode | null): string {
             q.push(popped.right);
         }
     }
-    // console.log(output);
     return output;
 };
 
@@ -48,44 +47,47 @@ function serialize(root: TreeNode | null): string {
  */
 function deserialize(data: string): TreeNode | null {
     const vals: string[] = data.split(',');
-    // console.log(vals);
-    if (vals[0] === 'null') return null; // edge case: empty tree
+    vals.pop(); // remove "" from split array
 
-    const rootNode: TreeNode = new TreeNode(parseInt(vals[0]));
+    // edge case: empty tree
+    if (vals[0] === 'null') return null; 
+
+
+    // store all the non-null nodes for each level
     // {lvl: [node1, node2, ...]}
-    // note: hashMap ONLY stores non-null nodes
-    const hashMap: { [key: number]: TreeNode[] } = {1: [rootNode]};
-    // console.log(hashMap);
-    
-    let curLvl: number = 2;
-    let i: number = 1;
-    // use vals.length-1 because the last value in vals is ""
-    while(i < vals.length-1) {
-        // console.log(`lvl ${curLvl} starts at index ${i}, val ${vals[i]}`);
-        hashMap[curLvl] = [];
+    const hashMap: { [key: number]: TreeNode[] } = [];
 
-        const prevLvlNodes = hashMap[curLvl-1];
-        // console.log(`lvl ${curLvl-1} nodes: `, prevLvlNodes);
+    // start with the rootNode
+    const rootNode: TreeNode = new TreeNode(parseInt(vals[0]));
+    hashMap[1] = [rootNode] 
+    
+    // iterate through the rest of the serialization
+    let curLvl: number = 2;
+    let i: number = 1; // skip rootNode
+    while(i < vals.length) {
+        hashMap[curLvl] = []; // initialize new level's node array
+
+        const prevLvlNodes: TreeNode[] = hashMap[curLvl-1];
         const prevLvlSize: number = prevLvlNodes.length;
         const curLvlSize: number = 2 * prevLvlSize; // remember prevLvlSize only counts non-nulls
 
-        // only iterate through the length of the current lvl
+        // only iterate through the current lvl's vals
         for (let j=i; j<i+curLvlSize; j++) {
-            // console.log(vals[j]);
-            const childNode = vals[j] === 'null' 
-                ? null 
-                : new TreeNode(parseInt(vals[j]));
+            if (vals[j] === 'null') continue; // skip null values
             
-            if (childNode != null) hashMap[curLvl].push(childNode);
-            
-            const parentNode = prevLvlNodes[ Math.floor((j-i)/2) ];
-            // console.log('parentNode', parentNode);
+            const childNode: TreeNode = new TreeNode( parseInt(vals[j]) );
+            hashMap[curLvl].push(childNode); // add this node to the level's node array
+
+            const parentNode: TreeNode = prevLvlNodes[ Math.floor((j-i)/2) ];
+
+            // connect parent and child node
             parentNode[ (j-i)%2 === 0 ? "left" : "right" ] = childNode; 
-            // console.log(`${vals[j]} is ${(j-i)%2 === 0 ? "left" : "right"} child of ${parentNode.val}\n`)
         }
-        i += curLvlSize;
+
+        // increments for while loop
+        i += curLvlSize; // jump to the beginning of the next level
         curLvl++;
-    }
+    } // end while loop for vals iteration
 
     return rootNode;
 };
