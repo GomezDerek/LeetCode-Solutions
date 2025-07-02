@@ -12,65 +12,82 @@
  * }
  */
 
- /*
-    just finished watching NC's explanation video
-    
-    STRATEGY:
-    serialize with preorder traversal, and include nulls
-    when deserializing, use leaf node as a base case
+/*
+    Breadth First Search Traversal Strategy
+*/
 
-    REVISIONS:
-        condensed serialize to 2 lines of code, and no helper functions
-        typed the QuantumNode
-        built a TreeData class to type deserialization helper output
- */
+type QuantumNode = TreeNode | null;
 
 /*
  * Encodes a tree to a single string.
  */
 function serialize(root: TreeNode | null): string {
-    if (root === null) return "null";
-    else return `${root.val},${serialize(root.left)},${serialize(root.right)}`
-};
+    let output: string = "";
+    const q: QuantumNode[] = [root];
+    let front: number = 0;
 
-/*
- * type definitions for deserialization:)
- */
-type QuantumNode = TreeNode | null;
-class TreeData {
-    root: QuantumNode;
-    last: number;
-    constructor(root: QuantumNode, last: number) {
-        this.root = root;
-        this.last = last;
+    while(front < q.length) {
+        const popped: QuantumNode = q[front];
+        front++;
+        
+        if (popped === null) {
+            output += "null,";
+        }
+        else {
+            output += `${popped.val},`;
+            q.push(popped.left);
+            q.push(popped.right);
+        }
     }
-}
+    // console.log(output);
+    return output;
+};
 
 /*
  * Decodes your encoded data to tree.
  */
 function deserialize(data: string): TreeNode | null {
-    const vals: string[] = data.split(','); 
-    return rebuild(0).root;       
+    const vals: string[] = data.split(',');
+    // console.log(vals);
+    if (vals[0] === 'null') return null; // edge case: empty tree
 
-    // helper func
-    // returns [nodeI node, last index in nodeI subtree]
-    function rebuild(nodeI: number): TreeData {
-        // BASE CASE
-        if ( vals[nodeI] === "null" ) return new TreeData(null, nodeI);
+    const rootNode: TreeNode = new TreeNode(parseInt(vals[0]));
+    // {lvl: [node1, node2, ...]}
+    // note: hashMap ONLY stores non-null nodes
+    const hashMap: { [key: number]: TreeNode[] } = {1: [rootNode]};
+    // console.log(hashMap);
+    
+    let curLvl: number = 2;
+    let i: number = 1;
+    // use vals.length-1 because the last value in vals is ""
+    while(i < vals.length-1) {
+        // console.log(`lvl ${curLvl} starts at index ${i}, val ${vals[i]}`);
+        hashMap[curLvl] = [];
 
-        // OPERATIONS + RECURSION
-        const node: TreeNode = new TreeNode(parseInt(vals[nodeI]));
+        const prevLvlNodes = hashMap[curLvl-1];
+        // console.log(`lvl ${curLvl-1} nodes: `, prevLvlNodes);
+        const prevLvlSize: number = prevLvlNodes.length;
+        const curLvlSize: number = 2 * prevLvlSize; // remember prevLvlSize only counts non-nulls
 
-        const lSubTree: TreeData = rebuild(nodeI+1);
-        node.left = lSubTree.root;
-
-        const rSubTree: TreeData = rebuild(lSubTree.last + 1);
-        node.right = rSubTree.root;
-
-        // RETURN
-        return new TreeData(node, rSubTree.last);
+        // only iterate through the length of the current lvl
+        for (let j=i; j<i+curLvlSize; j++) {
+            // console.log(vals[j]);
+            const childNode = vals[j] === 'null' 
+                ? null 
+                : new TreeNode(parseInt(vals[j]));
+            
+            if (childNode != null) hashMap[curLvl].push(childNode);
+            
+            const parentNode = prevLvlNodes[ Math.floor((j-i)/2) ];
+            // console.log('parentNode', parentNode);
+            parentNode[ (j-i)%2 === 0 ? "left" : "right" ] = childNode; 
+            // console.log(`${vals[j]} is ${(j-i)%2 === 0 ? "left" : "right"} child of ${parentNode.val}\n`)
+        }
+        i += curLvlSize;
+        curLvl++;
     }
+
+    return rootNode;
 };
 
 
