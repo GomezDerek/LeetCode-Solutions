@@ -17,59 +17,59 @@
     
     STRATEGY:
     serialize with preorder traversal, and include nulls
-
     when deserializing, use leaf node as a base case
+
+    REVISIONS:
+        condensed serialize to 2 lines of code, and no helper functions
+        typed the QuantumNode
+        built a TreeData class to type deserialization helper output
  */
 
 /*
  * Encodes a tree to a single string.
  */
 function serialize(root: TreeNode | null): string {
-    let output: string = "";
-    preorder(root);
-    // console.log(output);
-    return output;
-
-    function preorder(node: TreeNode | null): void {
-        // BASE CASE
-        if (node === null) {
-            output += "null,";
-            return;
-        }
-
-        // OPERATIONS
-        output += `${node.val},`;
-
-        // RECURSION
-        preorder(node.left);
-        preorder(node.right);
-    }
+    if (root === null) return "null";
+    else return `${root.val},${serialize(root.left)},${serialize(root.right)}`
 };
+
+/*
+ * type definitions for deserialization:)
+ */
+type QuantumNode = TreeNode | null;
+class TreeData {
+    root: QuantumNode;
+    last: number;
+    constructor(root: QuantumNode, last: number) {
+        this.root = root;
+        this.last = last;
+    }
+}
 
 /*
  * Decodes your encoded data to tree.
  */
 function deserialize(data: string): TreeNode | null {
     const vals: string[] = data.split(','); 
-    return rebuild(0)[0];       
-    // return new TreeNode(null);
+    return rebuild(0).root;       
 
-    // returns [nodeI node, last index in subtree]
-    function rebuild(nodeI: number): [TreeNode | null, number] {
+    // helper func
+    // returns [nodeI node, last index in nodeI subtree]
+    function rebuild(nodeI: number): TreeData {
         // BASE CASE
-        if ( vals[nodeI] === "null" ) return [null, nodeI];
+        if ( vals[nodeI] === "null" ) return new TreeData(null, nodeI);
 
+        // OPERATIONS + RECURSION
         const node: TreeNode = new TreeNode(parseInt(vals[nodeI]));
 
-        // RECURSION + OPERATIONS
-        const lSubTree: [TreeNode|null, number] = rebuild(nodeI+1);
-        node.left = lSubTree[0];
+        const lSubTree: TreeData = rebuild(nodeI+1);
+        node.left = lSubTree.root;
 
-        const rSubTree: [TreeNode|null, number] = rebuild(lSubTree[1]+1);
-        node.right = rSubTree[0];
+        const rSubTree: TreeData = rebuild(lSubTree.last + 1);
+        node.right = rSubTree.root;
 
         // RETURN
-        return [node, rSubTree[1]];
+        return new TreeData(node, rSubTree.last);
     }
 };
 
