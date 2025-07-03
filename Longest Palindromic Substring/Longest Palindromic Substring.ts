@@ -62,6 +62,19 @@ function longestPalindrome(s: string): string {
             if (s[i] === s[newEndIndex]) {
                 palLen[i] = 1 + palLen[i+1] + 1; // new palindrome!
             }
+
+            else {
+                // check if we can add to a single char palindrome > 1
+                // ex: "ccccc"
+                let extendable: boolean = true;
+                for (let j=i; j<=i+palLen[i+1]; j++) {
+                    if (s[i] != s[j]) {
+                        extendable = false;
+                        break;
+                    }
+                }
+                if (extendable) palLen[i] = palLen[i+1] +1;
+            }
         }
 
         // update index for start of longest palindrome
