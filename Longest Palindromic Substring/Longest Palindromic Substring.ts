@@ -1,59 +1,61 @@
 /*
-ATTEMPT #3
+ATTEMPT #4
 
-just watched multiple videos on this problem. I'm ready! 
+just watched a YT video on how to implement the DP matrix solution
 
-O(N^3) STRATEGY:
-    from each value, expand in both directions to try to create longest palindrome possible
+DP STRATEGY O(N^2):
+    create a 2D array to track valid palindrome, and extend smaller valid palindromes
+    dp[startingIndex][endingIndex]: True | False | null = null;
 
-    maxPal = ""
-    for each val
-        l = i-1
-        r = i+1
-        while (val[l] == val[r])
-            if r-l > maxPal.len
-                maxPal = .slice(l,r+1)
-            l--;
-            r++;
+    substrings of size 1 are default True
+    double for loop (i = start, j = end)
+        curSubString = s.slice(i,j+1)
+        curSubString is valid palindrome if
+            s[i] === s[j]
+            &&
+            dp[i+1][j-1] == True
+
+        if valid palindrome, 
+            update global var for longest palindrome
+    
 */
 
 function longestPalindrome(s: string): string {
+    let longestPal: string = s[0];
 
-    let maxPal: string = s[0]; // handles edge case if s.length is 1 or no palindrome > 1
+    // I didn't properly create the 2D array until min 22 😭
+    const dpMatrix: ( (boolean | null)[] )[] = new Array(s.length);
+    for (let i=0; i<dpMatrix.length; i++) dpMatrix[i] = new Array(s.length).fill(null);
 
-    let l: number;
-    let r: number;
+    // fill base cases where substrings are of size 1
     for (let i=0; i<s.length; i++) {
-        
-        // check for odd len palindromes
-        l = i-1;
-        r = i+1;
-        while (
-            l >=0            // l in bounds
-            && r < s.length  // r in bounds
-            && s[l] === s[r] // l & r vals match
-        ) {
-            if (r-l+1 > maxPal.length) maxPal = s.slice(l,r+1);
-            l--;
-            r++;
-        }
+        dpMatrix[i][i] = true;
+    }
 
-        // check for even len palindromes
-        l = i;
-        r = i+1;
-        while (
-            l >=0            // l in bounds
-            && r < s.length  // r in bounds
-            && s[l] === s[r] // l & r vals match 
-        ) {
-            if (r-l+1 > maxPal.length) maxPal = s.slice(l,r+1);
-            l--;
-            r++;
+    for (let start=0; start<s.length; start++) {
+
+        // end index can only be after startIndex
+        for (let end=start+1; end<s.length; end++) {
+
+            // candidate substring.length ==  2
+            if (start - end == 1 && s[start] === s[end]) {    
+                dpMatrix[start][end] = true; // valid palindrome of size 2
+            }
+
+            // candidate substring.length == 2
+            else if (s[start] == s[end]) {
+                dpMatrix[start][end] = true; // valid palindrome extended!
+            }
+            // else {
+            //     dpMatrix[start][end] = false;
+            // }
+
+            // update longest palindrome
+            if (dpMatrix[start][end] && end-start+1 > longestPal.length) {
+                longestPal = s.slice(start, end+1);
+            }
         }
     }
 
-    return maxPal;
+    return longestPal;
 };
-
-// time: O(n^3)
-// space: O(n)
