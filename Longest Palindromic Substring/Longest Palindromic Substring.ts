@@ -20,6 +20,8 @@ Naive Strategy O(2n):
             prepend output with half O(n)
             append output with other half O(n)
 
+
+I didn't fill the frequency array until minuet 35
 */
 
 
@@ -46,7 +48,6 @@ function longestPalindrome(s: string): string {
             freq[ getFreqIndex(ch) ] += ch;
         }
     }
-    // console.log(freq);
 
     const frontHalf: string[] = [];
     // iterate through freq array
@@ -64,6 +65,8 @@ function longestPalindrome(s: string): string {
             }
         }
     });
+
+    if (frontHalf.length === 0) return s[0] // edge case - no duplicates
 
     // middle ch can't be duplicated in output
     let mid: string;
