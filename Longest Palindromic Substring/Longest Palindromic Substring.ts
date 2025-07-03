@@ -1,97 +1,78 @@
 /*
-Goal: return the longest possible palindrome from the given letters
+attempt #2
+(misunderstood the problem for the 1st attempt)
 
-ASSUME: only lowercase English letters + digits 0-9
+Goal: find the longest CONTINUOUS AND UNBROKEN substring that forms a palindrome
 
-Notes:
-    multiple valid answers
-    middle letter must appear twice in input,
-    but once in output
-    s.length <= 1000
-        O(n^2) = 10^6
-        O(n^3) = 10^18
-        O(2^n) = 2^1000 = 10^300
-        therefore O(N^2) runtime or better is needed
+NAIVE STRATEGY:
+    create every possible substring and record which is longest palindrome
 
-Naive Strategy O(2n):
-    record letter freq with hashmap O(n)
-    iterate through hashmap, O(26)
-        if letter freq is even,
-            prepend output with half O(n)
-            append output with other half O(n)
+    simulation for "babad":
+        2: "ba", "ab", "ba", "ad"
+        3: "bab", "aba", "bad"
+        4: "baba", "abad"
+        5: "babad"
+    
+    O(2^N)?
 
+OPTIMIZED DP STRATEGY:
+    {startIndex: endIndex for longest palindrome}
+    hashMap = {};
 
-I didn't fill the frequency array until minuet 35
+    work backwards
+    e.g. longest palindrome from last index is 1
+    
+    from each index, attempt a palindrome
+        if next index is palindrome,
+            check if (i+1)'s palindrome can be extended on both sides
+
+    O(N^2)?
+
 */
 
-
-
-// naive implementation
 function longestPalindrome(s: string): string {
+    // last[startIndex] = length of palindrome
+    const palLen: number[] = new Array(s.length).fill(1);
+    let longestPal: number = s.length-1;
 
-    if (s.length === 1) return s; // edge case
+    // iterate backwards through s
+    for (let i=s.length-2; i>=0; i--) {
 
-    // [0,8] for digits
-    // [9,35] for letters
-    const freq: string[] = new Array(36).fill(""); // 26 letters + 0-9 digits
+        // check if we can extend next index's palindrome
 
-    // fill freq array
-    for (let i=0; i<s.length; i++) {
-        const ch: string = s[i];
-        
-        // if 0-9
-        if (!isNaN(Number(ch))) {
-            freq[Number(ch)] += ch;
+        // 0121
+        // abaa
+        // if next index doesn't have palindrome 
+        if (palLen[i+1] === 1) {
+            
+            // len2 palindrome?
+            if (s[i] === s[i+1]) palLen[i] = 2;
+
+            // len3 palindrome?
+            if ( s[i+2] != undefined && s[i+2] === s[i] ) palLen[i] = 3;
         }
-        // else a-z
+
+        // else next index has palindrome > 1
         else {
-            freq[ getFreqIndex(ch) ] += ch;
-        }
-    }
+            // attempt to expand palindrome by 1
+            const nextPalLen: number = palLen[i+1];
+            const newEndIndex: number = i+nextPalLen+1;
 
-    const frontHalf: string[] = [];
-    // iterate through freq array
-    freq.forEach( collection => {
-
-        let ch: string;
-        if (collection.length >= 1) ch = collection[0];
-        
-        // freq is at least 2
-        if (collection.length >= 2) {
-
-            // add half of total ch to beginning and then half to end of output
-            for(let i=0; i<Math.floor(collection.length/2); i++) {
-                frontHalf.push(ch);
+            // if start matches end
+            if (s[i] === s[newEndIndex]) {
+                palLen[i] = 1 + palLen[i+1] + 1; // new palindrome!
             }
         }
-    });
 
-    if (frontHalf.length === 0) return s[0] // edge case - no duplicates
+        // update index for start of longest palindrome
+        longestPal = palLen[longestPal] > palLen[i]
+        ? longestPal
+        : i;
 
-    // middle ch can't be duplicated in output
-    let mid: string;
-    if (frontHalf.length > 1) {
-        mid = frontHalf.pop();
     }
 
-    const outputArr: string[] = new Array( frontHalf.length*2 +1 );
-    outputArr[ Math.floor(outputArr.length/2) ] = mid;
-    
-    // double and mirror frontHalf
-    for (let i=0; i<frontHalf.length; i++) {
-        // add to the beginning
-        outputArr[i] = frontHalf[0];
-
-        // add to the end
-        outputArr[ outputArr.length-1-i ] = frontHalf[0];
-    }
-
-    return outputArr.join('');
+    return s.slice(longestPal, longestPal + palLen[longestPal]);
 };
 
-// helper function
-function getFreqIndex(ch: string): number {
-    // ascii for "a" is 97
-    // index for a is 9
-    return ch.charCodeAt(0)-88;
-}
+// space: O(n)
+// time:  O(n)
