@@ -18,6 +18,9 @@ O(N^3) STRATEGY:
 */
 
 function longestPalindrome(s: string): string {
+
+    if (s.length === 1) return s; // edge case
+
     let maxPal: string = "";
 
     let l: number;
