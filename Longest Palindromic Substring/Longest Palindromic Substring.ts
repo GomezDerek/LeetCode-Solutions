@@ -24,7 +24,7 @@ function longestPalindrome(s: string): string {
     let longestPal: string = s[0];
 
     // I didn't properly create the 2D array until min 22 😭
-    const dpMatrix: ( (boolean | null)[] )[] = new Array(s.length);
+    const dpMatrix: (boolean | null)[][] = new Array(s.length);
     for (let i=0; i<dpMatrix.length; i++) dpMatrix[i] = new Array(s.length).fill(null);
 
     // fill base cases where substrings are of size 1
@@ -32,25 +32,23 @@ function longestPalindrome(s: string): string {
         dpMatrix[i][i] = true;
     }
 
-    for (let start=0; start<s.length; start++) {
 
-        // end index can only be after startIndex
-        for (let end=start+1; end<s.length; end++) {
+    // search for palindromes by size, starting with size 2, then iterating to full size of s
+    for (let len=2; len<=s.length; len++) {
 
-            // candidate substring.length ==  2
-            if (start - end == 1 && s[start] === s[end]) {    
-                dpMatrix[start][end] = true; // valid palindrome of size 2
+        // iterate all possible starting indices for the given size
+        for (let start=0; start<s.length-len+1; start++) {
+            const end: number = start+len-1;
+            
+            // check for valid palindromes
+            if ( len === 2 && s[start] === s[end] ) {
+                dpMatrix[start][end] = true;
+            }
+            else if (len > 2 && s[start] === s[end] && dpMatrix[start+1][end-1]) {
+                dpMatrix[start][end] = true;
             }
 
-            // candidate substring.length == 2
-            else if (s[start] == s[end]) {
-                dpMatrix[start][end] = true; // valid palindrome extended!
-            }
-            // else {
-            //     dpMatrix[start][end] = false;
-            // }
-
-            // update longest palindrome
+            // update longest palindome 
             if (dpMatrix[start][end] && end-start+1 > longestPal.length) {
                 longestPal = s.slice(start, end+1);
             }
