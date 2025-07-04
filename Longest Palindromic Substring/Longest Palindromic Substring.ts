@@ -1,7 +1,7 @@
 function longestPalindrome(s: string): string {
     
     // starting & ending indices for longest palindrome
-    let maxPal: {[key: string]: number} = {start: 0, end: 0};
+    const maxPal: {[key: string]: number} = {start: 0, end: 0};
 
     const dpMatrix: (boolean | null)[][] = new Array(s.length);
     for (let i=0; i<dpMatrix.length; i++) dpMatrix[i] = new Array(s.length).fill(null);
@@ -28,7 +28,8 @@ function longestPalindrome(s: string): string {
 
             // update longest palindome 
             if (dpMatrix[start][end] && end-start+1 > maxPal.end-maxPal.start+1) {
-                maxPal = {start: start, end: end};
+                maxPal.start = start;
+                maxPal.end = end;
             }
         }
     }
