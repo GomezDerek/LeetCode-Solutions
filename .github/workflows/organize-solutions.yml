@@ -47,6 +47,10 @@ jobs:
           # Check if it's a directory and not in our exclusion list
           if [ -d "$item" ] && [ "$item" != ".git" ] && [ "$item" != "solutions" ] && [ "$item" != ".github" ]; then
             echo "Moving folder: $item to solutions/"
+            # Remove existing folder if it exists
+            if [ -d "solutions/$item" ]; then
+              rm -rf "solutions/$item"
+            fi
             mv "$item" solutions/
             MOVED_FOLDERS+=("$item")
             CHANGES_MADE=true
