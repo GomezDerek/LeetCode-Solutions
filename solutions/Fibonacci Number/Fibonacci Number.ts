@@ -1,7 +1,11 @@
-// naive implementation without cache optimization
+// optimized runtime with cache
+// Runtime: O(N)
+// Space: O(N)
+
+// fib(n) = cache[n]
+const cache: number[] = [0,1];
 
 function fib(n: number): number {
-    if (n === 0) return 0;
-    else if (n === 1) return 1;
-    else return fib(n-1) + fib(n-2);
+    if (cache[n] === undefined) cache[n] = fib(n-1) + fib(n-2);
+    return cache[n];
 };
