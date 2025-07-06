@@ -2,10 +2,12 @@
 // Runtime: O(N)
 // Space: O(N)
 
-// fib(n) = cache[n]
-const cache: number[] = [0,1];
-
 function fib(n: number): number {
-    if (cache[n] === undefined) cache[n] = fib(n-1) + fib(n-2);
-    return cache[n];
+    const cache: {[key: number]: number} = {0: 0, 1: 1};
+    return recurse(n);
+    
+    function recurse(n: number): number {
+        if (cache[n] === undefined) cache[n] = fib(n-1) + fib(n-2);
+        return cache[n];
+    }
 };
