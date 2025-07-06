@@ -1,14 +1,20 @@
 // iterative bottom-up DP
-// optimized runtime with cache
 // Runtime: O(N)
-// Space: O(N)
+// Space: O(1)
 
 function fib(n: number): number {
-    const cache: number[] = [0,1];
+    if ( n <= 1) return n;
     
-    for (let i=2; i<=n; i++) {
-        cache.push( cache[i-1] + cache[i-2] );
+    // else n >= 2
+    let pre1: number = 1; // (n-1)
+    let pre2: number = 0; // (n-2)
+    let tmp: number;
+
+    for (let i=2; i<n; i++) {
+        tmp = pre1;
+        pre1 += pre2;
+        pre2 = tmp;
     }
 
-    return cache[n];
+    return pre1 + pre2; // (n-1) + (n-2)
 };
