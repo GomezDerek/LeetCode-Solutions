@@ -3,7 +3,7 @@
 // Space: O(N)
 
 function fib(n: number): number {
-    const cache: {[key: number]: number} = {0: 0, 1: 1};
+    const cache: number[] = [0,1];
     return recurse(n);
     
     function recurse(n: number): number {
