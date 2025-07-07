@@ -39,8 +39,9 @@ function maxRepeating(sequence: string, word: string): number {
 
         // i++ if no match at all
         // or continue from end of string comparison
-        if (j === 0) i++;
-        else i += j;
+        // if (j === 0) i++;
+        // else i += j;
+        i++;
     }
 
     // console.log(starts);
@@ -58,5 +59,6 @@ function maxRepeating(sequence: string, word: string): number {
         i++;
     }
 
+    console.log(starts)
     return k;
 };
