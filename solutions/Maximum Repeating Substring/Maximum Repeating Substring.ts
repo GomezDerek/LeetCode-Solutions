@@ -59,6 +59,6 @@ function maxRepeating(sequence: string, word: string): number {
         i++;
     }
 
-    console.log(starts)
+    // console.log(starts)
     return k;
 };
