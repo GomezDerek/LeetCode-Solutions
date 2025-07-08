@@ -1,64 +1,47 @@
 /*
-    comparing word to substring of sequence is O(word.length)
+    taking a stab at debugging this the day after I wrote it
 
-NAIVE SOLUTION:
-    O(word.length * sequence.length) -> 10^6, acceptable?
-    for every char in sequence,
-        if char begins with word[0]
-            iterate through both word and sequence to confirm match
-                if match, record start in DS
-                continue sequence iteration after last char in sequence
-    
-    find max-k, by trying to string word start records
-    iterate through starts,
-        if start + wordLength = another start
-            k++ 
-
-    reminder: consider sequence.length || word.length == 1
+    revisions: 
+        - starts switched to set instead of array for O(1) search
+        - implemented DP for k calc after starts found
 */
 
 function maxRepeating(sequence: string, word: string): number {
-    let k: number = 0;
-    let starts: number[] = [];
+    let starts: Set<number> = new Set();
 
-    // find starts
+    // find start indices for word substrings
+    // try from every ch in sequence
     let i: number = 0;
     while (i<sequence.length) {
-        // console.log(i);
         
         let j: number = 0;
         while ( sequence[i+j] === word[j] && j < word.length ) {
-            // console.log(`\t${i+j}`)
             j++;
         }
 
-        // if whole word in sequence, store startign index
+        // if whole word in sequence, store starting index
         if (j === word.length) {
-            starts.push(i);
+            starts.add(i);
         }
 
-        // i++ if no match at all
-        // or continue from end of string comparison
-        // if (j === 0) i++;
-        // else i += j;
         i++;
     }
 
-    // console.log(starts);
-    i = 0; // reuse var from 1st loop
-    let streak: number = 1;
-    while (i < starts.length) {
-        
+    // this is the DP part
+    // dp[ startIndex ] = k-repeats of word up to and including that starting index
+    const dp: {[key: number]: number} = {};
+    let maxK: number = 0;
 
-        streak = starts[i-1] === starts[i] - word.length
-            ? streak + 1
-            : 1
-            ;
-
-        k = Math.max(k, streak);
-        i++;
+    for (const start of starts) {
+        dp[start] = (dp[start - word.length] ?? 0) + 1; // 1st nullish coalescense! ES2020
+        maxK = Math.max(maxK, dp[start]);
     }
 
-    // console.log(starts)
-    return k;
+    return maxK;
 };
+
+// time: O(sequence.length * word.length)
+// double while loop
+
+// space: O(n)
+// starts set
