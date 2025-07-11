@@ -5,6 +5,10 @@ NOTES:
     rChild index = 1 + 2*parentIndex
 */
 
+// Init Time: O(n log n)
+// Add Time: O(log k)
+// Space: O(k)
+
 class KthLargest {
     k: number;
     kHeap: number[]; // minHeap of size K
@@ -19,28 +23,13 @@ class KthLargest {
 
         this.kHeap = [null, ...nums];
 
-        // heapify - convert to minHeap O(k logk)
+        // heapify - convert to minHeap O(log k)
         for (let i=Math.floor(k/2); i>0; i--) {
             this.bubbleDown(i);
         }
-        console.log(this.kHeap);
-        // for (let i=k; i>0; i--) {
-
-        //     let j: number = i;
-        //     while ( 
-        //         Math.floor(j/2) > 0 
-        //         && this.kHeap[j] < this.kHeap[ Math.floor(j/2) ] 
-        //     ) {
-        //         // swap with parent
-        //         const tmp: number = this.kHeap[j];
-        //         this.kHeap[j] = this.kHeap[ Math.floor(j/2) ];
-        //         this.kHeap[ Math.floor(j/2) ] = tmp;
-
-        //         j = Math.floor(j/2); // continue bubbling up
-        //     }
-        // }
     }
 
+    // O(log k)
     add(val: number): number {
         if (this.kHeap.length <= this.k) this.kHeap.push( this.kHeap[1] ); // add to our heap
         else if (val < this.kthLargest()) return this.kthLargest(); // no mods needed
@@ -49,31 +38,17 @@ class KthLargest {
         this.kHeap[1] = val; // replace top of min heap
 
         // reheapify
-        // and bubble up our new val to its rightful place
+        // and bubble down our new val to its rightful place
         this.bubbleDown(1);
 
         return this.kthLargest();
     }
 
 
-    // swap a value up the heap tree from leaf -> root
-    bubbleUp(curI: number): void {
-        while ( 
-            Math.floor(curI/2) > 0 
-            && this.kHeap[curI] < this.kHeap[ Math.floor(curI/2) ] 
-        ) {
-            // swap with parent
-            const tmp: number = this.kHeap[curI];
-            this.kHeap[curI] = this.kHeap[ Math.floor(curI/2) ];
-            this.kHeap[ Math.floor(curI/2) ] = tmp;
-
-            curI = Math.floor(curI/2); // continue bubbling up
-        }
-    }
-
     // swap a value down the heap tree from root -> leaf
+    // O(log n)
     bubbleDown(curI: number): void {
-        while ( curI * 2 < this.kHeap.length) {
+        while ( curI * 2 < this.kHeap.length) { // while curNode has children
             const lVal: number = this.kHeap[curI*2];
             const rVal: number = this.kHeap[curI*2 +1] ?? Infinity;
             const min: number = Math.min(this.kHeap[curI], lVal, rVal);
