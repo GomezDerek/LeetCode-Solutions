@@ -38,9 +38,10 @@ class KthLargest {
     }
 
     add(val: number): number {
-        if (val < this.kthLargest()) return this.kthLargest(); // no mods needed
-        // else we need to adjust our heap
+        if (this.kHeap.length <= this.k) this.kHeap.push( this.kHeap[1] ); // add to our heap
+        else if (val < this.kthLargest()) return this.kthLargest(); // no mods needed
 
+        // else we need to adjust our heap
         this.kHeap[1] = val; // replace top of min heap
 
         // reheapify
