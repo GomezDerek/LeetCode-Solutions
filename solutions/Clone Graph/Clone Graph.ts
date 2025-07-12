@@ -12,25 +12,37 @@
  * 
  */
 
-/* DFS strategy */
+/* BFS strategy */
 function cloneGraph(node: _Node | null): _Node | null {
     if (node === null) return null;
 
+    const deque: Deque<_Node> = new Deque();
+    deque.pushBack(node);
+
     const cloneMap: _Node[] = [];
-    dfs(node);
-    return cloneMap[1];
 
-    function dfs(curNode: _Node): _Node {
-        if ( cloneMap[curNode.val] !== undefined ) return cloneMap[curNode.val];
+    while (deque.size() > 0) {
+        const curNode: _Node = deque.popFront();
 
-        const clone: _Node = new _Node(curNode.val);
-        cloneMap[clone.val] = clone;
-
-        // recursion
-        for (let i=0; i<curNode.neighbors.length; i++) {
-            clone.neighbors.push( dfs(curNode.neighbors[i]) );
+        // create / retrieve node's clone
+        if (cloneMap[curNode.val] === undefined) {
+            cloneMap[curNode.val] = new _Node(curNode.val);
         }
+        const cloneNode: _Node = cloneMap[curNode.val];
 
-        return clone;
+        // create/ connect neighbors
+        curNode.neighbors.forEach( neighbor => {
+
+            // create / retrieve neighbor clone
+            if (cloneMap[neighbor.val] === undefined) {
+                cloneMap[neighbor.val] = new _Node(neighbor.val);
+                deque.pushBack(neighbor); // add untraversed neighbor
+            }   
+            
+            const neighborNode: _Node = cloneMap[neighbor.val];
+            cloneNode.neighbors.push(neighborNode);
+        });
     }
+    
+    return cloneMap[1]; // return clone of input node
 };
