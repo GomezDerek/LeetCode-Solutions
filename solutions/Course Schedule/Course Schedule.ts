@@ -15,7 +15,6 @@
         if node exists as a prereq w/in its prereqs' prereqs, cycle exists
 */
 function canFinish(numCourses: number, prerequisites: number[][]): boolean {
-    const hashMap: {[key: number]: number[]} = {};
     const courses: number[][] = [];
     for (let i=0; i<numCourses; i++) courses.push([]);
 
@@ -24,6 +23,8 @@ function canFinish(numCourses: number, prerequisites: number[][]): boolean {
         const prereq: number = prerequisites[i][1];
 
         if (courses[prereq].includes(course)) return false;
+        else if (course === prereq) return false; // edge case
+        
         courses[course].push(prereq);
     }
 
