@@ -1,95 +1,32 @@
-/*
-    GOAL
-        determine if we need more than 2 groups
-
-    NOTES
-        this is a graph
-            dislikes are edges
-            people are vertices
-
-        FAIL CASE: enemies can't share mutual enemies
-            1 -> 3
-            1 -> 2
-            3 -> 2
-
-            1 -> 2 <- 3
-            ----------^
-
-        cycle detection? no.
-        alternate path detection?
-
-        1 -> 4
-        7 -> 4
-        4 -> 7
-        4 -> 1
-
-        1 <-> 4
-        7 <---^
-
-
-    STRATEGY:
-        create adj list O(V + E)
-        BFS from each person O(V+E)
-            and if a vert is traversed twice
-                2 groups is not possible
-
-*/
-
 function possibleBipartition(n: number, dislikes: number[][]): boolean {
-    
-    // create adjacency list from dislikes[][]
-    const adjList: number[][] = new Array(n+1).fill(null).map(()=>[]);
-    dislikes.forEach(([a,b]) =>{
-        // a dislikes b
-        adjList[a].push(b);
-    });
-    console.log(adjList);
+    const graph: number[][] = Array.from({ length: n + 1 }, () => []);
+    const color: number[] = Array(n + 1).fill(0); // 0: unvisited, 1: group A, -1: group B
 
-    // look for fail case
-    const team1: Set<number> = new Set<number>([1]);
-    const team2: Set<number> = new Set<number>();
-    const visiting: Set<number> = new Set<number>();
-
-    if (!dfs(1, team1)) return false;
-    for (let i=2; i<=n; i++) {
-        if ( !dfs(i, null) ) return false;
+    // Build adjacency list
+    for (const [a, b] of dislikes) {
+        graph[a].push(b);
+        graph[b].push(a);
     }
 
-    // console.log(visiting);
-    // console.log(team1);
-    // console.log(team2);
-    return true; // no fail case found! :D
+    // Try to color each component
+    for (let i = 1; i <= n; i++) {
+        if (color[i] !== 0) continue;
 
+        const queue: number[] = [i];
+        color[i] = 1;
 
-    function dfs(person: number, team: Set<number>): boolean {
-        // base case
-        if (
-            team !== null &&
-            (team === team1 ? team2: team1).has(person)
-        ) {
-            // console.log(person, " is in the wrong team!");
-            return false;
-        }
-        else if (visiting.has(person)) return true;
-
-        console.log(person, team);
-        if(team !== null) team.add(person);
-        visiting.add(person);
-        // recursion
-        for (let i=0; i<adjList[person].length; i++) {
-            const enemyTeam: Set<number> = team === team1 ? team2: team1;
-            if ( !dfs(adjList[person][i], enemyTeam) ) {
-                // console.log(`parent triggered`);
-                return false;
+        while (queue.length > 0) {
+            const current = queue.shift()!;
+            for (const neighbor of graph[current]) {
+                if (color[neighbor] === 0) {
+                    color[neighbor] = -color[current];
+                    queue.push(neighbor);
+                } else if (color[neighbor] === color[current]) {
+                    return false; // Same color on both ends of an edge = not bipartite
+                }
             }
         }
-
-        return true; // no fail cases found
     }
 
-
-};
-
-// 1: 1
-// 2: 2 
-// 3: 1
+    return true;
+}
