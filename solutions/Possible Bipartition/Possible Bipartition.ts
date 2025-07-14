@@ -72,7 +72,8 @@ function possibleBipartition(n: number, dislikes: number[][]): boolean {
         }
         else if (visiting.has(person)) return true;
 
-        team.add(person);
+        console.log(person, team);
+        if(team !== null) team.add(person);
         visiting.add(person);
         // recursion
         for (let i=0; i<adjList[person].length; i++) {
