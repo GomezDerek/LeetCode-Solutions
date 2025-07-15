@@ -44,6 +44,7 @@ function possibleBipartition(n: number, dislikes: number[][]): boolean {
         }
 
         visited.delete(v);
+        adjList[v] = [];
 
         return true; // no falsehoods found
     }
