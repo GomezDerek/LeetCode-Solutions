@@ -1,32 +1,52 @@
+/*
+    I had ChatGPT explain the solution in depth to me
+    Strategy:
+        use dislikes to build an undirected graph via adjacency list
+        traverse with DFS
+            alternate team assignments as we traverse
+            return false if we find a conflict
+*/
+
 function possibleBipartition(n: number, dislikes: number[][]): boolean {
-    const graph: number[][] = Array.from({ length: n + 1 }, () => []);
-    const color: number[] = Array(n + 1).fill(0); // 0: unvisited, 1: group A, -1: group B
+    const adjList: number[][] = new Array(n+1).fill(null).map(()=>[]);
 
-    // Build adjacency list
-    for (const [a, b] of dislikes) {
-        graph[a].push(b);
-        graph[b].push(a);
+    dislikes.forEach( ([a,b]) => {
+        // EDGES GO BOTH WAYS
+        adjList[a].push(b);
+        adjList[b].push(a);
+    });
+
+    // vertex teams can be 1 or 2
+    const team: (number | null)[] = new Array(n+1).fill(null);
+    const visited: Set<number> = new Set<number>();
+    
+    for (let i=1; i<=n; i++) {
+        const iTeam: number = team[i] ?? 1; // default to team1 if no team yet
+        if ( !dfs(i, iTeam) ) return false;
     }
 
-    // Try to color each component
-    for (let i = 1; i <= n; i++) {
-        if (color[i] !== 0) continue;
+    function dfs(v: number, vTeam: number): boolean {
+        // first time vertex is visited
+        if ( team[v] === null ) team[v] = vTeam;
+        
+        // vertex visited before
+        else if ( team[v] !== vTeam ) return false; // conflict found
+        else if (visited.has(v) && team[v] === vTeam) return true; // end traversal bc already visited
 
-        const queue: number[] = [i];
-        color[i] = 1;
 
-        while (queue.length > 0) {
-            const current = queue.shift()!;
-            for (const neighbor of graph[current]) {
-                if (color[neighbor] === 0) {
-                    color[neighbor] = -color[current];
-                    queue.push(neighbor);
-                } else if (color[neighbor] === color[current]) {
-                    return false; // Same color on both ends of an edge = not bipartite
-                }
-            }
+        visited.add(v);
+        
+        // recursion
+        for (let i=0; i<adjList[v].length; i++) {
+            const enemy: number = adjList[v][i];
+            const enemyTeam: number = vTeam === 1 ? 2 : 1;
+            if (!dfs(enemy, enemyTeam)) return false; // conflict found
         }
+
+        visited.delete(v);
+
+        return true; // no falsehoods found
     }
 
-    return true;
-}
+    return true; // no falsehoods found
+};
