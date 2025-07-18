@@ -25,6 +25,9 @@
 
                     // recursion if ch in gridPos
                     neighbors.forEach( n => dfs(n, chI+1) )
+
+    REVISION:
+
 */
 
 function exist(board: string[][], word: string): boolean {
@@ -43,21 +46,30 @@ function exist(board: string[][], word: string): boolean {
 
     return success;
 
-    function dfs(r,c, chI, visited): void {
+    function dfs(r: number, c: number, chI: number, visited: Set<string>): void {
         // console.log(word[chI], visited.has(`${r}${c}`), visited);
-        // base case
-        if ( visited.has(`${r}${c}`) ) return;
-        // gridPos not valid
-        else if (
-            r < 0 
-            || r >= m
-            || c < 0
-            || c >=n
-        ) {
-            return;
-        }
+        
+        // base cases
+        
+        // we've already found the word! no more recursions needed
+        if (success) return;
+
+        // move to recursive check
+        // // this pos has already been visited
+        // else if ( visited.has(`${r} ${c}`) ) return;
+
+        // // gridPos not valid
+        // else if (
+        //     r < 0
+        //     || r >= m
+        //     || c < 0
+        //     || c >= n
+        // ) return;
+
         // ch not in gridPos
         else if (board[r][c] !== word[chI]) return;
+        
+        // last ch in word reached!
         else if (
             board[r][c] === word[chI]
             && chI === word.length-1
@@ -65,12 +77,12 @@ function exist(board: string[][], word: string): boolean {
             success = true;
             return;
         }
-        else if (success) return;
+        // else ch found in gridPos
 
+        // add cur to visited set
+        visited.add(`${r} ${c}`);
+        
         // recursion
-        // add visited set
-        visited.add(`${r}${c}`);
-
         const adjPos: [number, number][] = [
             [r, c+1], // up
             [r, c-1], // down
@@ -78,8 +90,16 @@ function exist(board: string[][], word: string): boolean {
             [r+1, c]  // r
         ];
 
-        adjPos.forEach( coord => {
-            dfs(coord[0], coord[1], chI+1, new Set<string>(visited));
+        adjPos.forEach( ([nr,nc]) => {
+            if (
+                // in bounds
+                nr >= 0
+                && nr < m
+                && nc >= 0
+                && nc < n
+                // and unvisited
+                && !visited.has(`${nr} ${nc}`)
+            ) dfs(nr, nc, chI+1, new Set<string>(visited));
         });
 
         return;
