@@ -1,54 +1,30 @@
 /*
-GOAL: find amount of triplets
+    REDO
 
-NOTES:
-    nums[i] + diff = nums[j]
-    nums[j] + diff = nums[k]
-    STRICTLY INCREASING = no duplicates
-
-
-STRATEGY:
-    sliding window?
-    find doubles, then triples
-    two pointers for doubles:
-        if j-i < diff: j++
-        else if j-i > diff: i++ 
-        else if j==i: j++
-        when double found:
-            add 3rd pointer (k)
-                follow same logic to find diff
+    HASHMAP STRATEGY:
+        iterate through nums and build a hashmap {numsVal: numsIndex}
+        iterate through nums again
+            if hashmap[nums[i] + diff]
+                if hashmap[nums[i] + diff*2]
+                    triplet found
 */
 
-// 25 min: ready to test / submit. Walked through my algo. Manually tested against example test cases
 function arithmeticTriplets(nums: number[], diff: number): number {
-    let i: number = 0;
-    let j: number = 1;
-    let k: number;
+    const hash: Map<number, number> = new Map();
 
-    let tripleCount: number = 0;
+    nums.forEach( (num, i) => hash.set(num, i));
 
-    while (j < nums.length) {
-        if (i === j) j++; // avoid index overlap
 
-        // look for double
-        if (nums[j] - nums[i] < diff) j++;      // increase diff
-        else if (nums[j] - nums[i] > diff) i++; // decrease diff
-        
-        // DOUBLE FOUND
-        else if (nums[j] - nums[i] === diff) {
-            // look for triple
-            k = j+1;
-            while (k < nums.length) {
-                if (nums[k] - nums[j] === diff) {
-                    tripleCount++;
-                    break;
-                }
-                else if (nums[k] - nums[j] < diff) k++;
-                else if (nums[k] - nums[j] > diff) break;
+    let numTriples: number = 0;
+    nums.forEach( num => {
+        //find double
+        if (hash.has(num + diff)) {
+            // find triple
+            if (hash.has(num + diff*2)) {
+                numTriples++;
             }
-            i++;
         }
-    }
+    });
 
-    return tripleCount;
+    return numTriples;
 };
