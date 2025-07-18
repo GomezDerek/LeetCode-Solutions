@@ -78,7 +78,6 @@ function exist(board: string[][], word: string): boolean {
             [r+1, c]  // r
         ];
 
-
         adjPos.forEach( coord => {
             dfs(coord[0], coord[1], chI+1, new Set<string>(visited));
         });
@@ -86,9 +85,3 @@ function exist(board: string[][], word: string): boolean {
         return;
     }
 };
-
-/*
-    ABCE
-    SFES
-    ADEE
-*/
