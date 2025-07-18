@@ -41,13 +41,12 @@ function arithmeticTriplets(nums: number[], diff: number): number {
             while (k < nums.length) {
                 if (nums[k] - nums[j] === diff) {
                     tripleCount++;
-                    i++;
                     break;
                 }
-                else {
-                    k++;
-                }
+                else if (nums[k] - nums[j] < diff) k++;
+                else if (nums[k] - nums[j] > diff) break;
             }
+            i++;
         }
     }
 
