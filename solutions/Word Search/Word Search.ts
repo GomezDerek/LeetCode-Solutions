@@ -29,7 +29,6 @@
 
 function exist(board: string[][], word: string): boolean {
     let success: boolean = false;
-    const visited: Set<string> = new Set();
 
     const m: number = board.length;
     const n: number = board[0].length;
@@ -37,15 +36,14 @@ function exist(board: string[][], word: string): boolean {
       for (let c=0; c<n; c++) {
         // console.log(board[r][c].toLowerCase());
         if (board[r][c].toLowerCase() === word[0].toLowerCase()) {
-            dfs(r,c,0);
-            visited.clear();
+            dfs(r,c,0, new Set<string>());
         }
       }  
     }
 
     return success;
 
-    function dfs(r,c, chI): void {
+    function dfs(r,c, chI, visited): void {
         // console.log(word[chI], visited.has(`${r}${c}`), visited);
         // base case
         if ( visited.has(`${r}${c}`) ) return;
@@ -82,9 +80,15 @@ function exist(board: string[][], word: string): boolean {
 
 
         adjPos.forEach( coord => {
-            dfs(coord[0], coord[1], chI+1);
+            dfs(coord[0], coord[1], chI+1, new Set<string>(visited));
         });
 
         return;
     }
 };
+
+/*
+    ABCE
+    SFES
+    ADEE
+*/
