@@ -35,7 +35,7 @@ function exist(board: string[][], word: string): boolean {
     for (let r=0; r<m; r++) {
       for (let c=0; c<n; c++) {
         // console.log(board[r][c].toLowerCase());
-        if (board[r][c].toLowerCase() === word[0].toLowerCase()) {
+        if (board[r][c] === word[0]) {
             dfs(r,c,0, new Set<string>());
         }
       }  
@@ -57,9 +57,9 @@ function exist(board: string[][], word: string): boolean {
             return;
         }
         // ch not in gridPos
-        else if (board[r][c].toLowerCase() !== word[chI].toLowerCase()) return;
+        else if (board[r][c] !== word[chI]) return;
         else if (
-            board[r][c].toLowerCase() === word[chI].toLowerCase()
+            board[r][c] === word[chI]
             && chI === word.length-1
         ) {
             success = true;
