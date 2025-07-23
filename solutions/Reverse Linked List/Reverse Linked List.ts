@@ -11,13 +11,20 @@
  */
 
 function reverseList(head: ListNode | null): ListNode | null {
-    if (head === null) return null;
-    else if (head.next === null) return head;
+    // const hat: ListNode = new ListNode(null, head); <- completely unnecessary
+    let traveler: ListNode | null = head; // <- also necessary... but acceptable
+    let prev: ListNode = null;
 
-    const ogNext: ListNode = head.next;
-    const reversedHead: ListNode = reverseList(head.next);
-    ogNext.next = head;
-    head.next = null;
+    while (traveler !== null) {
+        const tNext: ListNode | null = traveler.next;
 
-    return reversedHead;
+        traveler.next = prev;
+        prev = traveler;
+        traveler = tNext;
+    }
+
+    // n -><- 1 <- 2 <- 3  n
+
+
+    return prev;
 };
