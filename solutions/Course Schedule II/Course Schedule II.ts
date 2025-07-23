@@ -21,7 +21,7 @@ function findOrder(numCourses: number, prerequisites: number[][]): number[] {
     prerequisites.forEach( ([course, prereq]) =>{
         adjMatrix[course].push(prereq);
     });
-    console.log(adjMatrix);
+    // console.log(adjMatrix);
 
 
     // STEP 2
@@ -63,7 +63,7 @@ function findOrder(numCourses: number, prerequisites: number[][]): number[] {
 
     for(let i=numCourses-1; i>=0; i--) {
         // add to queue IF IT HAS PRERQS
-        console.log(i, adjMatrix[i], adjMatrix[i].length > 0);
+        // console.log(i, adjMatrix[i], adjMatrix[i].length > 0);
         if (adjMatrix[i].length > 0 ) dq.pushBack(i);
 
         // else save for later
