@@ -63,29 +63,29 @@ function findOrder(numCourses: number, prerequisites: number[][]): number[] {
 
     for(let i=numCourses-1; i>=0; i--) {
         // add to queue IF IT HAS PRERQS
-        console.log(i, adjMatrix, adjMatrix[i].length > 0);
+        console.log(i, adjMatrix[i], adjMatrix[i].length > 0);
         if (adjMatrix[i].length > 0 ) dq.pushBack(i);
 
         // else save for later
         else savedForLater.push(i);
+    }
 
-        // then bfs traverse
-        while (dq.size() > 0) {
-            const curCourse = dq.popFront();
+    // then bfs traverse
+    while (dq.size() > 0) {
+        const curCourse = dq.popFront();
+        
+        // if not visited
+        if (!visited.has(curCourse)) {
+            // add to topo order
+            order.pushFront(curCourse);
+            visited.add(curCourse);
             
-            // if not visited
-            if (!visited.has(curCourse)) {
-                // add to topo order
-                order.pushBack(curCourse);
-                visited.add(curCourse);
-                
-                // traverse through prereqs
-                const preReqs = adjMatrix[curCourse];
-                preReqs.forEach( pR => dq.pushBack(pR) );
-            }
-
-            // else visited -> skip it
+            // traverse through prereqs
+            const preReqs = adjMatrix[curCourse];
+            preReqs.forEach( pR => dq.pushBack(pR) );
         }
+
+        // else visited -> skip it
     }
 
     // process saved for later
