@@ -55,9 +55,18 @@ function findOrder(numCourses: number, prerequisites: number[][]): number[] {
 
     const dq = new Deque<number>();
 
+
+    // if a course doesn't have prereqs, it's likely a prereq
+    // save them for last
+
+    const savedForLater: number[] = [];
+
     for(let i=numCourses-1; i>=0; i--) {
-        // add to queue
-        dq.pushBack(i);
+        // add to queue IF IT HAS PRERQS
+        if (adjMatrix[i].length > 0 ) dq.pushBack(i);
+
+        // else save for later
+        else savedForLater.push(i);
 
         // then bfs traverse
         while (dq.size() > 0) {
@@ -76,6 +85,27 @@ function findOrder(numCourses: number, prerequisites: number[][]): number[] {
 
             // else visited -> skip it
         }
+    }
+
+    // process saved for later
+    savedForLater.forEach( c => dq.pushBack(c));
+
+    // then bfs traverse
+    while (dq.size() > 0) {
+        const curCourse = dq.popFront();
+        
+        // if not visited
+        if (!visited.has(curCourse)) {
+            // add to topo order
+            order.pushFront(curCourse);
+            visited.add(curCourse);
+            
+            // traverse through prereqs
+            const preReqs = adjMatrix[curCourse];
+            preReqs.forEach( pR => dq.pushBack(pR) );
+        }
+
+        // else visited -> skip it
     }
 
     return order.toArray();
