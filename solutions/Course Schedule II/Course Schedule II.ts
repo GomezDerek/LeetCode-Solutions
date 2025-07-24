@@ -1,113 +1,40 @@
-/*
-    GOAL: return a topological order
-
-    NOTES:
-        DAG formed by prereqs
-        cycle is possible
-
-    STRATEGY:
-        1. create the DAG
-            arr index = course, value = prerequisites
-        2. look for a cycle - with DFS
-        3. create topo order - BFS
-*/
+// NC DFS solution
 
 function findOrder(numCourses: number, prerequisites: number[][]): number[] {
-    
-    // STEP 1
-    const adjMatrix: number[][] = new Array(numCourses).fill(null).map(()=>[]);
-    // console.log(arr);
+    const adjList: number[][] = new Array(numCourses).fill(null).map(()=>[]);
 
-    prerequisites.forEach( ([course, prereq]) =>{
-        adjMatrix[course].push(prereq);
-    });
-    // console.log(adjMatrix);
+    // fill the adj list
+    for (const [course, prereq] of prerequisites) {
+        adjList[course].push(prereq);
+    }
 
+    const topoSort: number[] = [];
 
-    // STEP 2
+    // run dfs on each course
     const visited = new Set<number>();
-
+    const inCycle = new Set<number>();
     for (let i=0; i<numCourses; i++) {
-        if (detectCycle(i)) return [];
+        if ( !dfs(i) ) return [];
     }
+    
+    return topoSort; // replace me
 
-    function detectCycle(curCourse: number): boolean {
-        // base case
-        if (visited.has(curCourse)) return true; // cycle detected
+    // returns if graph is non-cyclic
+    function dfs(curCourse: number): boolean {
+        
+        if (visited.has(curCourse)) return true;
+        else if (inCycle.has(curCourse)) return false;
 
-        // add visited
+        inCycle.add(curCourse);
+        
+        for (const prereq of adjList[curCourse]) {
+            if (!dfs(prereq)) return false;
+        }
+
+        inCycle.delete(curCourse);
         visited.add(curCourse);
+        topoSort.push(curCourse);
 
-        // recurse through the neighbors
-        const neighbors = adjMatrix[curCourse];
-        for(let i=0; i<neighbors.length; i++) {
-            if (detectCycle(neighbors[i])) return true;
-        }
-
-        // remove visited
-        visited.delete(curCourse);
-
-        return false; // no cycle detected
+        return true; 
     }
-
-    // STEP 3
-    const order = new Deque<number>();
-
-    const dq = new Deque<number>();
-
-
-    // if a course doesn't have prereqs, it's likely a prereq
-    // save them for last
-
-    const savedForLater: number[] = [];
-
-    for(let i=numCourses-1; i>=0; i--) {
-        // add to queue IF IT HAS PRERQS
-        // console.log(i, adjMatrix[i], adjMatrix[i].length > 0);
-        if (adjMatrix[i].length > 0 ) dq.pushBack(i);
-
-        // else save for later
-        else savedForLater.push(i);
-    }
-
-    // then bfs traverse
-    while (dq.size() > 0) {
-        const curCourse = dq.popFront();
-        
-        // if not visited
-        if (!visited.has(curCourse)) {
-            // add to topo order
-            order.pushFront(curCourse);
-            visited.add(curCourse);
-            
-            // traverse through prereqs
-            const preReqs = adjMatrix[curCourse];
-            preReqs.forEach( pR => dq.pushBack(pR) );
-        }
-
-        // else visited -> skip it
-    }
-
-    // process saved for later
-    savedForLater.forEach( c => dq.pushBack(c));
-
-    // then bfs traverse
-    while (dq.size() > 0) {
-        const curCourse = dq.popFront();
-        
-        // if not visited
-        if (!visited.has(curCourse)) {
-            // add to topo order
-            order.pushFront(curCourse);
-            visited.add(curCourse);
-            
-            // traverse through prereqs
-            const preReqs = adjMatrix[curCourse];
-            preReqs.forEach( pR => dq.pushBack(pR) );
-        }
-
-        // else visited -> skip it
-    }
-
-    return order.toArray();
 };
