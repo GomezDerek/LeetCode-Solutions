@@ -11,10 +11,13 @@ function isAnagram(s: string, t: string): boolean {
     // create freq list for s
     // use unicode for indices
     const sFreq: number[] = new Array(26).fill(0);
-    s.split("").forEach( ch => sFreq[ ch.charCodeAt(0) - 'a'.charCodeAt(0) ]++ );
+    for (let i=0; i<s.length; i++) {
+        sFreq[ s[i].charCodeAt(0) - "a".charCodeAt(0) ]++;
+    }
 
-    // decrement s freq list with t's chs
-    t.split("").forEach( ch => sFreq[ ch.charCodeAt(0) - 'a'.charCodeAt(0) ]-- );
+    for (let i=0; i<t.length; i++) {
+        sFreq[ t[i].charCodeAt(0) - "a".charCodeAt(0) ]--;
+    }
 
     // all freqs should be 0
     for (const freq of sFreq) {
