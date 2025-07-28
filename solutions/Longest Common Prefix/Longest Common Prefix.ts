@@ -1,30 +1,15 @@
-/**
-    BRUTE FORCE:
-        iterate through every str simultaneously
-            until mismatch
-
-        runtime: O(shortest str * # of str)
-        memory:  O(1)
- */
-
+/* not my solution */
 function longestCommonPrefix(strs: string[]): string {
-    if (strs.length === 1) return strs[0]; // edge case
+    if (strs.length === 0) return "";
 
-    let i=0;
+    let prefix = strs[0];
 
-    let done = false;
-    while (i<strs[0].length && !done) {
-        const ch: string = strs[0][i];
-
-        for (const str of strs) {
-            if (ch !== str[i]) {
-                done = true;
-                break;
-            }
+    for (let i = 1; i < strs.length; i++) {
+        while (strs[i].indexOf(prefix) !== 0) {
+            prefix = prefix.slice(0, -1);
+            if (prefix === "") return "";
         }
+    }
 
-        if (!done) i++;
-    } 
-
-    return strs[0].slice(0,i);
+    return prefix;
 };
