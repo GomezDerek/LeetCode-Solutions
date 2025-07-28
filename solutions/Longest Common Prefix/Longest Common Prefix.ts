@@ -13,7 +13,7 @@ function longestCommonPrefix(strs: string[]): string {
     let i=0;
 
     let done = false;
-    while (i<strs[0].length-1 && !done) {
+    while (i<strs[0].length && !done) {
         const ch: string = strs[0][i];
 
         for (const str of strs) {
