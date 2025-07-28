@@ -8,7 +8,8 @@
  */
 
 function longestCommonPrefix(strs: string[]): string {
-    
+    if (strs.length === 1) return strs[0]; // edge case
+
     let i=0;
 
     let done = false;
