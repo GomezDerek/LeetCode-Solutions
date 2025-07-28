@@ -1,17 +1,9 @@
-/**
-    STRATEGY:
-        use a set
-        iterate through the nums arr,
-            use set to check duplicates
-
-        runtime: O(N)
-        space: O(N)
- */
 function containsDuplicate(nums: number[]): boolean {
-    const seen = new Set<number>();
-    for (const num of nums) {
-        if (seen.has(num)) return true; // duplicate found
-        else seen.add(num);
+    const seen: boolean[] = new Array(10).fill(false);
+
+    for (let i=0; i<nums.length; i++) {
+        if (seen[nums[i]]) return true; // duplicate found!
+        else seen[nums[i]] = true; // mark num as seen
     }
 
     return false; // no duplicates
