@@ -16,16 +16,21 @@ function isPalindrome(s: string): boolean {
     // string has survived all palindrome checks
     return true;
 
-
-    // HELPER FUNCTION
-    function isAlphaNum(ch: string): boolean {
-        // is num
-        if ( "0".charCodeAt(0) <= ch.charCodeAt(0) && ch.charCodeAt(0) <= "9".charCodeAt(0) ) return true;
-
-        // is alpha
-        if ( "a".charCodeAt(0) <= ch.charCodeAt(0) && ch.charCodeAt(0) <= "z".charCodeAt(0)) return true;
-
-        return false;
-    }
 };
 
+// HELPER FUNCTION
+const code_a: number = "a".charCodeAt(0);
+const code_z: number = "z".charCodeAt(0);
+const code_0: number = "0".charCodeAt(0);
+const code_9: number = "9".charCodeAt(0);
+
+function isAlphaNum(ch: string): boolean {
+    const chCode: number = ch.charCodeAt(0);
+    // is num
+    if ( code_0 <= chCode && chCode <= code_9 ) return true;
+
+    // is alpha
+    if ( code_a <= chCode && chCode <= code_z) return true;
+
+    return false;
+}
