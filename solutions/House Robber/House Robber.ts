@@ -36,11 +36,11 @@
 function rob(nums: number[]): number {
     if (nums.length === 1) return nums[0]; // edge case
     
-    let maxSteal: number = 0;
 
     const mem: number[] = new Array(nums.length).fill(null);
     mem[0] = nums[0];
     mem[1] = nums[1];
+    let maxSteal: number = Math.max(nums[0], nums[1]);
 
     for (let i=0; i<nums.length; i++) {
         dpRecurse(i);
