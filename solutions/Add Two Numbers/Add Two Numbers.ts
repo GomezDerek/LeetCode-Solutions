@@ -43,13 +43,11 @@ function addTwoNumbers(l1: ListNode | null, l2: ListNode | null): ListNode | nul
     const nSum: bigint = n1+n2;
 
     // convert sum to list
-    const sSum: string = nSum.toString();
-    const sumHat = new ListNode();
-    let sumNode = sumHat;
-    for (let i=sSum.length-1; i>=0; i--) {
-        sumNode.next = new ListNode(parseInt(sSum[i]));
-        sumNode = sumNode.next;
+    let sumHead: ListNode | null = null;
+    for (const ch of nSum.toString()) {
+        const newHead = new ListNode(parseInt(ch), sumHead);
+        sumHead = newHead;
     }
 
-    return sumHat.next;
+    return sumHead;
 };
