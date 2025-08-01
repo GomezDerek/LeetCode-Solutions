@@ -26,7 +26,7 @@ function addTwoNumbers(l1: ListNode | null, l2: ListNode | null): ListNode | nul
     // first convert from LL -> str
     let s1: string = "";
     while (l1 != null) {
-        s1 = l1.val.toString() + s1;
+        s1 = l1.val + s1;
         l1 = l1.next;
     } 
     const n1: bigint = BigInt(s1);
@@ -34,7 +34,7 @@ function addTwoNumbers(l1: ListNode | null, l2: ListNode | null): ListNode | nul
     // do the same to l2
     let s2: string = "";
     while (l2 != null) {
-        s2 = l2.val.toString() + s2;
+        s2 = l2.val + s2;
         l2 = l2.next;
     }
     const n2: bigint = BigInt(s2);
