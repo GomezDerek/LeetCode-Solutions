@@ -16,21 +16,10 @@
         priority queue will store objs {label: , getCurCoolDown: }
         time: O(tasks * log tasks)
         space: O(tasks)
+
+    REVISION:
+        We need to not only prioritize
 */
-
-// typing
-// interface Task {
-//         label: string,
-//         getCoolDown: ()=>number,
-//     }
-
-// class Task {
-//     label: string;
-//     getCoolDown: ()=>number = () => coolDowns[this.label];
-//     constructor(label: string) {
-//         this.label = label;
-//     }
-// }
 
 
 // algo
@@ -38,11 +27,27 @@ function leastInterval(tasks: string[], n: number): number {
     let curInterval: number = 0;
     const coolDowns: {[key: string]: number} = {};
 
+    // create the frequency map
+    const freqMap: {[key:string]: number} = {};
+    for (const task of tasks) {
+        freqMap[task] = 1 + (freqMap[task] || 0);
+    }
+    console.log(freqMap);
+
+    // convert map to arr
+    const taskFreqArr: [string, number][] = Object.entries(freqMap);
+    taskFreqArr.sort((a,b) => b[1]-a[1]);
+    console.log(taskFreqArr);
+
     // create the queue
     const q = new MinPriorityQueue<string>(getCoolDown);
 
     // fill the queue
-    for (const task of tasks) q.enqueue(task);
+    for (const [task, freq] of taskFreqArr) {
+        for (let i=0; i<freq; i++) q.enqueue(task);
+    }
+    console.log(q.toArray());
+    
 
     while (q.size() > 0) {
         // console.log(curInterval, q.front(), coolDowns[q.front()]??0);
