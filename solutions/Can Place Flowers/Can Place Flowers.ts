@@ -4,7 +4,7 @@ function canPlaceFlowers(flowerbed: number[], n: number): boolean {
     let i: number = 1; // for the while loop
 
     // first flowerbed
-    if (flowerbed.length > 1 && !flowerbed[1] && !flowerbed[0]) {
+    if (!flowerbed[0] && (flowerbed.length === 1 || !flowerbed[1])) {
         flowerbed[0] = 1;
         count++;
         i = 2;
