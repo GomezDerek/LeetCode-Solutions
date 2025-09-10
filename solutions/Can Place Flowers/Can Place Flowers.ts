@@ -22,11 +22,9 @@ function canPlaceFlowers(flowerbed: number[], n: number): boolean {
     }
 
     // last flowerbed
-    if (!flowerbed[i-1] && !flowerbed[i]) {
+    if (flowerbed[i-1]===0 && flowerbed[i]===0) {
         count++;
     }
-    
-    console.log(flowerbed);
 
     return count >= n;
 };
