@@ -8,13 +8,12 @@
     NOTE: NOT ALL PATHS LEAD TO TARGET
  */
 function allPathsSourceTarget(graph: number[][]): number[][] {
-    const target = graph.length - 1;
     const paths = [];
 
     dfs(graph[0], [0]);
     return paths;
 
-    function dfs(node: number[], path: number[]): void{
+    function dfs(node: number[], path: number[]): void {
         // base case
         // non-target end
         if (node.length === 0) return;
@@ -22,8 +21,8 @@ function allPathsSourceTarget(graph: number[][]): number[][] {
         // recurse to children/neighbors
         for (const child of node) {
             // if target found
-            if (child === target) {
-                paths.push([...path, target])
+            if (child === graph.length - 1) {
+                paths.push([...path, child])
             }
             // else recurse
             else {
