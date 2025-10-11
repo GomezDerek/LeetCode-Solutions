@@ -1,4 +1,4 @@
-<h3><a href=https://leetcode.com/problems/immediate-food-delivery-ii/submissions/1798743561/?envType=study-plan-v2&envId=top-sql-50>Immediate Food Delivery II</a></h3>
+<h3><a href=https://leetcode.com/problems/immediate-food-delivery-ii/?envType=study-plan-v2&envId=top-sql-50>Immediate Food Delivery II</a></h3>
 <p><p>Table: <code>Delivery</code></p>
 
 <pre>+-----------------------------+---------+
