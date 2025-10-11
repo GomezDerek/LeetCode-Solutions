@@ -3,7 +3,7 @@ WITH FirstOrders AS (
         customer_id,
         order_date,
         customer_pref_delivery_date,
-        RANK() OVER (PARTITION BY customer_id ORDER BY order_date) AS rn
+        ROW_NUMBER() OVER (PARTITION BY customer_id ORDER BY order_date) AS rn
     FROM Delivery
 )
 SELECT 
