@@ -7,6 +7,9 @@
         preserve casing 
  */
 function reverseVowels(s: string): string {
+    const vowels: Set<string> = new Set(['a','e','i','o','u']);
+    const isVowel = (ch: string) => vowels.has(ch.toLowerCase()); 
+    
     const sArr: string[] = s.split("");
     
     let front: number = 0;
@@ -29,7 +32,3 @@ function reverseVowels(s: string): string {
 
     return sArr.join("");
 };
-
-function isVowel(ch: string) {
-    return ['a','e','i','o','u'].includes(ch.toLowerCase());
-}
