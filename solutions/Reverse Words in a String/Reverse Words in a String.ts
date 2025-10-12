@@ -10,7 +10,7 @@ STRATEGY:
  */
 
 function reverseWords(s: string): string {
-    const words: string[] = s.split(" ").map(word => word.trim()).filter(word => word.length > 0);
+    const words: string[] = s.trim().split(/\s+/);
     words.reverse();
     return words.join(" ");
 };
