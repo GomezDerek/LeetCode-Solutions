@@ -4,6 +4,6 @@ class Solution:
 
         for num in nums:
             if len(heap) < k: heapq.heappush(heap, num)
-            elif num > heap[0]: heapq.heappushpop(heap, num)
+            else: heapq.heappushpop(heap, num)
 
         return heap[0]
