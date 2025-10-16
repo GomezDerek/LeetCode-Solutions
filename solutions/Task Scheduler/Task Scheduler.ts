@@ -1,75 +1,88 @@
-/*
-    NOTES:
-        tasks can be completed in any order
-
+/**
+    GOAL: find the fastest time (in intervals) all tasks can be completed
+    
     STRATEGY:
-        simulate CPU's task completion
-        global interval counter ++ every interval
-        hashmap to store cooldown for each label
-        stack to backlog tasks on cooldown
-        always check stack before moving onto next task
+        - cooldown counter for each task, hashmap for O(1) access
+        - iterate through tasks to initialize the hash counter O(n)
 
-        NVM we shouldn't linear iterate. TASKS can be completed in any order
-        use min priority queue, and prioritize based on cooldown
-        still use turn counter
-        still use hashmap to store cooldown
-        priority queue will store objs {label: , getCurCoolDown: }
-        time: O(tasks * log tasks)
-        space: O(tasks)
-
-    REVISION:
-        We need to not only prioritize
-*/
+        - priority queue / heap for task completion O(n logn)
+            - prioritize tasks with no / smallest cooldown
+            - when there's a tie, prioritize most frequent tasks
 
 
-// algo
+    cooldownheap = [a:0, b:0, a:0, b:0, c:2]
+    freqHeap = [idle]
+    temp = [a:32, b:17, c:4]
+
+    heap will sort based on frequency
+    when choosing next task, 
+        iterate through heap from most to least frequent
+            store tasks on cooldown into temp arr
+            until valid task is found
+            IF NO VALID TASK, then idle
+        
+        after task is chosen,
+            restore cooldown tasks
+
+    USE GLOBAL interval counter to avoid in/decrement every tasks's cooldown      
+ 
+    strat done at 15min
+ */
+
 function leastInterval(tasks: string[], n: number): number {
     let curInterval: number = 0;
-    const coolDowns: {[key: string]: number} = {};
 
-    // create the frequency map
-    const freqMap: {[key:string]: number} = {};
+    class Task {
+        label: string;
+        count: number;
+        readyBy: number;
+        constructor(label: string) {
+            this.label = label;
+            this.count = 1;
+            this.readyBy = 0;
+        }
+        process() {
+            this.count--;
+            this.readyBy += n+1;
+        }
+    }
+
+    // freqHash
+    const hash: {[key: string]: Task} = {};
     for (const task of tasks) {
-        freqMap[task] = 1 + (freqMap[task] || 0);
-    }
-    console.log(freqMap);
-
-    // convert map to arr
-    const taskFreqArr: [string, number][] = Object.entries(freqMap);
-    taskFreqArr.sort((a,b) => b[1]-a[1]);
-    console.log(taskFreqArr);
-
-    // create the queue
-    const q = new MinPriorityQueue<string>(getCoolDown);
-
-    // fill the queue
-    for (const [task, freq] of taskFreqArr) {
-        for (let i=0; i<freq; i++) q.enqueue(task);
-    }
-    console.log(q.toArray());
-    
-
-    while (q.size() > 0) {
-        // console.log(curInterval, q.front(), coolDowns[q.front()]??0);
-        // take an idle interval
-        if ( (coolDowns[q.front()]??0) > curInterval) {
-            // console.log(curInterval, 'interval');
-            curInterval++;
+        if (hash[task] !== undefined) {
+            hash[task].count +=1; 
         }
-
-        else { // execute task
-            // console.log(curInterval, q.front());
-            coolDowns[q.front()] = curInterval + n + 1;
-            q.dequeue();
-            curInterval++;
+        else {
+            hash[task] = new Task(task);
         }
     }
-    
+    // console.log(hash);
+
+    // heap from hash
+    const q: Heap<Task> = new Heap<Task>(
+        task => task.count, // comparator
+        Object.values(hash) // initial array
+    );
+
+    // process the tasks
+    while(!q.isEmpty()) {
+        const hotTasks: Task[] = [];
+        
+        // while next task is still on cooldown
+        while (!q.isEmpty() && q.root().readyBy > curInterval) {
+            hotTasks.push(q.extractRoot());
+        }
+
+        // now next task is ready OR no tasks are ready
+        if (!q.isEmpty()) {
+            if (q.root().count === 1) q.extractRoot();
+            else q.root().process();
+        }
+        
+        for (const task of hotTasks) q.insert(task);
+        curInterval++;
+    }
+
     return curInterval;
-
-    // helper function - callback for priority queue
-    // return the soonest interval the task can be executed
-    function getCoolDown(label: string) {
-        return coolDowns[label] ?? 0;
-    }
 };
