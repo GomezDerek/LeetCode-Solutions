@@ -1,25 +1,22 @@
 /**
-    BRUTE FORCE O(n logn): 
-        sort array in desc order
-        return nums[k]
-
-    OPTIMIZED O(n):
-        maintain k sized min heap of top k elements
-        return min val
+    GOAL: return kth highest val from an array without sorting
+    STRATEGY:
+        iterate through nums
+        and maintain a k-sized heap to track kth element
+        top-k means heap head needs to be smallest -> min-heap
+        
  */
-function findKthLargest(nums: number[], k: number): number {
-    const minHeap = new MinPriorityQueue<number>();
 
-    for (let i=0; i<nums.length; i++) {
-        if (minHeap.size() < k) minHeap.enqueue(nums[i]);
-        else if (nums[i] > minHeap.front()) {
-            minHeap.dequeue();
-            minHeap.enqueue(nums[i]);
+function findKthLargest(nums: number[], k: number): number {
+    const heap: MinHeap<number> = new MinHeap();
+    
+    for (const num of nums) {
+        if (heap.size() < k) heap.insert(num);
+        else if (heap.root() < num) {
+            heap.extractRoot();
+            heap.insert(num);
         }
     }
-    
-    return minHeap.front();
-};
 
-// runtime: O(n)
-// space: O(k)
+    return heap.root();
+};
