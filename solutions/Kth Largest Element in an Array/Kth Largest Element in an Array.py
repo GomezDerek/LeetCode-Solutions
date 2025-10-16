@@ -3,7 +3,9 @@ class Solution:
         heap = [] # min-heap by default
 
         for num in nums:
-            if len(heap) < k: heapq.heappush(heap, num)
-            else: heapq.heappushpop(heap, num)
+            heapq.heappush(heap, num)
+
+        for i in range(len(nums)-k):
+            heapq.heappop(heap)
 
         return heap[0]
