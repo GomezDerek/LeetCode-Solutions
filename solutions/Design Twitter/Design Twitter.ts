@@ -71,9 +71,12 @@ class Twitter {
     }
 
     // ASSUME they are already following
+    // looks like my assumption is wrong...
     unfollow(followerId: number, followeeId: number): void {
         // console.log('unfollow');
-        this.following[followerId].delete(followeeId);
+        // this.following[followerId].delete(followeeId);
+        this.following[followerId]?.delete(followeeId);
+
     }
 }
 
