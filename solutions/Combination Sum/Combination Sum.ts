@@ -42,14 +42,14 @@ function combinationSum(candidates: number[], target: number): number[][] {
     // in-place asc sort
     candidates.sort((a,b)=> a-b);
 
-    for (let i=0; i<candidates.length; i++) dfs(i, []);
+    for (let i=0; i<candidates.length; i++) dfs(i, [], 0);
 
     return combosRes;
 
-    function dfs(candIndex: number, curCombo: number[]): void {
+    function dfs(candIndex: number, curCombo: number[], curSum: number): void {
         // add new candidate to combo
         curCombo.push(candidates[candIndex]);
-        const curSum: number = curCombo.reduce((acc,x) => acc+=x); 
+        curSum += candidates[candIndex]; 
         
         // base case, target reached
         if ( target === curSum) {
@@ -57,9 +57,9 @@ function combinationSum(candidates: number[], target: number): number[][] {
         }
 
         // recursive call(s)
-        for (let i=candIndex; i>=0; i--) {
+        for (let i=candIndex; i<candidates.length; i++) {
             if (curSum + candidates[i] <= target) {
-                dfs(i, [...curCombo]);
+                dfs(i, [...curCombo], curSum);
             }
         } 
     }
