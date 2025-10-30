@@ -1,66 +1,29 @@
-/**
-    STRATEGY:
-        recursive decision tree O(N!)
-        1. add candidates to a set
-        2. start decision tree from every candidate
-            a. cumulate sum until target
-            b. traverse to all candidates (curSum + cand <= target)
-
-        [2,3,6,7], target = 7
-            2
-          2    3
-        2  3  2  3
-           ^  ^
-        reverse DP iteration O(n^2)
-        1. iterate backwards (sorted)
-            a. for every candidate, note closest possible sum to target
-        
-        [7,6,3,2]
-        [
-            7,
-            6,
-            [3,6],
-            [2,4,6]
-        ]
-        res = [
-            [2,2,2,2],
-            [2,2,3]
-        ]
-
-    NOTES:
-        candidates may be used unlimited times
-        max 30 candidates, TLE unlikely
-        candidates unsorted
-
-    finished planning at min 17
-    abandoned DP optimization, pursuing recursion
- */
+// NC solution from memory
 
 function combinationSum(candidates: number[], target: number): number[][] {
-    const combosRes: number[][] = [];
-    
-    // in-place asc sort
-    candidates.sort((a,b)=> a-b);
+    const allCombos: number[][] = [];
+    const curCombo: number[] = [];
+    dfs(0, 0);
+    return allCombos;
 
-    for (let i=0; i<candidates.length; i++) dfs(i, [], 0);
-
-    return combosRes;
-
-    function dfs(candIndex: number, curCombo: number[], curSum: number): void {
-        // add new candidate to combo
-        curCombo.push(candidates[candIndex]);
-        curSum += candidates[candIndex]; 
-        
-        // base case, target reached
-        if ( target === curSum) {
-            combosRes.push(curCombo);
+    function dfs(i: number, curSum: number): void {
+        // good base case
+        if (curSum === target) {
+            allCombos.push([...curCombo]);
+            return;
+        }
+        // bad base case
+        else if (i >= candidates.length || curSum > target) {
+            return;
         }
 
-        // recursive call(s)
-        for (let i=candIndex; i<candidates.length; i++) {
-            if (curSum + candidates[i] <= target) {
-                dfs(i, [...curCombo], curSum);
-            }
-        } 
+        // O(2^n) recursion
+        // include i in combo
+        curCombo.push(candidates[i]);
+        dfs(i, curSum+candidates[i]);
+
+        // exclude i in combo
+        curCombo.pop();
+        dfs(i+1, curSum);
     }
 };
