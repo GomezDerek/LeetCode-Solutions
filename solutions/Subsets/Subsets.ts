@@ -1,23 +1,25 @@
 function subsets(nums: number[]): number[][] {
-    const hash: Map<number, number[][]> = new Map<number, number[][]>();
+    const allSubsets: number[][] = [[]];
+    const curSubset: number[] = [];
+    dfs(0);
+    return allSubsets;
 
-    for (const num of nums) {
-        const subsets: number[][] = [];
-        subsets.push([num]);
+    function dfs(i: number) {
 
-        for (const [key, value] of hash) {
-            // value is an array of arrays
-            for (const set of value) {
-                subsets.push([...set, num]);
-            }
-        }
+        // bad base case
+        if (i >= nums.length) return;
+        // else continue
 
-        hash.set(num, subsets);
-    }
+        // ops
+        curSubset.push(nums[i]);
+        allSubsets.push([...curSubset]);
 
-    const res: number[][] = [[]];
-    for (const parentArray of hash.values()) {
-        parentArray.forEach(childArray => { res.push([...childArray]) })
-    };
-    return res;
+        // O(2^n) recursive decision tree
+        // include nums[i]
+        dfs(i+1);
+
+        // exclude nums[i]
+        curSubset.pop();
+        dfs(i+1);
+    } 
 };
