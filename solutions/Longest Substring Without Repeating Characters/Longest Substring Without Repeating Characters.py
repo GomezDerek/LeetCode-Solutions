@@ -5,7 +5,8 @@ class Solution:
         ch_map = {} # key: ch, val: s index for most recent ch
 
         l = 0
-        for r, ch in enumerate(s):
+        for r in range(len(s)):
+            ch = s[r]
             if ch in ch_map and ch_map[ch] >= l:
                 l = ch_map[ch] + 1
                 
