@@ -15,22 +15,18 @@ function lengthOfLongestSubstring(s: string): number {
 
     let [l,r] = [0,0];
     while (r < s.length) {
-        // first verify window and adjust if needed
+        // if non-valid window
         if (set.has(s[r])) {
             // move left pointer to duplicate, and remove from set as we go
-            while (s[l] !== s[r]) {
-                set.delete(s[l]);
-                l++;
-            }
-            // l now at duplicate
-            l++;
+            while (s[l] !== s[r]) set.delete(s[l++]);
+            l++; // ++ one more time for duplicateIndex+1
         }
-        else set.add(s[r]);
+        // else valid window
+        else {
+            set.add(s[r]);
+            longest = Math.max(longest, r-l+1);
+        }
 
-        // window is now valid
-        longest = Math.max(longest, r-l+1);
-
-        // iterate r
         r++;
     }
 
