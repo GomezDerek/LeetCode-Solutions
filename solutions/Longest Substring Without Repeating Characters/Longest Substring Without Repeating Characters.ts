@@ -10,11 +10,10 @@ STRATEGY:
  */
 
 function lengthOfLongestSubstring(s: string): number {
-    let longest: number = 1;
+    let longest: number = 0;
     const set: Set<string> = new Set<string>();
 
-    let [l,r] = [0,1];
-    set.add(s[0]);
+    let [l,r] = [0,0];
     while (r < s.length) {
         // first verify window and adjust if needed
         if (set.has(s[r])) {
