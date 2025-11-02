@@ -6,7 +6,7 @@ class Solution:
 
         l = 0
         for r, ch in enumerate(s):
-            if ch in ch_map and ch_map[ch] < r and ch_map[ch] >= l:
+            if ch in ch_map and ch_map[ch] >= l:
                 l = ch_map[ch] + 1
                 
             else:
