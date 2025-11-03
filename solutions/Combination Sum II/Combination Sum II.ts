@@ -8,7 +8,6 @@ function combinationSum2(candidates: number[], target: number): number[][] {
     return allCombos;
 
     function dfs(i: number, curSum: number): void {
-        // console.log(curSum, curCombo);
         // good base case (target found)
         if (curSum === target) {
             allCombos.push([...curCombo]);
@@ -27,14 +26,7 @@ function combinationSum2(candidates: number[], target: number): number[][] {
 
         // exclude cur candidate
         curCombo.pop();
-        while ( 
-            i < candidates.length 
-            && candidates[i] === candidates[i+1] // out of bounds -> undefined
-        ) {
-            i++;
-        }
-
+        while ( candidates[i] === candidates[i+1]) i++;
         dfs(i+1, curSum);
-
     }
 };
