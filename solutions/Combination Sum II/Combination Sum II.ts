@@ -27,7 +27,7 @@ function combinationSum2(candidates: number[], target: number): number[][] {
     return allCombos;
 
     function dfs(i: number, curSum: number) {
-        console.log(curSum, curCombo);
+        // console.log(curSum, curCombo);
         // good base case (target found)
         if (curSum === target) {
             const stringified: string = JSON.stringify([...curCombo].sort());
