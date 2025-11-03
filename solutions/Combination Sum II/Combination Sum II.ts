@@ -1,40 +1,17 @@
-/**
-STRATEGY:
-    to create all unique combinations
-    use dfs backtracking
-    for O(2^n) runtime:
-        2 decisions for each recursion
-            add candidate to set
-            exclude candidate from set
-
-    how to prevent duplicates
-        use a set for the valid combos, O(1) access
-        sort & stringify for non-referential array comparisons
-
-
-NOTES:
-    each candidate may only be used once
-    candidates not sorted
-
-ASSUME: order does not matter
- */
+// revised my code after watching NC's solution
 
 function combinationSum2(candidates: number[], target: number): number[][] {
     const allCombos: number[][] = [];
     const curCombo: number[] = [];
-    const set: Set<string> = new Set<string>();
+    candidates.sort();
     dfs(0, 0);
     return allCombos;
 
-    function dfs(i: number, curSum: number) {
+    function dfs(i: number, curSum: number): void {
         // console.log(curSum, curCombo);
         // good base case (target found)
         if (curSum === target) {
-            const stringified: string = JSON.stringify([...curCombo].sort());
-            if (!set.has(stringified)) {
-                allCombos.push([...curCombo]);
-                set.add(stringified);
-            }
+            allCombos.push([...curCombo]);
             return;
         }
 
@@ -50,6 +27,13 @@ function combinationSum2(candidates: number[], target: number): number[][] {
 
         // exclude cur candidate
         curCombo.pop();
+        while ( 
+            i < candidates.length 
+            && candidates[i] === candidates[i+1] // out of bounds -> undefined
+        ) {
+            i++;
+        }
+
         dfs(i+1, curSum);
 
     }
