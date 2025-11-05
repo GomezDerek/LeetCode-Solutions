@@ -11,7 +11,6 @@ function permute(nums: number[]): number[][] {
     const allPermutations: number[][] = [];
 
     const visited: Set<number> = new Set<number>();
-    const curPermutation: number[] = [];
     
     for (let i=0; i<nums.length; i++) dfs(i);
 
@@ -25,13 +24,12 @@ function permute(nums: number[]): number[][] {
             return;
         }
         // good base case
-        else if (curPermutation.length === nums.length-1) {
-            allPermutations.push([...curPermutation, nums[i]]);
+        else if (visited.size === nums.length-1) {
+            allPermutations.push([...Array.from(visited).map(e => nums[e]), nums[i]]);
             return;
         }
 
         // pre-ops
-        curPermutation.push(nums[i]);
         visited.add(i);
         
         // recursion
@@ -40,7 +38,6 @@ function permute(nums: number[]): number[][] {
         }
 
         // post-ops
-        curPermutation.pop();
         visited.delete(i);
     }
 };
