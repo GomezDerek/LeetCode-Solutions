@@ -9,16 +9,15 @@ NOTES:
 
 function permute(nums: number[]): number[][] {
     const allPermutations: number[][] = [];
-    const curPermutation: number[] = [];
-    const visited: Set<number> = new Set<number>();
 
-    for (let i=0; i<nums.length; i++) {
-        curPermutation.push(nums[i]);
-        dfs(i);
-        curPermutation.pop();
-    }
+    const visited: Set<number> = new Set<number>();
+    const curPermutation: number[] = [];
+    
+    for (let i=0; i<nums.length; i++) dfs(i);
+
     return allPermutations;
 
+    // hoisted fx()
     function dfs(i: number): void {
 
         // bad base case
@@ -26,21 +25,22 @@ function permute(nums: number[]): number[][] {
             return;
         }
         // good base case
-        else if (curPermutation.length === nums.length) {
-            allPermutations.push([...curPermutation]);
+        else if (curPermutation.length === nums.length-1) {
+            allPermutations.push([...curPermutation, nums[i]]);
             return;
         }
 
-        // ops
+        // pre-ops
+        curPermutation.push(nums[i]);
         visited.add(i);
         
         // recursion
         for (let j=0; j<nums.length; j++) {
-            curPermutation.push(nums[j]);
-            dfs(j)
-            curPermutation.pop();
+            dfs(j);
         }
 
+        // post-ops
+        curPermutation.pop();
         visited.delete(i);
     }
 };

@@ -1,5 +1,5 @@
 <h3><a href=https://leetcode.com/problems/permutations/>Permutations</a></h3>
-<p><p>Given an array <code>nums</code> of distinct integers, return all the possible <span data-keyword="permutation-array" class=" cursor-pointer relative text-dark-blue-s text-sm"><button type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="radix-:r1j:" data-state="closed" class="">permutations</button></span>. You can return the answer in <strong>any order</strong>.</p>
+<p><p>Given an array <code>nums</code> of distinct integers, return all the possible <span data-keyword="permutation-array" class=" cursor-pointer relative text-dark-blue-s text-sm"><button type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="radix-:r1k:" data-state="closed" class="">permutations</button></span>. You can return the answer in <strong>any order</strong>.</p>
 
 <p>&nbsp;</p>
 <p><strong class="example">Example 1:</strong></p>
