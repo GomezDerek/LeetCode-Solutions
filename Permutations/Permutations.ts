@@ -12,11 +12,9 @@ function permute(nums: number[]): number[][] {
 
     const visited: Set<number> = new Set<number>();
     const curPermutation: number[] = [];
-
-    for (let i=0; i<nums.length; i++) {
-        dfs(i);
-    }
     
+    for (let i=0; i<nums.length; i++) dfs(i);
+
     return allPermutations;
 
     // hoisted fx()
