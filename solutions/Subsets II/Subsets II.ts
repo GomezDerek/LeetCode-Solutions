@@ -1,20 +1,8 @@
-/**
-    note: constraints nums.length <= 10 TF efficiency not expected
-
-    strategy:
-        is this not just O(2^n) recursive decision tree?
-
-        to skip duplicates:
-            if nums = [1,2,2]
-                how to discern between indexes [0,1] & [0,2] ?
-
-            let's try using a set / map for distinct subsets
- */
-
 function subsetsWithDup(nums: number[]): number[][] {
-    nums.sort((a,b) => a-b);
+    nums.sort((a,b) => a-b); // 🙄
 
     const N: number = nums.length;
+
     const allSubsets: Map<string, number[]> = new Map<string, number[]>();
     allSubsets.set('[]', []);
 
@@ -22,19 +10,13 @@ function subsetsWithDup(nums: number[]): number[][] {
     dfs(0);
     return [...allSubsets.values()];
 
+    // func def
     function dfs(i: number): void {
-        // console.log(i, [...curSubset, nums[i]], allSubsets.get(JSON.stringify([...curSubset, nums[i]])));
-        
         // base case
         if (i >= N) return;
-        // else if (curSubset.length > 0 // curSubset !== [] 
-        //     && allSubsets.has(JSON.stringify([...curSubset, nums[i]]))
-        // ) return;
 
-        // conditionally add subset to avoid duplicates
-        if (!allSubsets.has(JSON.stringify([...curSubset, nums[i]]))) {
-            allSubsets.set(JSON.stringify([...curSubset, nums[i]]), [...curSubset, nums[i]]);
-        }
+        // op - no if needed, bc no duplicate keys allowed in maps
+        allSubsets.set(JSON.stringify([...curSubset, nums[i]]), [...curSubset, nums[i]]);
 
         // recurse with nums[i] in curSubset
         curSubset.push(nums[i]);
