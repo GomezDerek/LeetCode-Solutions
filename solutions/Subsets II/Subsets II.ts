@@ -12,6 +12,8 @@
  */
 
 function subsetsWithDup(nums: number[]): number[][] {
+    nums.sort((a,b) => a-b);
+
     const N: number = nums.length;
     const allSubsets: Map<string, number[]> = new Map<string, number[]>();
     allSubsets.set('[]', []);
