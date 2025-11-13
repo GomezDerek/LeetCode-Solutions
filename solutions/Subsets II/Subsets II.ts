@@ -23,13 +23,16 @@ function subsetsWithDup(nums: number[]): number[][] {
     function dfs(i: number): void {
         // console.log(i, [...curSubset, nums[i]], allSubsets.get(JSON.stringify([...curSubset, nums[i]])));
         
-        // base cases
+        // base case
         if (i >= N) return;
-        else if (curSubset.length > 0 // curSubset !== [] 
-            && allSubsets.has(JSON.stringify([...curSubset, nums[i]]))
-        ) return;
+        // else if (curSubset.length > 0 // curSubset !== [] 
+        //     && allSubsets.has(JSON.stringify([...curSubset, nums[i]]))
+        // ) return;
 
-        allSubsets.set(JSON.stringify([...curSubset, nums[i]]), [...curSubset, nums[i]]);
+        // conditionally add subset to avoid duplicates
+        if (!allSubsets.has(JSON.stringify([...curSubset, nums[i]]))) {
+            allSubsets.set(JSON.stringify([...curSubset, nums[i]]), [...curSubset, nums[i]]);
+        }
 
         // recurse with nums[i] in curSubset
         curSubset.push(nums[i]);
