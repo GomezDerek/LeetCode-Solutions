@@ -33,7 +33,6 @@ function generateParenthesis(n: number): string[] {
     const allCombos: string[] = [];
     let open_count: number = 0;
     let closed_count: number = 0;
-    // let curCombo: string = "";
     const curCombo: string[] = [];
     dfs();
     return allCombos;
@@ -47,7 +46,7 @@ function generateParenthesis(n: number): string[] {
         // good base case
         else if (closed_count === n) {
             // allCombos.push(curCombo.slice());  
-            allCombos.push([...curCombo].join(""));  
+            allCombos.push(curCombo.join(""));  
             return;
         }
 
