@@ -39,14 +39,15 @@ function generateParenthesis(n: number): string[] {
 
     // func def
     function dfs(): void {
+        // bad base case
+        if (closed_count > open_count) return;
+        else if (open_count > n) return;
+        
         // good base case
-        if (closed_count === n && open_count === n) {
+        else if (closed_count === n) {
             allCombos.push(curCombo.slice());  
             return;
         }
-        // bad base case
-        else if (closed_count > open_count) return;
-        else if (open_count > n) return;
 
         // open parenth recursion
         // curCombo.concat("(");
