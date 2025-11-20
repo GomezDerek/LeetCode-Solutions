@@ -33,7 +33,8 @@ function generateParenthesis(n: number): string[] {
     const allCombos: string[] = [];
     let open_count: number = 0;
     let closed_count: number = 0;
-    let curCombo: string = "";
+    // let curCombo: string = "";
+    const curCombo: string[] = [];
     dfs();
     return allCombos;
 
@@ -42,31 +43,36 @@ function generateParenthesis(n: number): string[] {
         // bad base case
         if (closed_count > open_count) return;
         else if (open_count > n) return;
-        
+
         // good base case
         else if (closed_count === n) {
-            allCombos.push(curCombo.slice());  
+            // allCombos.push(curCombo.slice());  
+            allCombos.push([...curCombo].join(""));  
             return;
         }
 
         // open parenth recursion
         // curCombo.concat("(");
-        curCombo += "(";
+        // curCombo += "(";
+        curCombo.push("(");
         open_count++;
         dfs();
 
         // popping the open parenth
-        curCombo = curCombo.slice(0,curCombo.length-1);
+        // curCombo = curCombo.slice(0,curCombo.length-1);
+        curCombo.pop();
         open_count--;
 
         // closed parenth recursion
         // curCombo.concat(")");
-        curCombo += ")";
+        // curCombo += ")";
+        curCombo.push(")");
         closed_count++;
         dfs();
 
         // pop the close parenth
-        curCombo = curCombo.slice(0,curCombo.length-1);
+        // curCombo = curCombo.slice(0,curCombo.length-1);
+        curCombo.pop();
         closed_count--;
     }
 };
