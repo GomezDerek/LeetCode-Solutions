@@ -38,6 +38,10 @@ function exist(board: string[][], word: string): boolean {
         ) {
             return false;
         }
+        // next ch not valid
+        else if (board[x][y] !== wordArr[curWord.length]) {
+            return false;
+        }
 
         // add board[x][y]
         visited.add(`${x},${y}`);
