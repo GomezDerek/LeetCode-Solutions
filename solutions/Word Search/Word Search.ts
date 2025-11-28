@@ -23,8 +23,12 @@ function exist(board: string[][], word: string): boolean {
 
     function dfs(x: number, y: number): boolean {
         // base cases
+        // word built
+        if (word.length === curWord.length) {
+            return word === curWord.join("");
+        }
         // alr visited
-        if (visited.has(`${x},${y}`)) return false;
+        else if (visited.has(`${x},${y}`)) return false;
         // out of bounds
         else if (
             x < 0
@@ -33,10 +37,6 @@ function exist(board: string[][], word: string): boolean {
             || y >= N
         ) {
             return false;
-        }
-        // word built
-        else if (word.length === curWord.length) {
-            return word === curWord.join("");
         }
 
         // add board[x][y]
