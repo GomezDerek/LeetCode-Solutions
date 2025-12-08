@@ -1,7 +1,6 @@
 function exist(board: string[][], word: string): boolean {
     const M: number = board.length;
     const N: number = board[0].length;
-    const wordArr: string[] = word.split("");
     const visited: Set<string> = new Set<string>();
 
     const curWord: string[] = [];
@@ -22,20 +21,20 @@ function exist(board: string[][], word: string): boolean {
             || i >= M
             || j < 0
             || j >= N
-            || board[i][j] !== wordArr[curWord.length]
+            || board[i][j] !== word[curWord.length]
         ) return false;
 
         // good base case
         else if (
-            curWord.length+1 === wordArr.length
-            && board[i][j] === wordArr[wordArr.length-1]
+            curWord.length+1 === word.length
+            && board[i][j] === word[word.length-1]
         ) {
             return true;
         }
 
         // ops
         curWord.push(board[i][j]);
-        visited.add(`${i} ${j}`)
+        visited.add(`${i} ${j}`);
 
         // recursion
         const dxdy: {x: number, y: number}[] = [
@@ -43,7 +42,8 @@ function exist(board: string[][], word: string): boolean {
             {x: i-1, y: j},
             {x: i, y: j+1},
             {x: i, y: j-1}
-        ]
+        ];
+
         for (const {x,y} of dxdy) {
             if (dfs(x,y)) return true;
         }
