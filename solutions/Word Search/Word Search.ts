@@ -1,16 +1,9 @@
-/**
-    GOAL: find target word in the board
-    STRATEGY:
-        DFS from every square
-        keep track of visited squares for each traversal
-    NOTES:
- */
 function exist(board: string[][], word: string): boolean {
     const M: number = board.length;
     const N: number = board[0].length;
     const wordArr: string[] = word.split("");
+    const visited: Set<string> = new Set<string>();
 
-    const visited: Set<string> = new Set();
     const curWord: string[] = [];
 
     for (let i=0; i<M; i++) {
@@ -18,50 +11,46 @@ function exist(board: string[][], word: string): boolean {
             if (dfs(i,j)) return true;
         }
     }
-
     return false;
 
-    function dfs(x: number, y: number): boolean {
-        // base cases
-        // word built
-        if (word.length === curWord.length) {
-            return word === curWord.join("");
-        }
-        // alr visited
-        else if (visited.has(`${x},${y}`)) return false;
-        // out of bounds
+    function dfs(i: number, j: number): boolean {
+
+        // bad base cases
+        if (
+            visited.has(`${i} ${j}`)
+            || i < 0
+            || i >= M
+            || j < 0
+            || j >= N
+            || board[i][j] !== wordArr[curWord.length]
+        ) return false;
+
+        // good base case
         else if (
-            x < 0
-            || x >= M
-            || y < 0
-            || y >= N
+            curWord.length+1 === wordArr.length
+            && board[i][j] === wordArr[wordArr.length-1]
         ) {
-            return false;
-        }
-        // next ch not valid
-        else if (board[x][y] !== wordArr[curWord.length]) {
-            return false;
+            console.log(curWord, board[i][j]);
+            return true;
         }
 
-        // add board[x][y]
-        visited.add(`${x},${y}`);
-        curWord.push(board[x][y]);
+        // ops
+        curWord.push(board[i][j]);
+        visited.add(`${i} ${j}`)
 
         // recursion
-        const dxdy: [number, number][] = [
-            [x+1,y],
-            [x-1,y],
-            [x,y+1],
-            [x,y-1]
-        ];
-        for (const [nx,ny] of dxdy) {
-            if (dfs(nx,ny)) return true;
+        const dxdy: {x: number, y: number}[] = [
+            {x: i+1, y: j},
+            {x: i-1, y: j},
+            {x: i, y: j+1},
+            {x: i, y: j-1}
+        ]
+        for (const {x,y} of dxdy) {
+            if (dfs(x,y)) return true;
         }
 
-        // remove board[x][y]
-        visited.delete(`${x},${y}`);
         curWord.pop();
-
+        visited.delete(`${i} ${j}`);
         return false;
     }
 };
