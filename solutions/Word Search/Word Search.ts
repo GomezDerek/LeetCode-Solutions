@@ -30,7 +30,6 @@ function exist(board: string[][], word: string): boolean {
             curWord.length+1 === wordArr.length
             && board[i][j] === wordArr[wordArr.length-1]
         ) {
-            console.log(curWord, board[i][j]);
             return true;
         }
 
