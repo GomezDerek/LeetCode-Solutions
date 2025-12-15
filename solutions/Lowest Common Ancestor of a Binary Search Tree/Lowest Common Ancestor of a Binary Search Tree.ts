@@ -12,38 +12,50 @@
  * }
  */
 
-// solution based off of Neetcode's hints
-
-/*
-ASSUME: 
-    tree is balanced and sorted
-
-NOTES:
-    our LCA is the root node of p & q's shared subtree
-    subtrees split after the LCA
-    p.val <= LCA <= q.val
+ /**
+GOAL: in a BST, find the closest parent/ancestor of 2 nodes
 
 STRATEGY:
-    traverse the tree using the p,q values to pick paths
-    when we need to split, return the LCA
-*/
+    for each target node,
+        - create an ancestry list, from root to parent
+    
+    simultaneously iterate through both ancestry lists,
+    until ancestors diverge
+
+NOTES:
+    - nodes can be their own parents
+    
+  */
 
 function lowestCommonAncestor(root: TreeNode | null, p: TreeNode | null, q: TreeNode | null): TreeNode | null {
-    // edge case: p < q == false
-    
-    while (root !== null) {
-        // p or q is the LCA
-        if (root.val == p.val || root.val == q.val) return root;
-        
-        // traverse left
-        else if (root.val > p.val && root.val > q.val) root = root.left;
+    const path1: TreeNode[] = [];
+    const path2: TreeNode[] = [];
 
-        // traverse right
-        else if (root.val < p.val && root.val < q.val) root = root.right;
+    createPath(root, path1, p);
+    createPath(root, path2, q);
 
-        // we found the split node/LCA
-        else {
-            return root;
+    let lca: TreeNode = root;
+    let i: number = 0;
+    while(i < Math.min(path1.length, path2.length) && path1[i].val === path2[i].val) {
+        lca = path1[i];
+        i++;
+    }
+    return lca;
+
+    // func def
+    function createPath(curNode: TreeNode | null, path: TreeNode[], targetNode: TreeNode): void {
+        // base case
+        if (curNode === null) return;
+        else if (curNode.val === targetNode.val) {
+            path.push(curNode);
+            return;
         }
+
+        // ops
+        path.push(curNode);
+
+        // recursion
+        if (curNode.val < targetNode.val) createPath(curNode.right, path, targetNode);
+        else if (curNode.val > targetNode.val) createPath(curNode.left, path, targetNode);
     }
 };
