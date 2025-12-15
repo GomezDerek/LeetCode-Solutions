@@ -21,7 +21,6 @@
 
 function lowestCommonAncestor(root: TreeNode | null, p: TreeNode | null, q: TreeNode | null): TreeNode | null {
     // base case
-    console.log(root.val);
     if (root === p) return root;
     else if (root === q) return root;
 
