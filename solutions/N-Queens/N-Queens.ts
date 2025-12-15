@@ -43,7 +43,6 @@ function solveNQueens(n: number): string[][] {
         // base case(s)
         if (curRow >= n) {
             // add curboard to all solutions, copy
-            console.log("!");
             saveBoard();
             return;
         }
