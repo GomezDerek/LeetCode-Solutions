@@ -2,6 +2,8 @@
 function numIslands(grid: string[][]): number {
     const [M,N]: [number, number] = [grid.length, grid[0].length];
     let numIslands: number = 0;
+    
+    const dq: Deque<[number, number]> = new Deque<[number, number]>();
 
     for (let i=0; i<M; i++) {
         for (let j=0; j<N; j++) {
@@ -18,7 +20,6 @@ function numIslands(grid: string[][]): number {
     // BFS func dec //
     //////////////////
     function bfs(x: number, y: number): void {
-        const dq: Deque<[number, number]> = new Deque<[number, number]>();
         dq.pushBack([x,y]);
 
         while (!dq.isEmpty()) {
