@@ -1,64 +1,42 @@
-/**
-GOAL:
-    count islands, defined as groups of 1's
-
-STRATEGY:
-    visited set needed
-    2 traversals needed:
-        - traversal to find land
-        - traversal to visit all island points
-
-    save mem, by modifying the input grid in-place to double as visited set?
-    e.g. after land is visited, flip 1 -> 0
-
-    iterate through grid with double for loop:
-        if land found,
-            islands++ 
-            dfs traversal:
-                flip 1 -> 0
-                recurse in 4 directions
-
-NOTES:
-    up to 900 grid points
-    grid is of strings
-
-done planning at 8:30
- */
-
+// Breadth First Search approach
 function numIslands(grid: string[][]): number {
+    const [M,N]: [number, number] = [grid.length, grid[0].length];
     let numIslands: number = 0;
 
-    for (let i=0; i<grid.length; i++) {
-        for (let j=0; j<grid[0].length; j++) {
-            if (grid[i][j] === "1") {
+    for (let i=0; i<M; i++) {
+        for (let j=0; j<N; j++) {
+            if (grid[i][j] === '1') {
                 numIslands++;
-                dfs(i,j);
+                bfs(i,j);
             }
         }
     }
 
     return numIslands;
 
-    /////////////////////
-    // func defs below //
-    /////////////////////
-    function dfs(x: number, y: number): void {
-        // base case(s)
-        if (
-            x < 0
-            || y < 0
-            || x >= grid.length
-            || y >= grid[0].length
-        ) return;
-        else if (grid[x][y] === "0") return;
+    //////////////////
+    // BFS func dec //
+    //////////////////
+    function bfs(x: number, y: number): void {
+        const dq: Deque<[number, number]> = new Deque<[number, number]>();
+        dq.pushBack([x,y]);
 
-        // op
-        grid[x][y] = "0";
+        while (!dq.isEmpty()) {
+            const [cx,cy] = dq.popFront();
+            
+            // base cases
+            // out of bounds
+            if (cx < 0 || cx >= M || cy < 0 || cy >= N) continue;
 
-        // recurse
-        dfs(x+1,y);
-        dfs(x-1,y);
-        dfs(x,y+1);
-        dfs(x,y-1);
+            // alr visited
+            else if (grid[cx][cy] === '0') continue;
+
+            // else mark as visited and traverse to neighbors
+            grid[cx][cy] = '0';
+            dq.pushBack([cx+1,cy]);
+            dq.pushBack([cx-1,cy]);
+            dq.pushBack([cx,cy+1]);
+            dq.pushBack([cx,cy-1]);
+        }
     }
 };
