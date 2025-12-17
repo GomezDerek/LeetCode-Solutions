@@ -2,7 +2,7 @@
 function numIslands(grid: string[][]): number {
     const [M,N]: [number, number] = [grid.length, grid[0].length];
     let numIslands: number = 0;
-    
+
     const dq: Deque<[number, number]> = new Deque<[number, number]>();
 
     for (let i=0; i<M; i++) {
@@ -24,20 +24,20 @@ function numIslands(grid: string[][]): number {
 
         while (!dq.isEmpty()) {
             const [cx,cy] = dq.popFront();
-            
-            // base cases
-            // out of bounds
-            if (cx < 0 || cx >= M || cy < 0 || cy >= N) continue;
+            grid[cx][cy] = '0'; // mark as visited
 
-            // alr visited
-            else if (grid[cx][cy] === '0') continue;
+            // traverse to neighbors
+            const neighbors: [number, number][] = [];
+            neighbors.push([cx+1,cy]);
+            neighbors.push([cx-1,cy]);
+            neighbors.push([cx,cy+1]);
+            neighbors.push([cx,cy-1]);
 
-            // else mark as visited and traverse to neighbors
-            grid[cx][cy] = '0';
-            dq.pushBack([cx+1,cy]);
-            dq.pushBack([cx-1,cy]);
-            dq.pushBack([cx,cy+1]);
-            dq.pushBack([cx,cy-1]);
+            for (const [nx,ny] of neighbors) {
+                // skip neighbor traversal if invalid coords or alr explored
+                if (nx < 0 || nx >= M || ny < 0 || ny >= N || grid[nx][ny] === '0') continue;
+                else dq.pushBack([nx,ny]);
+            }
         }
     }
 };
