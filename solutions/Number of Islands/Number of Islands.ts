@@ -8,6 +8,7 @@ function numIslands(grid: string[][]): number {
     for (let i=0; i<M; i++) {
         for (let j=0; j<N; j++) {
             if (grid[i][j] === '1') {
+                console.log(i,j);
                 numIslands++;
                 bfs(i,j);
             }
@@ -21,10 +22,13 @@ function numIslands(grid: string[][]): number {
     //////////////////
     function bfs(x: number, y: number): void {
         dq.pushBack([x,y]);
+        grid[x][y] = '0';
 
         while (!dq.isEmpty()) {
             const [cx,cy] = dq.popFront();
-            grid[cx][cy] = '0'; // mark as visited
+            // NOTE: marking as visited here leads to time inefficiency and TLE for larger inputs
+            //       need to be marked as visited WHEN adding to deque
+            // grid[cx][cy] = '0'; // mark as visited
 
             // traverse to neighbors
             const neighbors: [number, number][] = [];
@@ -36,7 +40,8 @@ function numIslands(grid: string[][]): number {
             for (const [nx,ny] of neighbors) {
                 // skip neighbor traversal if invalid coords or alr explored
                 if (nx < 0 || nx >= M || ny < 0 || ny >= N || grid[nx][ny] === '0') continue;
-                else dq.pushBack([nx,ny]);
+                dq.pushBack([nx,ny]);
+                grid[nx][ny] = '0';
             }
         }
     }
