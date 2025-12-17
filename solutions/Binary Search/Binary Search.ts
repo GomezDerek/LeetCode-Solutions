@@ -1,5 +1,5 @@
 function search(nums: number[], target: number): number {
-    let [l,r] = [0, nums.length]
+    let [l,r] = [0, nums.length-1]
     
     let m: number
     while (l <= r) {
