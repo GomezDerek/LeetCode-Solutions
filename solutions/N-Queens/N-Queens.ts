@@ -23,7 +23,7 @@ function solveNQueens(n: number): string[][] {
     function recurse(curRow: number): void {
         // base case(s)
         if (curRow >= n) {
-            // add curboard to all solutions, copy
+            // add curBoard to all solutions, copy
             saveBoard();
             return;
         }
@@ -58,7 +58,8 @@ function solveNQueens(n: number): string[][] {
         // col
         if (columns.has(j)) return false;
         
-        else if (curBoard[i].includes('Q')) return false;
+        // row
+        // else if (curBoard[i].includes('Q')) return false;
 
         // posDiagonal
         else if (posDiagonals.has(i+j)) return false;
