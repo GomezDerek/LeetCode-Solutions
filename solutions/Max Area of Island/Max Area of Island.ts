@@ -6,7 +6,6 @@ function maxAreaOfIsland(grid: number[][]): number {
         for (let j=0; j<N; j++) {
             if (grid[i][j] === 1) {
                 maxArea = Math.max(maxArea, dfs(i,j,0))
-
             }
         }
     }
@@ -24,11 +23,11 @@ function maxAreaOfIsland(grid: number[][]): number {
             || x >= M
             || y >= N
             || grid[x][y] === 0
-        ) return 0;
+        ) return 0
 
         // ops
         grid[x][y] = 0
-        let thisArea: number = 1;
+        let thisArea: number = 1
 
         // recursion
         thisArea += dfs(x+1,y,curArea+1)
@@ -36,6 +35,6 @@ function maxAreaOfIsland(grid: number[][]): number {
         thisArea += dfs(x,y+1,curArea+1)
         thisArea += dfs(x,y-1,curArea+1)
 
-        return thisArea;
+        return thisArea
     }
 };
