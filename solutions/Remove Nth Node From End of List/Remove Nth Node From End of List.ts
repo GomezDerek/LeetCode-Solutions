@@ -9,40 +9,24 @@
  *     }
  * }
  */
-
- /**
-GOAL: splice out the -n node from a LL
-
-STRAT:
-    iterate 2 pointers, leading and following
-        give leading pointer, a headstart of n nodes
-        then iterate both
-        when lead ptr reaches end,
-            splice follower out
-
-NOTES:
-    n will always be >= 1 && <= sz
-    consider ex 2, sz = 1, n = 1
-  */
-
 function removeNthFromEnd(head: ListNode | null, n: number): ListNode | null {
     const hat = new ListNode(-1, head)
-    let leader = hat
-    let followerParent = hat
+    let [leader, follower] = [hat, hat]
     
     // give leader headstart
-    for (let i=0; i<n; i++) {
-        leader = leader.next
-    }
+    for (let i=0; i<n; i++) leader = leader.next
 
-    // iterate both until leader reaches tail
+    // iterate both pointers until leader reaches tail
     while (leader.next !== null) {
         leader = leader.next
-        followerParent = followerParent.next
+        follower = follower.next
     }
 
     // splice out nth node from end
-    followerParent.next = followerParent.next.next;
+    // follower now points at splicee's parent
+    follower.next = follower.next.next
+
+    // let garbage collector free splicee...?
 
     return hat.next
 };
