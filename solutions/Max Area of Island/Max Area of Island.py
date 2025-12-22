@@ -5,30 +5,31 @@ class Solution:
         maxArea = 0
         curArea = 0
 
-        def dfs(x: int, y: int) -> None:
-            # base case
-            if (
-                0 <= x < m 
-                and 0 <= y < n
-                and grid[x][y] == 1
-            ): pass
-            else: return
-            
-            # ops
+        dq = deque()
+        def BFS(x: int, y: int) -> None:
             nonlocal curArea
-            curArea += 1
+
+            dq.append([x,y])
             grid[x][y] = 0
 
-            # recursion
-            dfs(x+1,y)
-            dfs(x-1,y)
-            dfs(x,y+1)
-            dfs(x,y-1)
+            while dq:
+                cx, cy = dq.popleft()
+                curArea += 1
+
+                for nx,ny in [
+                    [cx+1,cy],
+                    [cx-1,cy],
+                    [cx,cy+1],
+                    [cx,cy-1]
+                ]:
+                    if 0 <= nx < m and 0 <= ny < n and grid[nx][ny] == 1:
+                        dq.append([nx,ny])
+                        grid[nx][ny] = 0
 
         for i in range(m):
             for j in range(n):
                 if grid[i][j] == 1: # LAND HO!
-                    dfs(i,j)
+                    BFS(i,j)
                     maxArea = max(maxArea, curArea)
                     curArea = 0
 
