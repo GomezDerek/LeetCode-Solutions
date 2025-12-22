@@ -12,50 +12,40 @@
  * 
  */
 
- /**
- GOAL: return a deep copy of a connected, undirected graph
- STRAT:
-    - track visited with a set
-    - dfs approach for mem efficiency
-    1. create new graph of same size, empty
-    2. dfs, starting with root
-        a. check if visited
-        b. mark as visited by initialing clone at cloneGraph[i]
-        c. recurse to neighbors
- NOTES:
-    - adj list format
-    - 1-indexed
-
-done planning at 9m
-*/
-
-
+// BFS approach
+// strategy: 
+    // clone nodes before they're added to dq
+    // and use the while loop to clone and assign neighbors
 function cloneGraph(node: _Node | null): _Node | null {
-    const clones: {[index: number]: _Node} = {};
-    dfs(node);
-    return clones[1];
+	if (node === null) return null; // edge case: empty graph
+    
+    const cloneMap: {[index: number]: _Node} = {
+        1: new _Node(node.val)
+    };
+    
+    const dq: Deque<_Node> = new Deque([node]);
+    while (!dq.isEmpty()) {
+        const og: _Node = dq.popFront();
+        const clone: _Node = cloneMap[og.val];
 
-    ///////////////
-    // func defs //
-    ///////////////
-    function dfs(curNode: _Node): _Node | null {
-        // base case
-        if (curNode === null) return null;
-        else if (clones[curNode.val]) return clones[curNode.val]; // return clone if already visited
+        for (const neighbor of og.neighbors) {
+            // if neighbor already cloned
+            if (cloneMap[neighbor.val] !== undefined) {
+                clone.neighbors.push(cloneMap[neighbor.val]);
+            }
+            // else neighbor not yet cloned
+            else {
+                // create neighbor clone and add to map
+                cloneMap[neighbor.val] = new _Node(neighbor.val);
+                
+                // add to clone's neighbors
+                clone.neighbors.push(cloneMap[neighbor.val]);
 
-        // ops
-        // clone
-        const curClone: _Node = new _Node(curNode.val);
-        clones[curNode.val] = curClone;
-
-        // recurse to neighbors
-        const neighborClones: _Node[] = curNode.neighbors.map( ogNeighbor => dfs(ogNeighbor))
-
-        // assign curClone's neighbors
-        for (const neighborClone of neighborClones) {
-            if (neighborClone !== null) curClone.neighbors.push(neighborClone);
-        }
-
-        return curClone;
+                // add neighbor to dq
+                dq.pushBack(neighbor);
+            }
+        } 
     }
+    
+    return cloneMap[1]; // return origin node's clone
 };
