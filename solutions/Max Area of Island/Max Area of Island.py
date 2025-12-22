@@ -8,13 +8,12 @@ class Solution:
         def dfs(x: int, y: int) -> None:
             # base case
             if (
-                x < 0 
-                or x >= m
-                or y < 0 
-                or y >= n 
-                or grid[x][y] == 0
-            ): return
-
+                0 <= x < m 
+                and 0 <= y < n
+                and grid[x][y] == 1
+            ): pass
+            else: return
+            
             # ops
             nonlocal curArea
             curArea += 1
