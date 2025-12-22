@@ -12,37 +12,50 @@
  * 
  */
 
-/* BFS strategy */
+ /**
+ GOAL: return a deep copy of a connected, undirected graph
+ STRAT:
+    - track visited with a set
+    - dfs approach for mem efficiency
+    1. create new graph of same size, empty
+    2. dfs, starting with root
+        a. check if visited
+        b. mark as visited by initialing clone at cloneGraph[i]
+        c. recurse to neighbors
+ NOTES:
+    - adj list format
+    - 1-indexed
+
+done planning at 9m
+*/
+
+
 function cloneGraph(node: _Node | null): _Node | null {
-    if (node === null) return null;
+    const clones: {[index: number]: _Node} = {};
+    dfs(node);
+    return clones[1];
 
-    const deque: Deque<_Node> = new Deque();
-    deque.pushBack(node);
+    ///////////////
+    // func defs //
+    ///////////////
+    function dfs(curNode: _Node): _Node | null {
+        // base case
+        if (curNode === null) return null;
+        else if (clones[curNode.val]) return clones[curNode.val]; // return clone if already visited
 
-    const cloneMap: _Node[] = [];
+        // ops
+        // clone
+        const curClone: _Node = new _Node(curNode.val);
+        clones[curNode.val] = curClone;
 
-    while (deque.size() > 0) {
-        const curNode: _Node = deque.popFront();
+        // recurse to neighbors
+        const neighborClones: _Node[] = curNode.neighbors.map( ogNeighbor => dfs(ogNeighbor))
 
-        // create / retrieve node's clone
-        if (cloneMap[curNode.val] === undefined) {
-            cloneMap[curNode.val] = new _Node(curNode.val);
+        // assign curClone's neighbors
+        for (const neighborClone of neighborClones) {
+            if (neighborClone !== null) curClone.neighbors.push(neighborClone);
         }
-        const cloneNode: _Node = cloneMap[curNode.val];
 
-        // create/ connect neighbors
-        curNode.neighbors.forEach( neighbor => {
-
-            // create / retrieve neighbor clone
-            if (cloneMap[neighbor.val] === undefined) {
-                cloneMap[neighbor.val] = new _Node(neighbor.val);
-                deque.pushBack(neighbor); // add untraversed neighbor
-            }   
-            
-            const neighborNode: _Node = cloneMap[neighbor.val];
-            cloneNode.neighbors.push(neighborNode);
-        });
+        return curClone;
     }
-    
-    return cloneMap[1]; // return clone of input node
 };
