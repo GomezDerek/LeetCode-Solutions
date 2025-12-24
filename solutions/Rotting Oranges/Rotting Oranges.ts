@@ -1,87 +1,66 @@
-/*
-    GOAL: find how many min until all oranges are rotten
+/**
+GOAL: calc how long it takes for all oranges to rot
+STRAT: 
+    multi-insertion BFS to simultaneously rot from multiple origins
+    traverse the entire grid to:
+        1. add rotten oranges to queue
+        2. count non-rotten oranges
 
-    NOTES:
-        we're guaranteed a grid
-        return -1 if impossible (not all oranges will rot)
-        rotting happens in 4 directions
-        ASSUME multiple rotten oranges is possible
+    during BFS:
+        if orange is rotted, non-rottenCounter -=1
 
-    STRATEGY:
-        use a timer to track minutes til full rot
-        counter for total oranges <- traverse to count O(mxn)
-        counter for total rotted
+    after, if non-rottenCounter > 0, return -1
+    else return numTurns
+NOTES:
 
-        simulate rot spread
-        multi-insertion BFS
-            pass (vertexes (oranges), rotTime)
-            update timer with rotTime
+ */
 
 
-        return total oranges === total rotted ? timer : -1;
+type Orange = [number, number, number] // [x,y,turn]
+const directions = [[1,0],[-1,0],[0,1],[0,-1]];
 
-*/
 function orangesRotting(grid: number[][]): number {
-    let maxRotTime: number = 0;
-    let totalRotted: number = 0;
-    let totalOranges: number = 0;
+    const M = grid.length;
+    const N = grid[0].length;
+    let turns = 0;
+    let numFresh = 0;
 
-    const rottenStarts: [number, number][] = [];
+    const q = new Deque<Orange>();
 
-    const rowCount: number = grid.length;
-    const colCount: number = grid[0].length;
-    
-    // traverse to count oranges
-    for (let r=0; r<rowCount; r++) {
-        for (let c=0; c<colCount; c++) {
-            const val: number = grid[r][c];
-            if (val === 1) totalOranges++;
-            else if (val === 2) {
-                totalOranges++;
-                // totalRotted++;
-                rottenStarts.push([r,c]);
+    for (let i=0; i<M; i++) {
+        for (let j=0; j<N; j++) {
+            if (grid[i][j] === 2) {
+                q.pushBack([i,j,0]);
+            }
+            else if (grid[i][j] === 1) {
+                numFresh++;
             }
         }
     }
 
-    // console.log(rottenStarts);
+    while (!q.isEmpty()) {
+        const [x, y, turn] = q.popFront();
+        turns = Math.max(turns, turn);
 
-    // BFS traversal
-    const dq: Deque<[number, number, number]> = new Deque<[number, number, number]>();
-    rottenStarts.forEach( coord => dq.pushBack([...coord, 0]));
-    // console.log(dq);
-
-    while (dq.size() > 0) {
-        const [row, col, rotTime] = dq.popFront();
-        maxRotTime = Math.max(rotTime, maxRotTime);
-        // console.log(`[${row},${col}], val = ${grid[row][col]}, rotTime=${rotTime}`);
-        grid[row][col] = 2; // mark orange as rotted
-        totalRotted++;
-        // console.log(row, col, rotTime);
-
-        // spread the rot if coord valid && fresh orange exists
-        const dirs: [number, number][] = [
-            [row, col-1],// up
-            [row, col+1],// down
-            [row-1, col],//left
-            [row+1, col],//right
-        ];
-        
-        dirs.forEach(dir => {
-            // check if fresh and in bounds, // add to dq
-            if ( 
-                dir[0] >=0 && dir[0] < rowCount // row valid
-                && dir[1] >= 0 && dir[1] < colCount // col valid
-                && grid[dir[0]][dir[1]] === 1 // fresh
+        for (const [dx, dy] of directions) {
+            const [nx, ny] = [x+dx, y+dy];
+            if (
+                // in bounds
+                nx >= 0 &&
+                nx < M &&
+                ny >= 0 &&
+                ny < N &&
+                // and fresh orange
+                grid[nx][ny] === 1
             ) {
-                grid[dir[0]][dir[1]] = 2;// mark as rotten
-                dq.pushBack([dir[0], dir[1], rotTime+1]);
+                // rot it >:)
+                grid[nx][ny] = 2;
+                numFresh--;
+                q.pushBack([nx,ny,turn+1]);
             }
-        })
+        }
     }
 
-    // console.log(grid);
-    // console.log(totalRotted, totalOranges);
 
-    return totalRotted === totalOranges ? maxRotTime : -1;
+    return numFresh > 0 ? -1 : turns;
 };
