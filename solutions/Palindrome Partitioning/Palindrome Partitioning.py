@@ -1,39 +1,32 @@
 class Solution:
     def partition(self, s: str) -> List[List[str]]:
         allPartitions = []
-        curPartitions = []
+        curPartition = []
 
-        def dfs(i: int) -> bool:
-            # base case
-            if i == len(s): 
-                allPartitions.append(curPartitions[:])
-                return 
+        def isPalindrome(s: str) -> bool:
+            i,j = 0, len(s)-1
+            
+            # check if invalid
+            while i <= j:
+                if s[i] != s[j]: 
+                    return False
+                else:
+                    i+=1
+                    j-=1
 
-            # ops
-            palindromes = []
-            for j in range(i,len(s)):
+            return True # all checks passed
+
+        def dfs(i: int) -> None:
+            if i >= len(s):
+                allPartitions.append( curPartition[:] )
+
+            # recurse on all palindromes in s[i:]
+            for j in range(i, len(s)):
                 substr = s[i:j+1]
-                if (isPalindrome(substr)): palindromes.append(substr)
-
-            # recursion
-            for palindrome in palindromes:
-                curPartitions.append(palindrome)
-                dfs(i+len(palindrome))
-                curPartitions.pop()
+                if isPalindrome(substr):
+                    curPartition.append(substr)
+                    dfs( i + len(substr) )
+                    curPartition.pop()
 
         dfs(0)
         return allPartitions
-
-# helper function - verify string is palindrome
-def isPalindrome(w: str) -> bool:
-    i,j = 0, len(w)-1
-
-    # check for invalidity
-    while i <= j:
-        if w[i] != w[j]: return False
-        else:
-            i+=1
-            j-=1
-
-    # all validity checks passed
-    return True
