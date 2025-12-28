@@ -1,17 +1,17 @@
 /**
-completely starting over and restratezing to follow the reverse flow FROM shores up to cells
+completely starting over and restrategizing to follow the reverse flow FROM shores up to cells
 time: 2 h 11 m 
  */
 function pacificAtlantic(heights: number[][]): number[][] {
-    const n = heights.length;
-    const m = heights[0].length;
+    const m = heights.length;
+    const n = heights[0].length;
 
     type Cell = string;
 
     // reverse flow from pacific shores
     const pacificSet: Set<Cell> = new Set();
     // north shore
-    for (let col=0; col<m; col++) {
+    for (let col=0; col<n; col++) {
         dfs(0, col, pacificSet);
     }
 
@@ -23,20 +23,20 @@ function pacificAtlantic(heights: number[][]): number[][] {
     // reverse flow from atlantic shores
     const atlanticSet: Set<Cell> = new Set();
     // south shore
-    for (let col=0; col<m; col++) {
-        dfs(n-1, col, atlanticSet);
+    for (let col=0; col<n; col++) {
+        dfs(m-1, col, atlanticSet);
     }
 
-    // west shore
+    // east shore
     for (let row=0; row<m; row++) {
-        dfs(row, m-1, atlanticSet);
+        dfs(row, n-1, atlanticSet);
     }
 
     // return intersect of ocean sets
     const res: number[][] = [];
     for (const cell of pacificSet) {
         if (atlanticSet.has(cell)) {
-            res.push(cell.split(" ").map(c => parseInt(c)));
+            res.push(cell.split(" ").map(e => parseInt(e)));
         }
     }
     return res;
@@ -54,7 +54,7 @@ function pacificAtlantic(heights: number[][]): number[][] {
                 !set.has(`${nx} ${ny}`) &&
 
                 // in bounds
-                nx >= 0 && nx < n && ny >= 0 && ny < m &&
+                nx >= 0 && nx < m && ny >= 0 && ny < n &&
                 
                 // water flows up
                 heights[x][y] <= heights[nx][ny]
