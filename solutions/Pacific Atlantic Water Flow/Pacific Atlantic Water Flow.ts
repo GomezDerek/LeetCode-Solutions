@@ -53,7 +53,6 @@ function pacificAtlantic(heights: number[][]): number[][] {
     // func def
     // TODO: prune recursion by returning boolean when ocean found
     function dfs(x: number, y: number): void {
-        console.log(x,y)
         // base case(s)
         // ocean found
         // out of bounds -> Pacific
@@ -116,7 +115,7 @@ function pacificAtlantic(heights: number[][]): number[][] {
                 // else in bounds, 
                     // if height is smaller recurse
 
-                (nx < 0 || nx >= n || ny < 0 || ny >= m) || // out of bounds OR
+                (nx < 0 || nx >= m || ny < 0 || ny >= n) || // out of bounds OR
                 heights[x][y] >= heights[nx][ny]            // next height is smaller
             ) {
                 dfs(nx,ny);
