@@ -70,7 +70,6 @@ function solve(board: string[][]): void {
             }
         }
     }
-    console.log(unsurrounded);
 
     // now that all unsurrounded regions are in our set,
     // we can now capture all surrounded regions
