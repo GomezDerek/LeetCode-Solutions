@@ -25,28 +25,17 @@ function solve(board: string[][]): void {
     const unsurrounded = new Set<string>();
 
     const q: [number, number][] = [];
+
     // add all border O's to queue
-    // top
     for (let col=0; col<m; col++) {
-        if (board[0][col] === 'O') q.push([0,col]);
+        if (board[0][col] === 'O') q.push([0,col]);     // top border
+        if (board[n-1][col] === 'O') q.push([n-1,col]); // bottom border
     }
-
-    // bottom
-    for (let col=0; col<m; col++) {
-        if (board[n-1][col] === 'O') q.push([n-1,col]);
-    }
-
-    // left
     for (let row=0; row<n; row++) {
-        if (board[row][0] === 'O') q.push([row,0]);
+        if (board[row][0] === 'O') q.push([row,0]);      // left border
+        if (board[row][m-1] === 'O') q.push([row,m-1]);  // right border
     }
 
-    // right
-    for (let row=0; row<n; row++) {
-        if (board[row][m-1] === 'O') q.push([row,m-1]);
-    }
-
-    // console.log(q);
     // execute BFS - add to set when we add to queue
     for (const [x,y] of q) unsurrounded.add(`${x} ${y}`);
     let head = 0;
@@ -73,8 +62,8 @@ function solve(board: string[][]): void {
 
     // now that all unsurrounded regions are in our set,
     // we can now capture all surrounded regions
-    for (let row=0; row<n; row++) {
-        for (let col=0; col<m; col++) {
+    for (let row=1; row<n-1; row++) {
+        for (let col=1; col<m-1; col++) {
             if (board[row][col] === 'O' && !unsurrounded.has(`${row} ${col}`)) {
                 board[row][col] = 'X';
             }
