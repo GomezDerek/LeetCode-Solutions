@@ -2,9 +2,8 @@ function canFinish(numCourses: number, prerequisites: number[][]): boolean {
     const prereqs: number[][] = new Array(numCourses);
     for (let i=0; i<numCourses; i++) prereqs[i] = [];
 
-    let course: number, prereq: number;
     for (let i=0; i<prerequisites.length; i++) {
-        [course, prereq] = prerequisites[i];
+        const [course, prereq] = prerequisites[i];
         prereqs[course].push(prereq);
     }
 
@@ -21,9 +20,8 @@ function canFinish(numCourses: number, prerequisites: number[][]): boolean {
 
         visited.add(course);
 
-        let prereq: number;
         for (let i=0; i<prereqs[course].length; i++) {
-            prereq = prereqs[course][i];
+            const prereq = prereqs[course][i];
             if (hasCycle(prereq)) return true; // cycle detected in prereq
         }
 
