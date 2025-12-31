@@ -2,8 +2,9 @@ function canFinish(numCourses: number, prerequisites: number[][]): boolean {
     const prereqs: number[][] = new Array(numCourses);
     for (let i=0; i<numCourses; i++) prereqs[i] = [];
 
+    let course: number, prereq: number;
     for (let i=0; i<prerequisites.length; i++) {
-        const [course, prereq] = prerequisites[i];
+        [course, prereq] = prerequisites[i];
         prereqs[course].push(prereq);
     }
 
