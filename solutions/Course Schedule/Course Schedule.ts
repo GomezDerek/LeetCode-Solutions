@@ -30,7 +30,6 @@ function canFinish(numCourses: number, prerequisites: number[][]): boolean {
     const visited = new Set<number>();
     for (let course=0; course<numCourses; course++) {
         if (hasCycle(course)) return false;
-        visited.clear();
     }
 
     // all courses are cycle free!
@@ -41,7 +40,7 @@ function canFinish(numCourses: number, prerequisites: number[][]): boolean {
         // base case
         if (visited.has(course)) return true; // cycle detected
 
-        // ops
+        // pre-recurse op
         visited.add(course);
 
         // recurse
@@ -49,6 +48,9 @@ function canFinish(numCourses: number, prerequisites: number[][]): boolean {
             if (hasCycle(prereq)) return true; // cycle in prereq
             else prereqs[course] = []; // no cycle in prereq, clear to avoid retraversal
         }
+
+        // post-recurse op
+        visited.delete(course);
 
         // return -> course has no cycle
         return false;
