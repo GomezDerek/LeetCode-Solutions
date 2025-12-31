@@ -1,49 +1,56 @@
-// CONCEDED AT 1 h 15 m
-// then watched NC's solution
-// POST-MORTEM: REMEMBER HOW TO CREATE AN EMPTY 2D ARRAY in TS AHHHHHH
+/**
+GOAL: determine if this graph has a cycle
+STRAT:
+    - create dict of classes and their prereqs
+    - for each class, traverse graph and look for cycles
+    - if cycle found, return false
+    - else continue traversing each class in dict
+    - once all classes have been checked, return true
+
+    - for each class's prereq traversal, keep a visited set
+    - optimization: when a class has been verified, 
+                    remove prereqs to prevent retraversal when checking other classse
+
+NOTES:
+    at least 1 course guaranteed
+    up to 5k edges
+
+done planning at 9min
+ */
 
 function canFinish(numCourses: number, prerequisites: number[][]): boolean {
-    
-    // create the adj list
-    const courses: number[][] = [];
-    for (let i=0; i<numCourses; i++) courses.push([]);
-
-    for (let i=0; i<prerequisites.length; i++) {
-        const course: number = prerequisites[i][0];
-        const prereq: number = prerequisites[i][1];
-
-        courses[course].push(prereq);
-    }
-
-    // look for a cycle, starting from every course
-    const traversed: Set<number> = new Set<number>();
+    const prereqs: number[][] = new Array(numCourses);
     for (let i=0; i<numCourses; i++) {
-        if ( hasCycle(i) ) return false; // cycle detected!
+        prereqs[i] = [];
     }
- 
-    // no cycles detected! 😃
+    for (const [course, prereq] of prerequisites) {
+        prereqs[course].push(prereq);
+    }
+
+    const visited = new Set<number>();
+    for (let course=0; course<numCourses; course++) {
+        if (hasCycle(course)) return false;
+        visited.clear();
+    }
+
+    // all courses are cycle free!
     return true;
 
-    // func def for dfs traversal
+    // return true if class has cycle, false if no cycle
     function hasCycle(course: number): boolean {
         // base case
-        if (traversed.has(course)) return true; // cycle detected  
+        if (visited.has(course)) return true; // cycle detected
 
-        traversed.add(course);
+        // ops
+        visited.add(course);
 
-        // recursion
-        const prereqs: number[] = courses[course];
-        for (let i=0; i<prereqs.length; i++) {
-            if (hasCycle(prereqs[i])) return true; // cycle detected!
+        // recurse
+        for (const prereq of prereqs[course]) {
+            if (hasCycle(prereq)) return true; // cycle in prereq
+            else prereqs[course] = []; // no cycle in prereq, clear to avoid retraversal
         }
 
-        // reset the set for the next DFS branch
-        traversed.delete(course); 
-        
-        // this course's prereqs are validated. No need to check again in the future
-        courses[course] = []; 
-
-        // cycle not detected
+        // return -> course has no cycle
         return false;
     }
 };
