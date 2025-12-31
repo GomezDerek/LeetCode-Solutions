@@ -22,10 +22,11 @@ function canFinish(numCourses: number, prerequisites: number[][]): boolean {
 
         visited.add(course);
 
-        // for (const prereq of prereqs[course]) {
+        let prereq: number;
         for (let i=0; i<prereqs[course].length; i++) {
-            if (hasCycle( prereqs[course][i] )) return true; // cycle detected in prereq
-            else prereqs[course] = [];
+            prereq = prereqs[course][i];
+            if (hasCycle(prereq)) return true; // cycle detected in prereq
+            else prereqs[prereq] = [];
         }
 
         visited.delete(course);
