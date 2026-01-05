@@ -5,22 +5,38 @@
 #         self.left = None
 #         self.right = None
 
+# NOTE: TREE IS NOT GUARANTEED TO BE BALANCED
+# STRAT: track paths as we DFS traverse
+# restarting at 38min
 class Solution:
     def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
+        p_path = None
+        q_path = None
 
-        # solution from Cracking FAANG
+        def findPaths(root, curPath) -> None:
+            if root is None:
+                return
+            
+            curPath.append(root)
 
-        if not root:
-            return
+            nonlocal p_path
+            nonlocal q_path
+            
+            if root is p:
+                p_path = curPath[:]
+            elif root is q:
+                q_path = curPath[:]
 
-        elif root is p or root is q:
-            return root
+            if p_path and q_path:
+                return
+
+            findPaths(root.left, curPath[:])
+            findPaths(root.right, curPath[:])
         
-        l = self.lowestCommonAncestor(root.left, p, q)
-        r = self.lowestCommonAncestor(root.right, p, q)
+        findPaths(root, [])
 
-        if l != None and r != None:
-            return root
-
-        else:
-            return l or r
+        ans = None
+        for i in range( min(len(p_path), len(q_path)) ):
+            if p_path[i] is q_path[i]:
+                ans = p_path[i]
+        return ans
