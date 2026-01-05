@@ -23,8 +23,8 @@ function findOrder(numCourses: number, prerequisites: number[][]): number[] {
     const nextCourses: number[][] = Array.from( {length: numCourses}, a => [] );
     
     for (const [course, prereq] of prerequisites) {
-        // nextCourses[prereq].push(course);
-        nextCourses[course].push(prereq);
+        nextCourses[prereq].push(course);
+        // nextCourses[course].push(prereq);
     }
     console.log(nextCourses);
 
@@ -37,7 +37,7 @@ function findOrder(numCourses: number, prerequisites: number[][]): number[] {
         visited.clear();
     }
 
-    return [...output];
+    return [...output].reverse();
 
     // funcs hoisted
     function dfs(i: number): void {
@@ -49,7 +49,6 @@ function findOrder(numCourses: number, prerequisites: number[][]): number[] {
         
         // pre-ops
         visited.add(i);
-        output.add(i);
 
         // recurse
         for (const nextCourse of nextCourses[i]) {
@@ -57,6 +56,7 @@ function findOrder(numCourses: number, prerequisites: number[][]): number[] {
         }
 
         // post-ops
+        output.add(i);
         visited.delete(i);
     }
 };
