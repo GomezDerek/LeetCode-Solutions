@@ -23,7 +23,8 @@ function findOrder(numCourses: number, prerequisites: number[][]): number[] {
     const nextCourses: number[][] = Array.from( {length: numCourses}, a => [] );
     
     for (const [course, prereq] of prerequisites) {
-        nextCourses[prereq].push(course);
+        // nextCourses[prereq].push(course);
+        nextCourses[course].push(prereq);
     }
 
     let cycleDetected = false;
@@ -35,7 +36,7 @@ function findOrder(numCourses: number, prerequisites: number[][]): number[] {
         visited.clear();
     }
 
-    return [...output].reverse();
+    return [...output];
 
     // funcs hoisted
     function dfs(i: number): void {
