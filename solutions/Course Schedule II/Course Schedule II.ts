@@ -24,9 +24,7 @@ function findOrder(numCourses: number, prerequisites: number[][]): number[] {
     
     for (const [course, prereq] of prerequisites) {
         nextCourses[prereq].push(course);
-        // nextCourses[course].push(prereq);
     }
-    console.log(nextCourses);
 
     let cycleDetected = false;
     const visited = new Set<number>();
@@ -57,6 +55,7 @@ function findOrder(numCourses: number, prerequisites: number[][]): number[] {
 
         // post-ops
         output.add(i);
+        nextCourses[i] = [];
         visited.delete(i);
     }
 };
