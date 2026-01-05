@@ -5,38 +5,25 @@
 #         self.left = None
 #         self.right = None
 
-# NOTE: TREE IS NOT GUARANTEED TO BE BALANCED
-# STRAT: track paths as we DFS traverse
-# restarting at 38min
+# wrote from mem after reading my prev solutions
 class Solution:
     def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
-        p_path = None
-        q_path = None
+        # base case(s)
+        # end recursion, no targets found in null subtree
+        if not root:
+            return None
 
-        def findPaths(root, curPath) -> None:
-            if root is None:
-                return
-            
-            curPath.append(root)
+        # end recursion, target / LCA found
+        if root is p or root is q:
+            return root
 
-            nonlocal p_path
-            nonlocal q_path
-            
-            if root is p:
-                p_path = curPath[:]
-            elif root is q:
-                q_path = curPath[:]
+        l = self.lowestCommonAncestor(root.left, p, q)  # target found in left subtree
+        r = self.lowestCommonAncestor(root.right, p, q) # target found in right subtree
 
-            if p_path and q_path:
-                return
-
-            findPaths(root.left, curPath[:])
-            findPaths(root.right, curPath[:])
+        # root is LCA if targets in both subtrees
+        if l and r:
+            return root
+        # LCA in subtree if no targets in other subtree
+        else:
+            return l or r
         
-        findPaths(root, [])
-
-        ans = None
-        for i in range( min(len(p_path), len(q_path)) ):
-            if p_path[i] is q_path[i]:
-                ans = p_path[i]
-        return ans
