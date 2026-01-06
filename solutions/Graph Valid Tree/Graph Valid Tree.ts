@@ -14,7 +14,7 @@ function validTree(n: number, edges: number[][]): boolean {
         adjList[n1].push(n2);
         adjList[n2].push(n1);
     }
-    console.log(adjList);
+    // console.log(adjList);
 
     const inCycle = new Set<number>();
     const visited = new Set<number>();
