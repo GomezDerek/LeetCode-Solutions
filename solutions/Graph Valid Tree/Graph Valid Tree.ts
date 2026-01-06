@@ -14,8 +14,9 @@ function validTree(n: number, edges: number[][]): boolean {
         adjList[n1].push(n2);
         adjList[n2].push(n1);
     }
-    // console.log(adjList);
+    console.log(adjList);
 
+    const inCycle = new Set<number>();
     const visited = new Set<number>();
 
     // for (let i=0; i<n; i++) {
@@ -25,15 +26,17 @@ function validTree(n: number, edges: number[][]): boolean {
     if (hasCycle(0, -1)) return false; // not a valid tree if graph has cycle
 
     // check if graph is connected
-    if (adjList.some(neighborArray => neighborArray.length)) return false; // not a valid tree if unconnceted nodes found 
+    // if (adjList.some(neighborArray => neighborArray.length)) return false; // not a valid tree if unconnceted nodes found 
+    if (visited.size < n ) return false; // not a valid tree if unconnceted nodes found 
 
     return true; // no cycles, valid tree
 
     function hasCycle(curNode: number, prevNode: number): boolean {
         // base case(s)
-        if (visited.has(curNode)) return true;
+        if (inCycle.has(curNode)) return true;
 
         // ops
+        inCycle.add(curNode);
         visited.add(curNode);
 
         // recursion - to all neighbors for cycle detection
@@ -44,7 +47,7 @@ function validTree(n: number, edges: number[][]): boolean {
 
         // post-recursion ops
         adjList[curNode] = [];
-        visited.delete(curNode);
+        inCycle.delete(curNode);
 
         // return
         return false; // no cycle detected
