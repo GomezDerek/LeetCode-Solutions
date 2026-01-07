@@ -27,7 +27,8 @@ function countComponents(n: number, edges: number[][]): number {
 
     const visited = new Set<number>();
     for (let i=0; i<n; i++) {
-        if (adjList[i].length) {
+        // if (adjList[i].length) {
+        if (!visited.has(i)) {
             dfs(i,-1);
             numComponents++;
         }
@@ -55,6 +56,6 @@ function countComponents(n: number, edges: number[][]): number {
         }
 
         // post-recurse ops
-        adjList[node] = [];
+        // adjList[node] = [];
     }
 };
