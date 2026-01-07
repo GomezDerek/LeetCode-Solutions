@@ -23,11 +23,9 @@ function countComponents(n: number, edges: number[][]): number {
         adjList[a].push(b);
         adjList[b].push(a);
     }
-    // console.log(adjList);
 
     const visited = new Set<number>();
     for (let i=0; i<n; i++) {
-        // if (adjList[i].length) {
         if (!visited.has(i)) {
             dfs(i,-1);
             numComponents++;
@@ -36,12 +34,10 @@ function countComponents(n: number, edges: number[][]): number {
 
     return numComponents;
 
-    // hoisted funcs
+    // hoisted func
     function dfs(node: number, prevNode: number): void {
         // base case(s)
-        if (visited.has(node)) {
-            return;
-        }
+        if (visited.has(node)) return;
 
         // pre-recurse ops
         visited.add(node);
@@ -49,13 +45,7 @@ function countComponents(n: number, edges: number[][]): number {
         // recurse
         for (let i=0; i<adjList[node].length; i++) {
             const neighbor = adjList[node][i];
-            if (neighbor === prevNode) continue;
-            else {
-                dfs(neighbor, node);
-            }
+            if (neighbor !== prevNode) dfs(neighbor, node);
         }
-
-        // post-recurse ops
-        // adjList[node] = [];
     }
 };
