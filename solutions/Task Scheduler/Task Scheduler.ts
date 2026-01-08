@@ -7,48 +7,46 @@ function leastInterval(tasks: string[], n: number): number {
         freqMap[task] = (freqMap[task] ?? 0) + 1;
     }
 
-    // initialize heap
-    const heap = new MaxPriorityQueue<string>(
+    const uniqueTasks: string[] = Object.keys(freqMap);
+
+    // initialize task queue / heap
+    const taskQ = new MaxPriorityQueue<string>(
         task => freqMap[task],
-        Object.keys(freqMap)
+        uniqueTasks
     );
 
     const coolDown: {[key: string]: number} = {}; // {task: intervalReady}
-    const hotTasks: string[] = [];
+    const hotTasks = new MinPriorityQueue<string>(
+        task => coolDown[task] ?? 0
+    );
 
-    while (!heap.isEmpty()) {
+    while (taskQ.size() || hotTasks.size()) {
 
-        // get next task
-        let nextTask: string = heap.dequeue();
-
-        while (!isReady(nextTask) && !heap.isEmpty()) { // while nextTask is hot
-            hotTasks.push(nextTask);
-            nextTask = heap.dequeue();
+        // first reset the taskQ
+        while (hotTasks.size() && !isHot(hotTasks.front())) {
+            taskQ.enqueue(hotTasks.dequeue());
         }
 
-        // no tasks ready, idle interval
-        if (heap.isEmpty() && !isReady(nextTask)) {
-            while (hotTasks.length) heap.enqueue(hotTasks.pop());
-            heap.enqueue(nextTask);
-            curInterval++;
-            continue;
+        // then pop taskQ until we find a ready task
+        while (taskQ.size() && isHot(taskQ.front())) { 
+            hotTasks.enqueue(taskQ.dequeue());
         }
 
-        // process ready task
-        coolDown[nextTask] = curInterval + n + 1;
-        freqMap[nextTask]--;
-        
-        // handle hot tasks and heap
-        while (hotTasks.length) heap.enqueue(hotTasks.pop());
-        if (freqMap[nextTask] > 0) heap.enqueue(nextTask);
-        
+        // process next task if possible
+        if (taskQ.front()) {
+            const nextTask: string = taskQ.dequeue();
+            coolDown[nextTask] = curInterval + n + 1;
+            if (--freqMap[nextTask]) hotTasks.enqueue(nextTask);            
+        }
+        // else idle
+
         curInterval++;
     }
 
     return curInterval;
 
     // hoisted helpers
-    function isReady(task: string): boolean {
-        return (coolDown[task] ?? 0) <= curInterval;
+    function isHot(task: string): boolean {
+        return (coolDown[task] ?? 0) > curInterval;
     }
 };
