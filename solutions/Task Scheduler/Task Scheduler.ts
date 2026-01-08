@@ -1,88 +1,87 @@
 /**
-    GOAL: find the fastest time (in intervals) all tasks can be completed
-    
-    STRATEGY:
-        - cooldown counter for each task, hashmap for O(1) access
-        - iterate through tasks to initialize the hash counter O(n)
+GOAL: to calc least amount of time to complete all tasks
 
-        - priority queue / heap for task completion O(n logn)
-            - prioritize tasks with no / smallest cooldown
-            - when there's a tie, prioritize most frequent tasks
+NOTES:
 
+STRAT:
+    - prioritize which task is next between intervals
+    - before an idle turn, we need to be certain no tasks can be performed
+    - find frequency for each task
+    - heap DS, maintain a priority queue
+        - sort function, by frequency
+    - store cooldown for each task {task: intervalReady}
+    - loop, while heap is not empty
+        - pop next available task from heap
+        - store hot tasks in a temp array
+        - when we find a task that is cold
+            - process
+            - add back in hot tasks, heap([hotTasks])
+        - update counters (time, interval)
 
-    cooldownheap = [a:0, b:0, a:0, b:0, c:2]
-    freqHeap = [idle]
-    temp = [a:32, b:17, c:4]
-
-    heap will sort based on frequency
-    when choosing next task, 
-        iterate through heap from most to least frequent
-            store tasks on cooldown into temp arr
-            until valid task is found
-            IF NO VALID TASK, then idle
-        
-        after task is chosen,
-            restore cooldown tasks
-
-    USE GLOBAL interval counter to avoid in/decrement every tasks's cooldown      
- 
-    strat done at 15min
  */
 
 function leastInterval(tasks: string[], n: number): number {
     let curInterval: number = 0;
 
-    class Task {
-        label: string;
-        count: number;
-        readyBy: number;
-        constructor(label: string) {
-            this.label = label;
-            this.count = 1;
-            this.readyBy = 0;
-        }
-        process() {
-            this.count--;
-            this.readyBy += n+1;
-        }
-    }
-
-    // freqHash
-    const hash: {[key: string]: Task} = {};
+    // calc frequencies
+    const freqMap: {[key: string]: number} = {};
     for (const task of tasks) {
-        if (hash[task] !== undefined) {
-            hash[task].count +=1; 
-        }
-        else {
-            hash[task] = new Task(task);
-        }
+        freqMap[task] = (freqMap[task] ?? 0) + 1;
     }
-    // console.log(hash);
+    // console.log(freqMap);
 
-    // heap from hash
-    const q: Heap<Task> = new Heap<Task>(
-        task => task.count, // comparator
-        Object.values(hash) // initial array
+    // const heap = new PriorityQueue<string>(
+    const heap = new MaxPriorityQueue<string>(
+        // (a,b) => freqMap[b]-freqMap[a], 
+        // (a, b) => a - b
+        // null,
+        // freqMap => freqMap,
+        task => freqMap[task],
+        Object.keys(freqMap)
     );
+    // console.log(heap.toArray());
+    // console.log(heap);
 
-    // process the tasks
-    while(!q.isEmpty()) {
-        const hotTasks: Task[] = [];
-        
-        // while next task is still on cooldown
-        while (!q.isEmpty() && q.root().readyBy > curInterval) {
-            hotTasks.push(q.extractRoot());
+    // {task: intervalReady}
+    const coolDown: {[key: string]: number} = {};
+
+    const hotTasks: string[] = [];
+    while (!heap.isEmpty()) {
+
+        // get next task
+        let nextTask: string = heap.dequeue();
+
+        while (!isReady(nextTask) && !heap.isEmpty()) { // while nextTask is hot
+            hotTasks.push(nextTask);
+            nextTask = heap.dequeue();
         }
 
-        // now next task is ready OR no tasks are ready
-        if (!q.isEmpty()) {
-            if (q.root().count === 1) q.extractRoot();
-            else q.root().process();
+        // no tasks ready, idle interval
+        if (heap.isEmpty() && !isReady(nextTask)) {
+            // console.log(curInterval + ": idle");
+            while (hotTasks.length) heap.enqueue(hotTasks.pop());
+            heap.enqueue(nextTask);
+            curInterval++;
+            continue;
         }
+
+        // process task
+        coolDown[nextTask] = curInterval + n + 1;
+        freqMap[nextTask]--;
         
-        for (const task of hotTasks) q.insert(task);
+        // handle hot tasks and heap
+        while (hotTasks.length) heap.enqueue(hotTasks.pop());
+        if (freqMap[nextTask] > 0) heap.enqueue(nextTask);
+        console.log(curInterval + ": " + nextTask);
+        // console.log(heap.toArray());
+        
         curInterval++;
     }
 
     return curInterval;
+
+    // hoisted helpers
+    function isReady(task: string): boolean {
+        return (coolDown[task] ?? 0) <= curInterval;
+    }
 };
