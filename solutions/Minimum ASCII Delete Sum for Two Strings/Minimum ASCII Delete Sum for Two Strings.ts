@@ -65,14 +65,14 @@ function minimumDeleteSum(s1: string, s2: string): number {
     genSubstrs(s2, 0);
 
     // find the min ascii delete sum
-    let ans = Infinity;
+    let ans: number = Infinity;
     for (const s1substr in s1substrs) {
         if (s2substrs[s1substr]) {
             const deleteSum: number = (s1Score - s1substrs[s1substr]) + (s2Score - s2substrs[s1substr]);
             ans = Math.min(ans, deleteSum);
         }
     }
-    return ans;
+    return ans < Infinity ? ans : s1Score + s2Score;
 
     // hoisted helper
     function genSubstrs(ogstr: string, i: number): void {
