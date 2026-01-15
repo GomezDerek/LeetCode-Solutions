@@ -34,7 +34,7 @@ NOTES:
     valid tree criteria:
         - no cycles
         - connected
-        - each vertex only has 2 edges?
+        - each vertex only has 2 edges? WRONG
  
     done planning at 14 min
  */
@@ -57,6 +57,7 @@ function findRedundantConnection(edges: number[][]): number[] {
         edgeIndex[`${a} ${b}`] = i;
         edgeIndex[`${b} ${a}`] = i;
     }
+    // console.log(adjList.forEach((edge, i) => console.log(i, edge)));
 
     // find cycle set
     const visited = new Set<number>();
@@ -64,17 +65,21 @@ function findRedundantConnection(edges: number[][]): number[] {
 
     const visitedArr: number[] = [...visited];
     const cycleRootIndex: number = visitedArr.indexOf(cycleRoot);
-    // console.log(visitedArr);
-    // console.log(cycleRootIndex);
+    // console.log('visitedArr: ', visitedArr);
+    // console.log('cycleRootIndex: ', cycleRootIndex);
     const cycleNodes: number[] = visitedArr.slice(cycleRootIndex); // slice starting at cycleRootIndex
+    // console.log('cycleNodes: ', cycleNodes);
+    const nonCycleNodes = new Set<number>(visitedArr.slice(0, cycleRootIndex));
+    // console.log('nonCycleNodes: ', nonCycleNodes);
 
     // find last edge in cycle set
     let lastEdgeIndex = 0;
     cycleNodes.reverse();
+    // console.log('reversed cycleNodes: ', cycleNodes);
 
     for (const node of cycleNodes) {
         for (const neighbor of adjList[node]) {
-            if (!visited.has(neighbor)) continue;
+            if (nonCycleNodes.has(neighbor) || !visited.has(neighbor)) continue;
             lastEdgeIndex = Math.max(lastEdgeIndex, edgeIndex[`${node} ${neighbor}`]);
         }
     }
