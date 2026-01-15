@@ -57,7 +57,7 @@ function findRedundantConnection(edges: number[][]): number[] {
         edgeIndex[`${a} ${b}`] = i;
         edgeIndex[`${b} ${a}`] = i;
     }
-    // console.log(adjList.forEach((edge, i) => console.log(i, edge)));
+    console.log(adjList.forEach((edge, i) => console.log(i, edge)));
 
     // find cycle set
     const visited = new Set<number>();
@@ -65,17 +65,17 @@ function findRedundantConnection(edges: number[][]): number[] {
 
     const visitedArr: number[] = [...visited];
     const cycleRootIndex: number = visitedArr.indexOf(cycleRoot);
-    // console.log('visitedArr: ', visitedArr);
-    // console.log('cycleRootIndex: ', cycleRootIndex);
+    console.log('visitedArr: ', visitedArr);
+    console.log('cycleRootIndex: ', cycleRootIndex);
     const cycleNodes: number[] = visitedArr.slice(cycleRootIndex); // slice starting at cycleRootIndex
-    // console.log('cycleNodes: ', cycleNodes);
+    console.log('cycleNodes: ', cycleNodes);
     const nonCycleNodes = new Set<number>(visitedArr.slice(0, cycleRootIndex));
-    // console.log('nonCycleNodes: ', nonCycleNodes);
+    console.log('nonCycleNodes: ', nonCycleNodes);
 
     // find last edge in cycle set
     let lastEdgeIndex = 0;
     cycleNodes.reverse();
-    // console.log('reversed cycleNodes: ', cycleNodes);
+    console.log('reversed cycleNodes: ', cycleNodes);
 
     for (const node of cycleNodes) {
         for (const neighbor of adjList[node]) {
