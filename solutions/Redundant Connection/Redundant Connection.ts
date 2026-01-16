@@ -37,6 +37,26 @@ NOTES:
         - each vertex only has 2 edges? WRONG
  
     done planning at 14 min
+    conceded at 1 h 17 m
+    revising at 1 h 53 m
+ */
+
+/**
+    input: edges[]
+    1. build the adj list
+    2. creating the cycle path (DFS)
+        a. as we recurse, 
+            tracking the path,
+            once we find a cycle, 
+                return the path
+
+    3. find the latest edge from cycle in the input
+
+    path = [5,1,2,3,4]
+    cyclePath = [1,2,3,4]
+    [1,2], [2,3], [3,4], [4,1]
+
+
  */
 
 function findRedundantConnection(edges: number[][]): number[] {
@@ -61,25 +81,30 @@ function findRedundantConnection(edges: number[][]): number[] {
 
     // find cycle set
     const visited = new Set<number>();
-    const cycleRoot = findCycleRoot(1,-1);
+    const cyclePath: number[] = findCyclePath(1, []);
+    console.log(cyclePath);
+    // return [-1];
+    // const cycleRoot = findCycleRoot(1,-1);
 
-    const visitedArr: number[] = [...visited];
-    const cycleRootIndex: number = visitedArr.indexOf(cycleRoot);
-    console.log('visitedArr: ', visitedArr);
-    console.log('cycleRootIndex: ', cycleRootIndex);
-    const cycleNodes: number[] = visitedArr.slice(cycleRootIndex); // slice starting at cycleRootIndex
-    console.log('cycleNodes: ', cycleNodes);
-    const nonCycleNodes = new Set<number>(visitedArr.slice(0, cycleRootIndex));
-    console.log('nonCycleNodes: ', nonCycleNodes);
+    // const visitedArr: number[] = [...visited];
+    // const cycleRootIndex: number = visitedArr.indexOf(cycleRoot);
+    // console.log('visitedArr: ', visitedArr);
+    // console.log('cycleRootIndex: ', cycleRootIndex);
+    // const cycleNodes: number[] = visitedArr.slice(cycleRootIndex); // slice starting at cycleRootIndex
+    // console.log('cycleNodes: ', cycleNodes);
+    // const nonCycleNodes = new Set<number>(visitedArr.slice(0, cycleRootIndex));
+    // console.log('nonCycleNodes: ', nonCycleNodes);
 
     // find last edge in cycle set
     let lastEdgeIndex = 0;
-    cycleNodes.reverse();
+    // cycleNodes.reverse();
+    const cycleNodes = cyclePath.toReversed();
     console.log('reversed cycleNodes: ', cycleNodes);
 
     for (const node of cycleNodes) {
         for (const neighbor of adjList[node]) {
-            if (nonCycleNodes.has(neighbor) || !visited.has(neighbor)) continue;
+            // if (nonCycleNodes.has(neighbor) || !visited.has(neighbor)) continue;
+            if (!cycleNodes.includes(neighbor)) continue;
             lastEdgeIndex = Math.max(lastEdgeIndex, edgeIndex[`${node} ${neighbor}`]);
         }
     }
@@ -102,5 +127,27 @@ function findRedundantConnection(edges: number[][]): number[] {
         }
 
         return 0; // leaf node found
+    }
+
+    function findCyclePath(i: number, path: number[]): number[] {
+        // base case
+        if (visited.has(i)) {
+            const pathI = path.indexOf(i);
+            return path.slice(pathI);
+        }
+
+        // ops
+        visited.add(i);
+        path.push(i);
+
+        // recursion
+        for (const neighbor of adjList[i]) {
+            if (neighbor === path[path.length-2]) continue;
+            const neighborPath: number[] = findCyclePath(neighbor, path);
+            if (neighborPath.length > 0) return neighborPath;
+        }
+
+        path.pop();
+        return []; // leaf node found
     }
 };
