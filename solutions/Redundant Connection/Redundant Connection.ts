@@ -22,11 +22,10 @@ function findRedundantConnection(edges: number[][]): number[] {
 
     // find last edge in cycle set
     let lastEdgeIndex = 0;
-    const cycleNodes = cyclePath.toReversed();
 
-    for (const node of cycleNodes) {
+    for (const node of cyclePath) {
         for (const neighbor of adjList[node]) {
-            if (!cycleNodes.includes(neighbor)) continue;
+            if (!cyclePath.includes(neighbor)) continue;
             lastEdgeIndex = Math.max(lastEdgeIndex, edgeIndex[`${node} ${neighbor}`]);
         }
     }
