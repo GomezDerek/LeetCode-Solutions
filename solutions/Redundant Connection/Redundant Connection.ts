@@ -36,7 +36,7 @@ function findRedundantConnection(edges: number[][]): number[] {
     // hoisted helpers
     function findCyclePath(i: number, path: number[]): number[] {
         // base case
-        if (visited.has(i))
+        if (visited.has(i)) {
             // slice out leading nodes before cycle start
             return path.slice(path.indexOf(i)); 
         }
