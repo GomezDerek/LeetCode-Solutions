@@ -10,44 +10,56 @@
  * }
  */
 
-/**
-    NOTE:
-        numbers may be larger than 2^32, 9*10^19
-        in JS, we use BigInts
+ /**
+ GOAL: add 2 numbers (they are LL, in reverse)
 
-    STRAT:
-        build each list's number as we traverse backwards O(l1 + l2)
-        add the two numbers together O(1)
-        convert sum to LI O(sum.length)
- */
+ STRATEGY:
+    - convert both LLs to numbers
+        - str -> reverse -> bigint
+    - add the numbers
+    - convert sum to LL
+ 
+ NOTES:
+     - each num may have up to 100 digits
+     - 2^52
+     - use bigint instead of ints for adding
+  */
 
 function addTwoNumbers(l1: ListNode | null, l2: ListNode | null): ListNode | null {
-    // build l1's number
-    // first convert from LL -> str
-    let s1: string = "";
-    while (l1 != null) {
-        s1 = l1.val + s1;
-        l1 = l1.next;
-    } 
-    const n1: bigint = BigInt(s1);
 
-    // do the same to l2
-    let s2: string = "";
+    // convert LLs to nums
+    const sArr1: string[] = [];
+    while (l1 != null) {
+        sArr1.push(l1.val+"");
+        l1 = l1.next;
+    }
+    
+    const sArr2: string[] = [];
     while (l2 != null) {
-        s2 = l2.val + s2;
+        sArr2.push(l2.val+"");
         l2 = l2.next;
     }
-    const n2: bigint = BigInt(s2);
 
-    // add the numbers!
-    const nSum: bigint = n1+n2;
+    // const num1: BigInt = BigInt(sArr1.reverse().join(""));
+    // const num2: BigInt = BigInt(sArr2.reverse().join(""));
+    const num1: number = parseInt(sArr1.reverse().join(""));
+    const num2: number = parseInt(sArr2.reverse().join(""));
+    // console.log(typeof num1, typeof num2)
 
-    // convert sum to list
-    let sumHead: ListNode | null = null;
-    for (const ch of nSum.toString()) {
-        const newHead = new ListNode(parseInt(ch), sumHead);
-        sumHead = newHead;
+    const numSum: number = num1 + num2;
+    // console.log(numSum);
+    const sumStr: string = numSum.toString();
+    console.log(sumStr);
+
+    // convert our sum to a LL (backwards)
+    const resHat: ListNode = new ListNode();
+    let tail: ListNode = resHat;
+    let i = sumStr.length-1;
+    while (i >= 0) {
+        tail.next = new ListNode(parseInt(sumStr[i]));
+        tail = tail.next;
+        i--;
     }
 
-    return sumHead;
+    return resHat.next;;
 };
