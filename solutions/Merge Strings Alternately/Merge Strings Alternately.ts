@@ -9,17 +9,11 @@ strategy:
 function mergeAlternately(word1: string, word2: string): string {
     const resArr: string[] = [];
 
-    for (let i=0; i<Math.max(word1.length, word2.length); i++) {
-        if (i < word1.length) resArr.push(word1[i])
-        else {
-            resArr.push(word2.slice(i))
-            break;
-        }
-        if (i < word2.length) resArr.push(word2[i])
-        else {
-            resArr.push(word1.slice(i+1))
-            break;
-        }
+    const maxLength: number = Math.max(word1.length, word2.length);
+
+    for (let i=0; i<maxLength; i++) {
+        if (i < word1.length) resArr.push(word1[i]);
+        if (i < word2.length) resArr.push(word2[i]);
     }
 
     return resArr.join("")
