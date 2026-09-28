@@ -1,22 +1,18 @@
+/**
+strategy:
+    i = longestWord.length
+    iterate:
+        add to res from word1
+        add to res from word2
+ */
+
 function mergeAlternately(word1: string, word2: string): string {
-    const m: number = word1.length;
-    const n: number = word2.length;
+    const resArr: string[] = [];
 
-    const outputArr: string[] = [];
-
-    let i: number = 0;
-    while (i < Math.min(m,n)) {
-        outputArr.push(word1[i]);
-        outputArr.push(word2[i]);
-        i++;
+    for (let i=0; i<Math.max(word1.length, word2.length); i++) {
+        if (i < word1.length) resArr.push(word1[i])
+        if (i < word2.length) resArr.push(word2[i])
     }
 
-    if (i < m) {
-        return outputArr.join("") + word1.slice(i);
-    }
-    else if (i < n) {
-        return outputArr.join("") + word2.slice(i);
-    }
-    else 
-        return outputArr.join("");
+    return resArr.join("")
 };
