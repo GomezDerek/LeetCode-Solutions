@@ -9,7 +9,7 @@ class Solution(object):
         for i in range(len(flowerbed)):
             if (flowerbed[i] or 
                 (i > 0 and flowerbed[i-1]) or 
-                (i < len(flowerbed) and flowerbed[i+1])): 
+                (i < len(flowerbed)-1 and flowerbed[i+1])): 
                 continue
             else:
                 flowerbed[i] = 1 
