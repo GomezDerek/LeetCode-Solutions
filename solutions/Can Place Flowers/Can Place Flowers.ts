@@ -24,5 +24,5 @@ function canPlaceFlowers(flowerbed: number[], n: number): boolean {
         }
     }
 
-    return false;
+    return newFlowers >= n;
 };
