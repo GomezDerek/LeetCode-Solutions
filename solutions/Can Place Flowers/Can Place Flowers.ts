@@ -1,30 +1,27 @@
+/** 
+STRATEGY:
+    O(n) time, linear iteration
+    keep a counter,
+    for each 0, check neighbors before planting a flower
+    skip OR plant a flower and increment counter
+*/
+
 function canPlaceFlowers(flowerbed: number[], n: number): boolean {
-    let count: number = 0;
+    let newFlowers: number = 0;
 
-    let i: number = 1; // for the while loop
-
-    // first flowerbed
-    if (!flowerbed[0] && (flowerbed.length === 1 || !flowerbed[1])) {
-        flowerbed[0] = 1;
-        count++;
-        i = 2;
-    }
-
-    // rest of the flowerbeds
-    while (i<flowerbed.length-1) {
-        if (!flowerbed[i] && !flowerbed[i-1] && !flowerbed[i+1]) {
-            flowerbed[i] = 1; // plant flower
-            count++; 
-            i++; // skip next
+    for (let i=0; i<flowerbed.length; i++) {
+        if (flowerbed[i]) continue;
+        
+        if (
+            i-1 >= 0 &&
+            flowerbed[i-1] == 0 &&
+            i+1 < flowerbed.length &&
+            flowerbed[i+1] == 0
+        ) {
+            newFlowers++;
+            if (newFlowers >= n) return true;
         }
-
-        i++;
     }
 
-    // last flowerbed
-    if (flowerbed[i-1]===0 && flowerbed[i]===0) {
-        count++;
-    }
-
-    return count >= n;
+    return false;
 };
