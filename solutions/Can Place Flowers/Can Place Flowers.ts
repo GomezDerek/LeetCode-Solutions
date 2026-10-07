@@ -18,6 +18,7 @@ function canPlaceFlowers(flowerbed: number[], n: number): boolean {
             i+1 < flowerbed.length &&
             flowerbed[i+1] == 0
         ) {
+            flowerbed[i] = 1;
             newFlowers++;
             if (newFlowers >= n) return true;
         }
