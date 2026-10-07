@@ -15,7 +15,6 @@ class Solution(object):
         ):
             flowerbed[0] = 1
             count +=1
-        print(flowerbed)
 
         # check i = len() -1
         if (
@@ -24,7 +23,6 @@ class Solution(object):
         ):
             flowerbed[last_i] = 1
             count +=1
-        print(flowerbed)
 
         # check everything in between
         for i in range(1, last_i):
