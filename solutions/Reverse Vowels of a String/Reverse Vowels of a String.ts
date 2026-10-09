@@ -1,24 +1,39 @@
+/**
+STRATEGY:
+    use 2 pointers, front and back
+    iterate pointers until they are at vowels
+    swap anc ontinue iterating
+ */
+
 function reverseVowels(s: string): string {
     const vowels: Set<string> = new Set(['a','e','i','o','u']);
-    const isVowel = (ch: string) => vowels.has(ch.toLowerCase()); 
     
-    const sArr: string[] = s.split("");
+    const sArr: string[] = [];
+    for (const ch of s) sArr.push(ch);
     
     let front: number = 0;
     let back: number = s.length-1;
 
     while (front < back) {
-        // move pointers to vowels
-        while (front < back && !isVowel(sArr[front])) front++;
-        while (front < back && !isVowel(sArr[back])) back--;
-        
-        // when both pointers are at vowels
-        const temp: string = sArr[front];
-        sArr[front] = sArr[back];
-        sArr[back] = temp;
-        front++;
-        back--;
+        // first align front pointer
+        if ( !vowels.has(sArr[front].toLowerCase()) ) {
+            front++;
+        }
+
+        // second align back pointer
+        else if ( !vowels.has(sArr[back].toLowerCase()) ) {
+            back--;
+        }
+
+        // once both point at vowels, swap and continue
+        else {
+            const temp: string = sArr[front];
+            sArr[front] = sArr[back];
+            sArr[back] = temp;
+            front++;
+            back--;
+        }
     }
 
-    return sArr.join("");
+    return sArr.join('');
 };
