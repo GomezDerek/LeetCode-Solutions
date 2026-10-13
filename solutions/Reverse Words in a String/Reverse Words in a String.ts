@@ -11,7 +11,7 @@ function reverseWords(s: string): string {
     let start: number = s.length -1;
     let end: number = s.length -1;
 
-    while (start > 0) {
+    while (start >= 0) {
         while (
             (s[start] === " " || s[start-1] !== " ") && 
             start > 0
