@@ -1,29 +1,29 @@
 /**
-    just watched NC's explanation and then I coded it in Python
-    now trying in TS
-
-    STRATEGY:
-        because output doesn't count towards mem complexity
-        - use output to calc prefixes
-        - use a single var for suffixes
+STRATEGY:
+    this can be solved with a prefix + postfix solution
+    use an array for prefix and postfix
+    productExceptSelf(n) = prefix(n-1) * postfix(n+1)
  */
 
 function productExceptSelf(nums: number[]): number[] {
-    const N: number = nums.length;
+    const N = nums.length;
+    const pre: number[] = new Array(N);
+    const post: number[] = new Array(N);
 
-    const output: number[] = new Array(N).fill(1);
-
-    // calc prefixes 1st
+    pre[0] = 1;
     for (let i=1; i<N; i++) {
-        output[i] = nums[i-1] * output[i-1];
+        pre[i] = pre[i-1] * nums[i-1];
     }
 
-    // then calc suffixes
-    let suffix: number = 1;
-    for (let i=N-1; i>=0; i--) {
-        output[i] *= suffix;
-        suffix *= nums[i];
+    post[N-1] = 1;
+    for (let i=N-2; i>=0; i--) {
+        post[i] = post[i+1] * nums[i+1];
     }
 
-    return output;
+    const res: number[] = new Array(N);
+    for (let i=0; i<N; i++) {
+        res[i] = pre[i] * post[i];
+    }
+
+    return res;
 };
