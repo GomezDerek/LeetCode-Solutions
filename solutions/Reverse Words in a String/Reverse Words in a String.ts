@@ -11,9 +11,6 @@ function reverseWords(s: string): string {
     let start: number = s.length -1;
     let end: number = s.length -1;
 
-    // edge case - s.length == 1
-    if (s.length === 1) return s;
-
     while (start > 0) {
         while (
             (s[start] === " " || s[start-1] !== " ") && 
@@ -22,11 +19,11 @@ function reverseWords(s: string): string {
             start--;
         }
         
-        while (s[end] === " ") {
+        while (s[end] === " " && end >= start) {
             end--;
         }
         
-        if (end < 0) break;
+        if (end < start) break;
 
         res.push(s.slice(start, end+1))
         start--;
