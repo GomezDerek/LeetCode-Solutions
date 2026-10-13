@@ -1,3 +1,3 @@
 function reverseWords(s: string): string {
-    return s.split(" ").filter(w => w).reverse().join(" ");
+    return s.trim().split(/\s+/).reverse().join(" ");
 };
