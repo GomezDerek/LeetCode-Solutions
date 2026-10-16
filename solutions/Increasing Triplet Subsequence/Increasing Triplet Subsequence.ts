@@ -48,13 +48,15 @@ function increasingTriplet(nums: number[]): boolean {
     const uniques: [number, number][] = [];
     let prevNum: number | null = null;
     for (const [num, i] of sorted) {
-        if (num === prevNum) continue;
+        if (num === prevNum) {
+            uniques.pop();
+        }
         
         uniques.push([num, i]);
         prevNum = num;
     }
 
-    // console.log(uniques);
+    console.log(uniques);
 
     for (let i=0; i<uniques.length; i++) {
         const [numA, iA] = uniques[i];
@@ -68,7 +70,7 @@ function increasingTriplet(nums: number[]): boolean {
             if (jB > iA) {
                 for (let k=j+1; k<uniques.length; k++) {
                     const [numC, kC] = uniques[k];
-                    // console.log(`\t\t`, numC, kC);
+                    console.log(`\t\t`, numC, kC);
 
                     if (numB === numC) continue;
                     if (kC > jB) return true;
