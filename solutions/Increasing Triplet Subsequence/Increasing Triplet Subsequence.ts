@@ -43,11 +43,14 @@ function increasingTriplet(nums: number[]): boolean {
             const [numB, jB] = sorted[j];
             // console.log(`\t`, numB, jB)
             
+            if (numA === numB) continue;
+
             if (jB > iA) {
                 for (let k=j+1; k<nums.length; k++) {
                     const [numC, kC] = sorted[k];
                     // console.log(`\t\t`, numC, kC);
 
+                    if (numB === numC) continue;
                     if (kC > jB) return true;
                 }
             }
