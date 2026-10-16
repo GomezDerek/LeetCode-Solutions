@@ -27,27 +27,47 @@ STRATEGY:
 
     edge cases?
 
+    .map() = O(n)
+    .sort() = O(n log n)
+
+    triple for loop O(n^3) -> 10^125 operations...
+
+    is this DP?
+
+    we can figure out a way to skip duplicates hehe
+    remove duplicates = O(n)
  */
 
 function increasingTriplet(nums: number[]): boolean {
-    const sorted: [number, number][] = nums.map((num, i) => {
+    const tuples: [number, number][] = nums.map((num, i) => {
         return [num, i];
     });
-    sorted.sort( (a,b) => a[0] - b[0]);
+    const sorted: [number, number][] = tuples.sort( (a,b) => a[0] - b[0]);
     // console.log(sorted);
 
-    for (let i=0; i<sorted.length; i++) {
-        const [numA, iA] = sorted[i];
+    const uniques: [number, number][] = [];
+    let prevNum: number | null = null;
+    for (const [num, i] of sorted) {
+        if (num === prevNum) continue;
+        
+        uniques.push([num, i]);
+        prevNum = num;
+    }
+
+    // console.log(uniques);
+
+    for (let i=0; i<uniques.length; i++) {
+        const [numA, iA] = uniques[i];
         // console.log(numA, iA);
-        for (let j=i+1; j<sorted.length; j++) {
-            const [numB, jB] = sorted[j];
+        for (let j=i+1; j<uniques.length; j++) {
+            const [numB, jB] = uniques[j];
             // console.log(`\t`, numB, jB)
             
             if (numA === numB) continue;
 
             if (jB > iA) {
-                for (let k=j+1; k<nums.length; k++) {
-                    const [numC, kC] = sorted[k];
+                for (let k=j+1; k<uniques.length; k++) {
+                    const [numC, kC] = uniques[k];
                     // console.log(`\t\t`, numC, kC);
 
                     if (numB === numC) continue;
