@@ -5,12 +5,11 @@ function increasingTriplet(nums: number[]): boolean {
     for (const num of nums) {
         if (num < first) {
             first = num;
-            second = Infinity;
         }
         else if (num < second) {
             second = num
         }
-        else if (num > second && second !== Infinity) {
+        else if (num > second) {
             return true;
         }
     }
