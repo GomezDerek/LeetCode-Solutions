@@ -3,15 +3,10 @@ function increasingTriplet(nums: number[]): boolean {
     let second: number = Infinity;
 
     for (const num of nums) {
-        if (num < first) {
-            first = num;
-        }
-        else if (num < second) {
-            second = num
-        }
-        else if (num > second) {
-            return true;
-        }
+        if (num < first) first = num;
+        else if (num === first) continue;
+        else if (num < second) second = num;
+        else if (num > second) return true;
     }
 
     return false;
