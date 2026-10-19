@@ -16,11 +16,11 @@ function topKFrequent(nums: number[], k: number): number[] {
 
         // maintain k-sized heap
         if (kHeap.size() < k && frequency[num] === 1) kHeap.push(num);
-        else if (frequency[num] > frequency[kHeap.root()]) {
+        else if (frequency[num] - frequency[kHeap.root()] === 1) {
             kHeap.pop();
             kHeap.push(num);
         }
     }
-    
+
     return kHeap.toArray();
 };
