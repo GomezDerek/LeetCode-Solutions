@@ -22,16 +22,31 @@ function topKFrequent(nums: number[], k: number): number[] {
             kHeap.push(num);
             numsInK.add(num);
         }
+
+        // reheapify if num alr in heap
+        if (numsInK.has(num)) kHeap.fix();
+
+        // if ((num !== 1) && (num !== 2)) {
+        //     console.log(num);
+        //     console.log('\t',kHeap.toArray(), 'root = ', kHeap.root());
+        //     console.log('\t',numsInK,frequency);
+        //     console.log('\t',frequency[num], frequency[kHeap.root()]);
+        // }
         // ensure not alr in heap, before swapping
-        else if (
+        if (
             frequency[num] > frequency[kHeap.root()]
             && !numsInK.has(num)
         ) {
-            numsInK.delete(kHeap.pop());
+            const extracted: number = kHeap.pop(); 
+            numsInK.delete(extracted);
             kHeap.push(num);
             numsInK.add(num);
+            console.log(`${extracted} -> ${num}`)
         }
+        // if (num !== 1 && num !== 2) console.log(num, numsInK, frequency);
     }
+    // console.log(numsInK);
+    // console.log(frequency);
 
     return kHeap.toArray();
 };
