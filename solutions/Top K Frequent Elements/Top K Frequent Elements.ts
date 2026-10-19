@@ -7,7 +7,7 @@ STRATEGY:
 
 function topKFrequent(nums: number[], k: number): number[] {
     const frequency: {[index: number]: number} = {}
-    const kHeap: MinHeap<number> = new MinHeap();
+    const kHeap: MinHeap<number> = new MinHeap<number>( (a) => frequency[a] );
 
     for (const num of nums) {
         // update frequency
@@ -20,8 +20,7 @@ function topKFrequent(nums: number[], k: number): number[] {
             kHeap.pop();
             kHeap.push(num);
         }
-    } 
-    // console.log(kHeap);
-    console.log(frequency);
+    }
+    
     return kHeap.toArray();
 };
