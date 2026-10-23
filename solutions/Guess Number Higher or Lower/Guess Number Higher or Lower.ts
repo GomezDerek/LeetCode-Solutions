@@ -17,7 +17,6 @@ function guessNumber(n: number): number {
     let right: number = n+1;
 
     while (guessResult !== 0) {
-        console.log(curPick, guessResult);
         if (guessResult < 0) { //num is lower than curPick
             right = curPick;
             curPick = Math.floor( (left+curPick) / 2 );

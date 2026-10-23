@@ -1,4 +1,4 @@
-<h3><a href=https://leetcode.com/problems/guess-number-higher-or-lower/?envType=study-plan-v2&envId=leetcode-75>Guess Number Higher or Lower</a></h3>
+<h3><a href=https://leetcode.com/problems/guess-number-higher-or-lower/submissions/2180031734/?envType=study-plan-v2&envId=leetcode-75>Guess Number Higher or Lower</a></h3>
 <p><p>We are playing the Guess Game. The game is as follows:</p>
 
 <p>I pick a number from <code>1</code> to <code>n</code>. You have to guess which number I picked (the number I picked stays the same throughout the game).</p>
