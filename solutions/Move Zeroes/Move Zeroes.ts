@@ -3,22 +3,13 @@
  */
 function moveZeroes(nums: number[]): void {
     // approach #2 from Leetcode Solution
-    let slow = 0;
+    let lastNonZ = 0;
 
-    // set slow to first 0
-    while (slow < nums.length && nums[slow] != 0) slow ++;
-
-    let fast = slow +1;
-    while (fast < nums.length) {
-        while (nums[fast] === 0) fast++; // find next non-0
-        // now fast is non-0, and slow is 0
-        if (fast >= nums.length) break;
-        nums[slow] = nums[fast];
-
-        // set up pointers to be readjusted
-        slow++;
-        fast++;
+    for (let i=0; i<nums.length; i++) {
+        if (nums[i] != 0) {
+            nums[lastNonZ++] = nums[i];
+        }
     }
 
-    for (let i=slow; i<nums.length; i++) nums[i] = 0;
+    for (let i=lastNonZ; i<nums.length; i++) nums[i] = 0;
 };
