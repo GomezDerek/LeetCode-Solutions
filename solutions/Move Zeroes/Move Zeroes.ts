@@ -12,8 +12,8 @@ function moveZeroes(nums: number[]): void {
     while (fast < nums.length) {
         while (nums[fast] === 0) fast++; // find next non-0
         // now fast is non-0, and slow is 0
+        if (fast >= nums.length) break;
         nums[slow] = nums[fast];
-        console.log(nums);
 
         // set up pointers to be readjusted
         slow++;
