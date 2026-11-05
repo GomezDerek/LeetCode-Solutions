@@ -5,10 +5,12 @@ function moveZeroes(nums: number[]): void {
     // approach #3 from Leetcode Solution
     let lastNonZ = 0;
 
-    for (let i=1; i<nums.length; i++) {
+    for (let i=0; i<nums.length; i++) {
         if (nums[i] != 0) {
-            nums[lastNonZ++] = nums[i];
+            const temp = nums[i];
+            nums[i] = nums[lastNonZ];
+            nums[lastNonZ] = temp;
+            lastNonZ++;
         }
-        nums[i] = 0;
     }
 };
