@@ -1,27 +1,32 @@
-/**
-STRATEGY:
-    first sort,
-    then 2 pointers and shrink
- */
-
 function maxOperations(nums: number[], k: number): number {
-    nums.sort( (a,b) => a-b);
-    let count = 0;
+    const map: {[index: number]: number} = {};
     
-    let l = 0;
-    let r = nums.length-1;
+    let count = 0;
 
-    while (l < r) {
-        if (nums[l] + nums[r] === k) {
-            count++;
-            l++;
-            r--;
-        }
-
-        else if (nums[l] + nums[r] > k) r--;
-        else if (nums[l] + nums[r] < k) l++;
-
+    for (let i=0; i<nums.length; i++) {
+        map[nums[i]] = (map[nums[i]] ?? 0) +1;
     }
+
+    // console.log(map);
+
+    for (let i=0; i<nums.length; i++) {
+        const num = nums[i];
+        const complement = k - num;
+        console.log(num, map[num], complement, map[complement]);
+        if (
+            (num === complement && map[num] > 1) ||
+            (num !== complement) &&
+            (map[num] ?? 0) > 0 && 
+            (map[complement] ?? 0) > 0
+        ) {
+            // console.log("!");
+            map[num] = map[num] - 1;
+            map[complement] = map[complement] -1;
+            count++;
+        }
+    }
+
+    // console.log(map);
 
     return count;
 };
