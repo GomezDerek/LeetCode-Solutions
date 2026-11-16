@@ -5,7 +5,7 @@ STRATEGY:
  */
 
 function maxOperations(nums: number[], k: number): number {
-    nums.sort();
+    nums.sort( (a,b) => a-b);
     let count = 0;
     
     let l = 0;
@@ -25,9 +25,3 @@ function maxOperations(nums: number[], k: number): number {
 
     return count;
 };
-
-/**
-    1,3,5,5
-    0 1 2 3 
-    l   r
- */
