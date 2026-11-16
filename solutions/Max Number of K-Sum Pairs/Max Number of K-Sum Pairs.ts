@@ -7,12 +7,10 @@ function maxOperations(nums: number[], k: number): number {
         map[nums[i]] = (map[nums[i]] ?? 0) +1;
     }
 
-    // console.log(map);
-
     for (let i=0; i<nums.length; i++) {
         const num = nums[i];
         const complement = k - num;
-        console.log(num, map[num], complement, map[complement]);
+        // console.log(num, map[num], complement, map[complement]);
         if (
             (num === complement && map[num] > 1) ||
             (num !== complement) &&
