@@ -19,7 +19,7 @@ function findMaxAverage(nums: number[], k: number): number {
     // console.log(maxAvg);
     // console.log(prevSum);
 
-    while (start + k < N) {
+    while (start + k <= N) {
         const newAvg = (prevSum - nums[start-1] + nums[start+k-1]) / k;
         // console.log(newAvg);
         maxAvg = Math.max(maxAvg, newAvg);
