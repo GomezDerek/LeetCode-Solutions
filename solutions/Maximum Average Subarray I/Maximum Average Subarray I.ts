@@ -18,7 +18,7 @@ function findMaxAverage(nums: number[], k: number): number {
     let start = 1;
     while (start + k <= nums.length) {
         windowSum = windowSum - nums[start-1] + nums[start+k-1];
-        maxAvg = windowSum / k > maxAvg ? windowSum / k : maxAvg;
+        if (windowSum / k > maxAvg) maxAvg = windowSum / k;
         start++;
     }
 
