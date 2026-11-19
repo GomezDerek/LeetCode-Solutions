@@ -10,17 +10,15 @@
 
 function findMaxAverage(nums: number[], k: number): number {
     // initialize with 1st window
-    let maxAvg = 0.0;
-    for (let i=0; i<k; i++) maxAvg += nums[i];
-    maxAvg = maxAvg / k;
+    let windowSum = 0.0;
+    for (let i=0; i<k; i++) windowSum += nums[i];
+    
+    let maxAvg = windowSum / k;
 
-    let prevSum = maxAvg * k;
     let start = 1;
-
     while (start + k <= nums.length) {
-        const newAvg = (prevSum - nums[start-1] + nums[start+k-1]) / k;
-        maxAvg = Math.max(maxAvg, newAvg);
-        prevSum = newAvg * k;        
+        windowSum = windowSum - nums[start-1] + nums[start+k-1];
+        maxAvg = Math.max(maxAvg, windowSum / k);
         start++;
     }
 
